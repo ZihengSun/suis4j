@@ -1,0 +1,8 @@
+suis4j\driver\RESTDriver.class
+suis4j\driver\WSDLDriver.class
+suis4j\profile\DataType.class
+suis4j\MainApplication.class
+suis4j\profile\Parameter.class
+suis4j\driver\OGCWPSDriver.class
+suis4j\driver\AbstractDriver.class
+suis4j\profile\Operation.class
