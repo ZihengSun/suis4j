@@ -20,6 +20,11 @@ public class Parameter {
 	
 	private DataType type;
 	
+	protected Parameter(){
+		
+		
+	}
+	
 	public DataType getType() {
 		return type;
 	}

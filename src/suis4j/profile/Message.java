@@ -10,6 +10,11 @@ import java.util.List;
 public class Message {
 	
 	List<Parameter> parameter_list;
+	
+	protected Message(){
+		
+		
+	}
 
 	public List<Parameter> getParameter_list() {
 		return parameter_list;

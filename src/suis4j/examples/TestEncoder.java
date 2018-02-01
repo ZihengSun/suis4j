@@ -23,12 +23,16 @@ public class TestEncoder {
 		List<Parameter> paramlist = new ArrayList();
 		
 		Message msg = new MessageBuilder()
+		
 				.params(paramlist)
+				
 				.build();
 		
 		String suismsg = (String)driver.encodeSUIS(msg);
 		
 		System.out.println(suismsg);
+		
+		Message newmsg = driver.decodeSUIS(suismsg);
 		
 	}
 

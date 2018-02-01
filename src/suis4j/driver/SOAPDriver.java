@@ -7,30 +7,26 @@ import suis4j.profile.Message;
 *@author Ziheng Sun
 *@time Dec 8, 2017 10:23:03 AM
 */
-public class WSDLDriver extends SUISDriver {
+public class SOAPDriver extends SUISDriver {
 
 	@Override
 	public Object encodeReq(Message msg) {
-		
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void send(Object req) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Object receive() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public Message decodeResp(Object resp) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 	
 }

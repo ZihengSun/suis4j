@@ -10,9 +10,13 @@ import java.util.List;
 */
 public class Operation {
 	
-	public Message input, output;
+	Message input, output;
 	
-	public String name, description;
+	String name, description;
+	
+	protected Operation(){
+		
+	}
 	
 	public Message getInput() {
 		return input;

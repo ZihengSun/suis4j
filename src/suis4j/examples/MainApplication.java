@@ -52,8 +52,6 @@ public class MainApplication {
             
             project.release();
             
-            
-            
             // to print all operations supported by wsdl
             /*
              * for (Operation operation : iface.getOperationList()) {
@@ -97,8 +95,7 @@ public class MainApplication {
 //	            String content = response.getRequestContent();
 //	            System.out.println("request content::\n" + content);
 //	            System.out.println("response content::\n" + response.getContentAsString());
-
-			
+            	
 		}catch(Exception e){
 			
 			e.printStackTrace();
@@ -132,7 +129,7 @@ public class MainApplication {
 		
 		MainApplication ma = new MainApplication();
 		
-//		ma.testWSDLDriver();
+		ma.testWSDLDriver();
 //		
 //		ma.testOGCDriver();
 //		
