@@ -10,16 +10,16 @@ A Java library is developed to support the automatic mapping from/to SOAP, OGC a
 
 A prototype excises SUIS and builds geoprocessing workflows over it.
 
-The tutorial of suis4j library:
+# The tutorial of suis4j library:
 
-## generate a suis request
+generate a suis request
 
-## generate a suis response
+generate a suis response
 
-## transform suis request to OGC WPS request
+transform suis request to OGC WPS request
 
-## transform suis request to SOAP request
+transform suis request to SOAP request
 
-## transform suis request to RESTful request
+transform suis request to RESTful request
 
 
