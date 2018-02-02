@@ -1,51 +1,57 @@
 package suis4j.driver;
 
+import java.net.URL;
+
 import suis4j.profile.Message;
 import suis4j.profile.Operation;
 
 /**
-*Class SUNISMapper.java
+*Class AbstractDriver.java
+*define all the common functions of a driver in SUIS architecture
+*A driver should include the binding information from a profile to a specific server,
+* and the functions to decode/encode SUIS messages and transform them to/from
+* the messages compliant to services. 
 *@author Ziheng Sun
 *@time Dec 8, 2017 5:05:46 PM
 */
 public abstract class AbstractDriver {
 	
-	String endpoint, servicetype, protocol;
+	URL access_endpoint, desc_endpoint;
+	
+	ServiceType servicetype;
 	
 	AbstractRequestBuilder reqbuilder;
 	
 	AbstractResponseParser respparser;
 	
-	public String getEndpoint() {
-		return endpoint;
+	public URL getAccess_endpoint() {
+		return access_endpoint;
 	}
-	public void setEndpoint(String endpoint) {
-		this.endpoint = endpoint;
+
+	public void setAccess_endpoint(URL access_endpoint) {
+		this.access_endpoint = access_endpoint;
 	}
-	public String getServicetype() {
+
+	public URL getDesc_endpoint() {
+		return desc_endpoint;
+	}
+
+	public void setDesc_endpoint(URL desc_endpoint) {
+		this.desc_endpoint = desc_endpoint;
+	}
+
+	public ServiceType getServicetype() {
 		return servicetype;
 	}
-	public void setServicetype(String servicetype) {
+
+	public void setServicetype(ServiceType servicetype) {
 		this.servicetype = servicetype;
 	}
-	public String getProtocol() {
-		return protocol;
-	}
-	public void setProtocol(String protocol) {
-		this.protocol = protocol;
-	}
-	public AbstractRequestBuilder getReqbuilder() {
-		return reqbuilder;
-	}
-	public void setReqbuilder(AbstractRequestBuilder reqbuilder) {
-		this.reqbuilder = reqbuilder;
-	}
-	public AbstractResponseParser getRespparser() {
-		return respparser;
-	}
-	public void setRespparser(AbstractResponseParser respparser) {
-		this.respparser = respparser;
-	}
+	
+	abstract public AbstractRequestBuilder getReqbuilder();
+	
+	abstract public AbstractResponseParser getRespparser();
+	
 	/**
 	 * Decode SUIS raw message (received payload from client) to SUIS message object
 	 * @param rawmsg

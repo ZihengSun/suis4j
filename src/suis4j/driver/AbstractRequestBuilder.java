@@ -4,8 +4,8 @@ package suis4j.driver;
 *@author Ziheng Sun
 *@time Feb 1, 2018 4:04:48 PM
 */
-public class AbstractRequestBuilder {
+public abstract class AbstractRequestBuilder {
 	
-	
+	abstract public AbstractBody build();
 
 }

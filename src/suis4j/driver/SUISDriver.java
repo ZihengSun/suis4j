@@ -98,5 +98,17 @@ public class SUISDriver extends AbstractDriver{
 		return null;
 	}
 
+	@Override
+	public AbstractRequestBuilder getReqbuilder() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AbstractResponseParser getRespparser() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }
