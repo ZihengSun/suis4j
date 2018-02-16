@@ -1,6 +1,12 @@
 package suis4j.profile;
 
-import java.util.List;
+import suis4j.driver.AbstractDriver;
+import suis4j.driver.AbstractDriverBuilder;
+import suis4j.driver.DriverManager;
+import suis4j.driver.OGCDriverBuilder;
+import suis4j.driver.RESTDriverBuilder;
+import suis4j.driver.SOAPDriverBuilder;
+import suis4j.driver.ServiceType;
 
 /**
 *Class OperationBuilder.java
@@ -14,6 +20,30 @@ public class OperationBuilder {
 	public OperationBuilder(){
 		
 		o = new Operation();
+		
+	}
+	
+	public OperationBuilder parse(String descfile, ServiceType type){
+		
+		AbstractDriverBuilder builder = null;
+		
+		switch(type){
+			
+			case OGC: builder = new OGCDriverBuilder(); break;
+			
+			case SOAP: builder = new SOAPDriverBuilder(); break;
+			
+			case REST: builder = new RESTDriverBuilder(); break;
+			
+		}
+		
+		AbstractDriver driver = builder.parse(descfile).build();
+		
+		DriverManager.add(driver);
+		
+		o = driver.disgest();
+		
+		return this;
 		
 	}
 	

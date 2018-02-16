@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="03554941-e7d6-4f4a-82e4-4ffbe4655e2d" activeEnvironment="Default" soapui-version="5.2.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="c51ca875-1de0-4edc-926b-21d8d0049b2e" wsaVersion="NONE" name="Vector_GetProjectionSoapBinding" type="wsdl" bindingName="{http://Vector_GetProjection.grass.ws.laits.gmu.edu}Vector_GetProjectionSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_GetProjection?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_GetProjection?wsdl"><con:part><con:url>http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_GetProjection?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://Vector_GetProjection.grass.ws.laits.gmu.edu" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://Vector_GetProjection.grass.ws.laits.gmu.edu" xmlns:intf="http://Vector_GetProjection.grass.ws.laits.gmu.edu" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+  <wsdl:types>
+    <schema elementFormDefault="qualified" targetNamespace="http://Vector_GetProjection.grass.ws.laits.gmu.edu" xmlns="http://www.w3.org/2001/XMLSchema">
+      <element name="get_projectionElement">
+        <complexType>
+          <sequence>
+            <element name="inputURL" type="xsd:anyURI"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="get_projectionResponse">
+        <complexType>
+          <sequence>
+            <element name="returnURL" type="xsd:anyURI"/>
+            <element name="returnFormat" type="xsd:string"/>
+          </sequence>
+        </complexType>
+      </element>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="get_projectionRequest">
+    <wsdl:part element="impl:get_projectionElement" name="get_projectionElement"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="get_projectionResponse">
+    <wsdl:part element="impl:get_projectionResponse" name="get_projectionResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Vector_GetProjectionPortType">
+    <wsdl:operation name="get_projection" parameterOrder="get_projectionElement">
+      <wsdl:input message="impl:get_projectionRequest" name="get_projectionRequest"></wsdl:input>
+      <wsdl:output message="impl:get_projectionResponse" name="get_projectionResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Vector_GetProjectionSoapBinding" type="impl:Vector_GetProjectionPortType">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="get_projection">
+      <wsdlsoap:operation soapAction="get_projection"/>
+      <wsdl:input name="get_projectionRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="get_projectionResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Vector_GetProjectionService">
+    <wsdl:port binding="impl:Vector_GetProjectionSoapBinding" name="Vector_GetProjection">
+      <wsdlsoap:address location="http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_GetProjection"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_GetProjection</con:endpoint></con:endpoints><con:operation id="13b9dbbb-9cda-444f-8e2c-584a66adc79f" isOneWay="false" action="get_projection" name="get_projection" bindingOperationName="get_projection" type="Request-Response" outputName="get_projectionResponse" inputName="get_projectionRequest" receivesAttachments="false" sendsAttachments="false"><con:settings/></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

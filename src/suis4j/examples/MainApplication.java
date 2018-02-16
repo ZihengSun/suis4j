@@ -5,7 +5,6 @@ import org.apache.log4j.Logger;
 import com.eviware.soapui.impl.WsdlInterfaceFactory;
 import com.eviware.soapui.impl.wsdl.WsdlInterface;
 import com.eviware.soapui.impl.wsdl.WsdlProject;
-import com.eviware.soapui.impl.wsdl.WsdlRequest;
 
 /**
 *Class Main.java
@@ -20,7 +19,7 @@ public class MainApplication {
 		
 		try{
 			
-			String wsdluri = "http://cube.csiss.gmu.edu/axis/services/Vector_GML2SHP?wsdl";
+			String wsdluri = "http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_GetProjection?wsdl";
 			
 //			String wsdluri = "http://cube.csiss.gmu.edu/axis2/services/GMU_SOAP_WCS_Service?wsdl";
 			
@@ -51,6 +50,8 @@ public class MainApplication {
             }
             
             project.release();
+            
+            
             
             // to print all operations supported by wsdl
             /*

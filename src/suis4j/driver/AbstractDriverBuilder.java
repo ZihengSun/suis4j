@@ -9,31 +9,13 @@ import java.net.URL;
 */
 public abstract class AbstractDriverBuilder {
 	
-	AbstractDriver ad;
+	public abstract AbstractDriverBuilder parse(String descfile);
 	
-	public AbstractDriverBuilder access_endpoint(URL url){
+	public abstract AbstractDriverBuilder access_endpoint(URL url);
 	
-		ad.setAccess_endpoint(url);
-		
-		return this;
-		
-	}
+	public abstract AbstractDriverBuilder desc_endpoint(URL url);
 	
-	public AbstractDriverBuilder desc_endpoint(URL url){
-		
-		ad.setDesc_endpoint(url);
-		
-		return this;
-		
-	}
-	
-	public AbstractDriverBuilder type(ServiceType type){
-		
-		ad.setServicetype(type);
-		
-		return this;
-		
-	}
+	public abstract AbstractDriverBuilder type(ServiceType type);
 	
 	abstract public AbstractDriver build();
 

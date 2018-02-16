@@ -7,7 +7,7 @@ import suis4j.profile.Message;
 *@author Ziheng Sun
 *@time Dec 8, 2017 10:23:52 AM
 */
-public class OGCWPSDriver extends SUISDriver {
+public class OGCDriver extends SUISDriver {
 
 	@Override
 	public Object encodeReq(Message msg) {
