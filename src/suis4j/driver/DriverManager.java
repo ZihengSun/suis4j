@@ -29,9 +29,20 @@ public class DriverManager {
 	 * @param oname
 	 * @return
 	 */
-	public static AbstractDriver get(String oname){
+	public static AbstractDriver get(String driverid){
 		
 		AbstractDriver ad = null;
+		
+		for(AbstractDriver d: drivers){
+			
+			if(d.getId().equals(driverid)){
+				
+				ad = d;
+				
+				break;
+				
+			}
+		}
 		
 		return ad;
 		

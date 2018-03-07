@@ -1,6 +1,8 @@
 package suis4j.driver;
 
 import java.net.URL;
+import java.util.List;
+import java.util.UUID;
 
 import suis4j.profile.Message;
 import suis4j.profile.Operation;
@@ -24,6 +26,24 @@ public abstract class AbstractDriver {
 	
 	AbstractResponseParser respparser;
 	
+	String id = UUID.randomUUID().toString(); //used to pair with Profile
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setReqbuilder(AbstractRequestBuilder reqbuilder) {
+		this.reqbuilder = reqbuilder;
+	}
+
+	public void setRespparser(AbstractResponseParser respparser) {
+		this.respparser = respparser;
+	}
+
 	public URL getAccess_endpoint() {
 		return access_endpoint;
 	}
@@ -48,6 +68,10 @@ public abstract class AbstractDriver {
 		this.servicetype = servicetype;
 	}
 	
+	/**
+	 * Each driver should equip with a request builder and a response builder
+	 * @return
+	 */
 	abstract public AbstractRequestBuilder getReqbuilder();
 	
 	abstract public AbstractResponseParser getRespparser();
@@ -88,7 +112,7 @@ public abstract class AbstractDriver {
 	abstract public Object encodeSUIS(Message msg);
 	
 	
-	abstract public Operation disgest();
+	abstract public List<Operation> digest();
 	
 	
 }

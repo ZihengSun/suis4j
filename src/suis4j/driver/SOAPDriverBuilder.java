@@ -1,10 +1,21 @@
 package suis4j.driver;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import com.eviware.soapui.impl.WsdlInterfaceFactory;
 import com.eviware.soapui.impl.wsdl.WsdlInterface;
 import com.eviware.soapui.impl.wsdl.WsdlProject;
+import com.eviware.soapui.model.iface.MessagePart;
+
+import suis4j.profile.Message;
+import suis4j.profile.MessageBuilder;
+import suis4j.profile.Operation;
+import suis4j.profile.OperationBuilder;
+import suis4j.profile.Parameter;
+import suis4j.profile.ParameterBuilder;
 
 /**
 *Class SOAPDriverBuilder.java
@@ -15,8 +26,8 @@ public class SOAPDriverBuilder extends AbstractDriverBuilder{
 	
 	SOAPDriver driver = new SOAPDriver();
 	
-	static WsdlProject project = null;
-
+	WsdlProject project = null;
+	
 	@Override
 	public AbstractDriverBuilder parse(String descfile) {
 		
@@ -34,36 +45,7 @@ public class SOAPDriverBuilder extends AbstractDriverBuilder{
 	        
 	        WsdlInterface iface = WsdlInterfaceFactory.importWsdl(project, wsdluri, false)[0];
 	        
-	        
-	        for(int i=0;i<iface.getAllOperations().length;i++){
-	        	
-	        	com.eviware.soapui.model.iface.Operation oper = iface.getAllOperations()[i];
-	        	
-	        	System.out.println("Operation : " + oper.getName());
-	        	
-	        	System.out.println("has "+oper.getDefaultRequestParts().length + " requests");
-	        	
-	        	System.out.println("part: "+oper.getDefaultRequestParts()[0].getName());
-	        	
-	        	System.out.println("has : "+oper.getDefaultResponseParts().length + " responses");
-	        	
-	        	System.out.println("has "+oper.getDefaultRequestParts()[0].getName() + " requests");
-	        	
-	        	System.out.println("part: "+oper.getDefaultResponseParts()[0].getName());
-	        	
-	        	String req = oper.createRequest( false );
-	        	
-	        	System.out.println("Request String Content: " + req);
-	        	
-	        }
-	        
-	        iface.release();
-	        
-//	        project.saveAs("");
-	        
-	        project.release();
-	        
-	        
+	        driver.setIface(iface);
 	        
 		}catch(Exception e){
 			

@@ -41,7 +41,7 @@ public class OperationBuilder {
 		
 		DriverManager.add(driver);
 		
-		o = driver.disgest();
+//		o = driver.disgest();
 		
 		return this;
 		
@@ -74,6 +74,14 @@ public class OperationBuilder {
 	public OperationBuilder output(Message msg){
 		
 		o.setOutput(msg);
+		
+		return this;
+		
+	}
+	
+	public OperationBuilder driver(String did){
+		
+		o.setDriverid(did);
 		
 		return this;
 		

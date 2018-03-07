@@ -20,11 +20,25 @@ public class Parameter {
 	
 	private DataType type;
 	
+	private Object value;
+	
 	protected Parameter(){
 		
 		
 	}
 	
+	public Object getValue() {
+		return value;
+	}
+
+
+
+	public void setValue(Object value) {
+		this.value = value;
+	}
+
+
+
 	public DataType getType() {
 		return type;
 	}

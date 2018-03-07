@@ -1,6 +1,7 @@
 package suis4j.driver;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -93,20 +94,20 @@ public class SUISDriver extends AbstractDriver{
 	}
 
 	@Override
-	public Operation disgest() {
+	public List<Operation> digest() {
 		
 		return null;
 	}
 
 	@Override
 	public AbstractRequestBuilder getReqbuilder() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public AbstractResponseParser getRespparser() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

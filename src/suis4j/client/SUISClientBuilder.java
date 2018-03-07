@@ -1,8 +1,12 @@
 package suis4j.client;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
+import suis4j.driver.AbstractDriver;
 import suis4j.driver.AbstractDriverBuilder;
+import suis4j.driver.DriverManager;
 import suis4j.driver.OGCDriverBuilder;
 import suis4j.driver.RESTDriverBuilder;
 import suis4j.driver.SOAPDriverBuilder;
@@ -36,11 +40,18 @@ public class SUISClientBuilder {
 		
 		}
 		
-		Operation o = builder.parse(descfile)
-				.build()
-				.disgest();
+		AbstractDriver ad =  builder.parse(descfile)
+				.build(); //build a driver
 		
-		this.register(o);
+		DriverManager.add(ad);
+		
+		List<Operation> os = ad.digest(); //digest the description file and export a list of operations
+		
+		for(Operation o: os){
+			
+			this.register(o);	
+			
+		}
 		
 		return this;
 		
@@ -63,6 +74,8 @@ public class SUISClientBuilder {
 	}
 	
 	public SUISClient build(){
+		
+		System.out.println("The client object is created..");
 		
 		return c;
 		

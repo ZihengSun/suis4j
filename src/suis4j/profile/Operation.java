@@ -14,10 +14,24 @@ public class Operation {
 	
 	String name, description;
 	
+	String driverid;
+	
 	protected Operation(){
 		
 	}
 	
+	public String getDriverid() {
+		return driverid;
+	}
+
+
+
+	public void setDriverid(String driverid) {
+		this.driverid = driverid;
+	}
+
+
+
 	public Message getInput() {
 		return input;
 	}
