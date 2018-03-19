@@ -1,12 +1,17 @@
 package suis4j.client;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 
 import suis4j.driver.AbstractDriver;
 import suis4j.driver.DriverManager;
+import suis4j.driver.OGCDriver;
+import suis4j.driver.RESTDriver;
+import suis4j.driver.SOAPDriver;
 import suis4j.driver.ServiceType;
 import suis4j.profile.Message;
 import suis4j.profile.Operation;
@@ -19,57 +24,46 @@ import suis4j.profile.Parameter;
 */
 public class SUISClient {
 	
-	Logger log = Logger.getLogger(SUISClient.class);
+	Logger log = Logger.getLogger(this.getClass());
 	
-	List<Operation> opers = new ArrayList();
+	AbstractDriver driver;
 	
-	public List<Operation> getOpers() {
-		
-		return opers;
-	
+	public AbstractDriver getDriver() {
+		return driver;
 	}
 
-	public void setOpers(List<Operation> opers) {
-		
-		this.opers = opers;
-	
+	public void setDriver(AbstractDriver driver) {
+		this.driver = driver;
 	}
 
 	protected SUISClient(){
 		
-		
-		
 	}
 	
-	public List<Operation> search(){
+	public Operation operation(int index){
 		
-		return null;
-		
-	}
-	
-	public void remove(Operation o){
-		
-		
+		return this.getDriver().getOperlist().get(index);
 		
 	}
 	
 	public void listOperations(){
 		
-		for(Operation o : opers){
+		for(Operation oper : driver.getOperlist()){
 			
-			System.out.println("Operation: " + o.getName());
+			System.out.println("operation " + oper.getName());
 			
 		}
 		
 	}
 	
+	
 	public void listInputs(Operation oper){
 		
-		System.out.println("Inputs include: ");
+		log.info("Inputs include: ");
 		
 		for(Parameter p : oper.getInput().getParameter_list()){
 			
-			System.out.println("parameter - " + p.getName());
+			log.info("parameter - " + p.getName());
 			
 		}
 		
@@ -77,11 +71,11 @@ public class SUISClient {
 	
 	public void listOutputs(Operation oper){
 		
-		System.out.println("Outputs include: ");
+		log.info("Outputs include: ");
 		
 		for(Parameter p : oper.getOutput().getParameter_list()){
 			
-			System.out.println("parameter - " + p.getName());
+			log.info("parameter - " + p.getName());
 			
 		}
 		
@@ -89,11 +83,13 @@ public class SUISClient {
 	
 	public Message call(Operation o, Message input){
 		
-		System.out.println("Call the web service..");
+		log.info("Call the web service..");
 		
 		String driverid = o.getDriverid();
 		
 		AbstractDriver ad = DriverManager.get(driverid);
+		
+		ad.setCurrentOperation(o.getName());
 		
 		ad.send(ad.encodeReq(input));
 		
@@ -103,50 +99,65 @@ public class SUISClient {
 	
 	public void visualize(Message m){
 		
-		System.out.println("Begin to visualize the FILE parameters in the message..");
+		log.info("Begin to visualize the FILE parameters in the message..");
+		
+		if(m.getError()!=null){
+			
+			System.err.println("Get Error Response: " + m.getError());
+			
+		}else{
+			
+			System.out.println("Get Correct Response");
+			
+		}
 		
 	}
 	
-	public static void main(String[] args) {
+	public static class Builder {
 		
-		try{
+		Logger log = Logger.getLogger(this.getClass());
+		
+		SUISClient c = new SUISClient();
+		
+		/**
+		 * Parse all the operations into this client
+		 * @param descfile
+		 * @param type
+		 * @return
+		 */
+		public Builder initialize(String descfile, ServiceType type){
 			
-			System.out.println("Start the demo of SUIS client..");
+			log.debug("register new wsdl...");
 			
-			SUISClient sc = new SUISClientBuilder()
-					
-					//.register("http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_XYOffset?wsdl", ServiceType.SOAP)
-//					.register("http://eds-mobile.com/eds.wsdl", ServiceType.SOAP)
-					.register("http://queue.amazonaws.com/doc/2009-02-01/QueueService.wsdl", ServiceType.SOAP)
-					
-					.build();
+			AbstractDriver.Builder builder = null;
 			
-			sc.listOperations();
+			switch(type){
 			
-			Operation o = sc.getOpers().get(sc.getOpers().size()-1);
+				case SOAP: builder = new SOAPDriver.Builder();break;
+				
+				case OGC: builder = new OGCDriver.Builder();break;
+				
+				case REST: builder = new RESTDriver.Builder();break;
 			
-			sc.listInputs(o);
+			}
 			
-			sc.listOutputs(o);
+			AbstractDriver ad =  builder.parse(descfile).build(); //build a driver
 			
-			Message inm = o.getInput()
-					
-//					.value("sourceURL", "http://test.com/test.zip")
-//					
-//					.value("xoffset", 1.0)
-//					
-//					.value("yoffset", 1.0)
-					;
+			DriverManager.add(ad);
 			
-			Message outm = sc.call(o, inm);
+			ad.digest(); //digest the description file and export a list of operations
 			
-			sc.visualize(outm);
+			c.setDriver(ad);
 			
-		}catch(Exception e){
+			return this;
 			
-			e.printStackTrace();
+		}
+		
+		public SUISClient build(){
 			
-			System.exit(0);
+			log.info("The client object is created..");
+			
+			return c;
 			
 		}
 		

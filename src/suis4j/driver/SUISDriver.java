@@ -1,6 +1,7 @@
 package suis4j.driver;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -26,7 +27,7 @@ public class SUISDriver extends AbstractDriver{
 	ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Override
-	public Message decodeSUIS(Object rawmsg) {
+	public Message decodeSUIS(PayLoad rawmsg) {
 		
 		logger.info("decode raw message into SUIS message object..");
 		
@@ -34,7 +35,7 @@ public class SUISDriver extends AbstractDriver{
 		
 		try {
 			
-			m = objectMapper.readValue((String)rawmsg, Message.class);
+			m = objectMapper.readValue((String)rawmsg.getContent(), Message.class);
 			
 			logger.info("parameter size :" + m.getParameter_list().size());
 			
@@ -56,7 +57,7 @@ public class SUISDriver extends AbstractDriver{
 	}
 	
 	@Override
-	public Object encodeSUIS(Message msg) {
+	public PayLoad encodeSUIS(Message msg) {
 		
 		String msgjson = null;
 		
@@ -70,26 +71,28 @@ public class SUISDriver extends AbstractDriver{
 			
 		}
 		
-		return msgjson;
+		return new PayLoad.Builder()
+				.content(msgjson)
+				.build();
 	}
 	
 	@Override
-	public Object encodeReq(Message msg) {
+	public PayLoad encodeReq(Message msg) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void send(Object req) {
+	public void send(PayLoad req) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Object receive() {
+	public PayLoad receive() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Message decodeResp(Object resp) {
+	public Message decodeResp(PayLoad resp) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -99,16 +102,39 @@ public class SUISDriver extends AbstractDriver{
 		return null;
 	}
 
-	@Override
-	public AbstractRequestBuilder getReqbuilder() {
-		
-		return null;
-	}
+	
+	public class Builder extends AbstractDriver.Builder {
 
-	@Override
-	public AbstractResponseParser getRespparser() {
+		SUISDriver driver = new SUISDriver();
 		
-		return null;
+		public Builder parse(String descfile){
+			
+			return this;
+		}
+		
+		@Override
+		public Builder access_endpoint(URL url) {
+			
+			return null;
+		}
+
+		@Override
+		public Builder desc_endpoint(URL url) {
+			
+			return null;
+		}
+
+		@Override
+		public Builder type(ServiceType type) {
+			
+			return null;
+		}
+
+		public AbstractDriver build(){
+			
+			return driver;
+		}
+		
 	}
 
 	

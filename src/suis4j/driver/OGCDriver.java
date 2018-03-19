@@ -1,5 +1,6 @@
 package suis4j.driver;
 
+import java.net.URL;
 import java.util.List;
 
 import suis4j.profile.Message;
@@ -13,45 +14,33 @@ import suis4j.profile.Operation;
 public class OGCDriver extends AbstractDriver {
 
 	@Override
-	public Object encodeReq(Message msg) {
+	public PayLoad encodeReq(Message msg) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void send(Object req) {
+	public void send(PayLoad req) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Object receive() {
+	public PayLoad receive() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Message decodeResp(Object resp) {
+	public Message decodeResp(PayLoad resp) {
 		throw new UnsupportedOperationException();
 	}
-
+	
 	@Override
-	public AbstractRequestBuilder getReqbuilder() {
+	public Message decodeSUIS(PayLoad rawmsg) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public AbstractResponseParser getRespparser() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Message decodeSUIS(Object rawmsg) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object encodeSUIS(Message msg) {
+	public PayLoad encodeSUIS(Message msg) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -61,4 +50,41 @@ public class OGCDriver extends AbstractDriver {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public static class Builder extends AbstractDriver.Builder{
+
+		@Override
+		public Builder parse(String descfile) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Builder access_endpoint(URL url) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Builder desc_endpoint(URL url) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Builder type(ServiceType type) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public AbstractDriver build() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		
+		
+	}
+	
 }

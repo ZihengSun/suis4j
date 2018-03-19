@@ -1,5 +1,6 @@
 package suis4j.driver;
 
+import java.net.URL;
 import java.util.List;
 
 import suis4j.profile.Message;
@@ -11,51 +12,39 @@ import suis4j.profile.Operation;
 *@time Dec 8, 2017 10:23:31 AM
 */
 public class RESTDriver extends AbstractDriver {
-
+	
 	@Override
-	public AbstractRequestBuilder getReqbuilder() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AbstractResponseParser getRespparser() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Message decodeSUIS(Object rawmsg) {
+	public Message decodeSUIS(PayLoad rawmsg) {
 		
 		return null;
 	}
 
 	@Override
-	public Object encodeReq(Message msg) {
+	public PayLoad encodeReq(Message msg) {
 		
 		return null;
 	}
 
 	@Override
-	public void send(Object req) {
+	public void send(PayLoad req) {
 		
 		
 	}
 
 	@Override
-	public Object receive() {
+	public PayLoad receive() {
 		
 		return null;
 	}
 
 	@Override
-	public Message decodeResp(Object resp) {
+	public Message decodeResp(PayLoad resp) {
 		
 		return null;
 	}
 
 	@Override
-	public Object encodeSUIS(Message msg) {
+	public PayLoad encodeSUIS(Message msg) {
 
 		return null;
 	}
@@ -66,6 +55,38 @@ public class RESTDriver extends AbstractDriver {
 		return null;
 	}
 	
-	
+	public static class Builder extends AbstractDriver.Builder {
+		
+		@Override
+		public Builder parse(String descfile) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Builder access_endpoint(URL url) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Builder desc_endpoint(URL url) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Builder type(ServiceType type) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public AbstractDriver build() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
 	
 }

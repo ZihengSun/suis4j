@@ -11,18 +11,8 @@ import java.util.List;
 public class DriverManager {
 
 	private static List<AbstractDriver> drivers = new ArrayList();
-
-//	public List<SUISDriver> getDrivers() {
-//		return drivers;
-//	}
-//
-//	public void setDrivers(List<SUISDriver> drivers) {
-//		this.drivers = drivers;
-//	} 
 	
-	private DriverManager(){
-		
-	}
+	private DriverManager(){}
 	
 	/**
 	 * Get AbstractDriver
@@ -49,7 +39,7 @@ public class DriverManager {
 	}
 	
 	/**
-	 * Add AbstractDriver
+	 * Add driver into the static list
 	 * @param driver
 	 */
 	public static void add(AbstractDriver driver){
@@ -58,6 +48,14 @@ public class DriverManager {
 		
 	}
 	
-	
+	/**
+	 * Remove the driver from list
+	 * @param driver
+	 */
+	public static void remove(AbstractDriver driver){
+		
+		drivers.remove(driver);
+		
+	}
 	
 }

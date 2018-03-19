@@ -1,18 +1,27 @@
 package suis4j.driver;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
+import javax.xml.namespace.QName;
+
+import org.apache.log4j.Logger;
+import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlCursor.TokenType;
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
+
+import com.eviware.soapui.impl.WsdlInterfaceFactory;
 import com.eviware.soapui.impl.wsdl.WsdlInterface;
+import com.eviware.soapui.impl.wsdl.WsdlProject;
 import com.eviware.soapui.model.iface.MessagePart;
 
 import suis4j.profile.Message;
-import suis4j.profile.MessageBuilder;
 import suis4j.profile.Operation;
-import suis4j.profile.OperationBuilder;
 import suis4j.profile.Parameter;
-import suis4j.profile.ParameterBuilder;
 
 /**
 *Class WSDL2SUNIS.java
@@ -21,7 +30,21 @@ import suis4j.profile.ParameterBuilder;
 */
 public class SOAPDriver extends AbstractDriver {
 	
-	WsdlInterface iface = null;
+	WsdlInterface iface;
+	
+	Map<String, String[]> templatemap; //operation to request & response xml
+	
+	Logger log = Logger.getLogger(SOAPDriver.class);
+	
+	PayLoad response;
+	
+	protected SOAPDriver(){
+		
+		templatemap  = new HashMap();
+		
+		operlist = new ArrayList();
+		
+	}
 	
 	public WsdlInterface getIface() {
 		return iface;
@@ -30,58 +53,332 @@ public class SOAPDriver extends AbstractDriver {
 	public void setIface(WsdlInterface iface) {
 		this.iface = iface;
 	}
-
+	
 	@Override
-	public AbstractRequestBuilder getReqbuilder() {
+	public Message decodeSUIS(PayLoad rawmsg) {
 		
 		return null;
 	}
+	
+	
 
 	@Override
-	public AbstractResponseParser getRespparser() {
-
-		return null;
-	}
-
-	@Override
-	public Message decodeSUIS(Object rawmsg) {
+	public PayLoad encodeReq(Message msg) {
 		
-		return null;
+		//get the template xml
+		
+		String inputtemplate = templatemap.get(current_operation)[0];
+		
+		String req = null;
+		
+		 try {
+			 
+			 XmlObject xmlObjExpected = XmlObject.Factory.parse(inputtemplate);
+			 
+			 XmlCursor cursor = xmlObjExpected.newCursor();
+			 
+//			 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:vec="http://Vector_XYOffset.grass.ws.laits.gmu.edu">
+//			   <soapenv:Header/>
+//			   <soapenv:Body>
+//			      <vec:moveElement>
+//			         <vec:sourceURL>?</vec:sourceURL>
+//			         <vec:xoffset>?</vec:xoffset>
+//			         <vec:yoffset>?</vec:yoffset>
+//			      </vec:moveElement>
+//			   </soapenv:Body>
+//			</soapenv:Envelope>
+			 
+//			 String nsText = "declare namespace soapenv = 'http://schemas.xmlsoap.org/soap/envelope/'; ";
+//			 String pathText = "$this/soapenv:Envelope/soapenv:Body";
+//			 String queryText = nsText + pathText;
+//			 
+//			 cursor = cursor.execQuery(queryText);
+			 
+			 while(!cursor.toNextToken().isNone()){
+				 
+				 switch (cursor.currentTokenType().intValue())
+				 {
+					 case TokenType.INT_START:
+						 
+						 if("?".equals(cursor.getTextValue())){
+							 
+							 QName qn = cursor.getName();
+							 
+							 Parameter p = msg.get(qn.getLocalPart(), qn.getNamespaceURI());
+							 
+							 cursor.setTextValue(String.valueOf(p.getValue()));
+							 
+							 log.debug("set value: " + cursor.getTextValue());
+							 
+						 }
+						 break;
+					 case TokenType.INT_ATTR:
+						 
+						 if("?".equals(cursor.getTextValue())){
+							 
+							 QName qn = cursor.getName();
+							 Parameter p = msg.get(qn.getLocalPart(), qn.getNamespaceURI());
+							 cursor.setTextValue(String.valueOf(p.getValue()));
+							 log.debug("set value: " + cursor.getTextValue());
+							 
+						 }
+						 break;
+				 }
+				 
+			 }
+			 
+			 cursor.dispose();
+			 
+			 req = xmlObjExpected.xmlText();
+			 
+			 log.debug("combinated request xml: " + xmlObjExpected.xmlText());
+			 
+		} catch (XmlException e) {
+			 
+			 e.printStackTrace();
+			 
+			 throw new RuntimeException("failed to get xml exception. " + e.getLocalizedMessage());
+			 
+		}
+		
+		return new PayLoad.Builder().content(req).build();
 	}
 
 	@Override
-	public Object encodeReq(Message msg) {
+	public void send(PayLoad req) {
 		
-		return null;
+		try {
+			
+			System.out.println(req.getContent());
+			
+			String resp = HttpUtils.SOAP(String.valueOf(req.getContent()), this.current_operation, iface.getEndpoints()[0]);
+			
+			System.out.println(resp);
+			
+			response = new PayLoad.Builder().content(resp).build();
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+	}
+	
+	@Override
+	public PayLoad receive() {
+		
+		return response;
+		
+	}
+	
+	public Operation getOperation(String name){
+		
+		Operation o = null;
+		
+		for(int i=0;i<operlist.size();i++){
+			
+			if(operlist.get(i).getName().equals(name)){
+				
+				o = operlist.get(i);
+				
+				break;
+				
+			}
+			
+		}
+		
+		return o;
+		
+	}
+	
+	
+	
+	@Override
+	public Message decodeResp(PayLoad resp) {
+		
+		String respxml = String.valueOf(resp.getContent()).trim();
+		
+		Operation o = getOperation(this.current_operation);
+		
+		boolean getoutput = false;
+		
+		 try {
+			 
+			 XmlObject resp_xmlObj = XmlObject.Factory.parse(respxml);
+			 
+			 XmlCursor resp_cursor = resp_xmlObj.newCursor();
+			 
+//			 String nsText = "declare namespace soapenv = 'http://schemas.xmlsoap.org/soap/envelope/'; ";
+//			 String pathText = "$this/soapenv:Envelope/soapenv:Body";
+//			 String queryText = nsText + pathText;
+//			 
+//			 cursor = cursor.execQuery(queryText);
+			 
+			 while(!resp_cursor.toNextToken().isNone()){
+				 
+				 switch (resp_cursor.currentTokenType().intValue())
+				 {
+					 case TokenType.INT_START:
+						 
+						 QName qn = resp_cursor.getName();
+						 
+						 if(o.getOutput().get(qn.getLocalPart())!=null){
+							 
+							 Parameter p = o.getOutput().get(qn.getLocalPart(), qn.getNamespaceURI());
+							 
+							 p.setValue(resp_cursor.getTextValue());
+							 
+							 getoutput = true;
+							 
+						 }
+						 
+						 break;
+						 
+					 case TokenType.INT_ATTR:
+						 
+						 qn = resp_cursor.getName();
+						 
+						 if(o.getOutput().get(qn.getLocalPart())!=null){
+							 
+							 Parameter p = o.getOutput().get(qn.getLocalPart(), qn.getNamespaceURI());
+							 
+							 p.setValue(resp_cursor.getTextValue());
+							 
+							 getoutput = true;
+							 
+						 }
+						 
+						 break;
+						 
+				 }
+				 
+			 }
+			 
+			 resp_cursor.dispose();
+			 
+			 if(!getoutput){
+				 
+				 o.getOutput().setError(respxml);
+				 
+			 }
+			 
+		} catch (XmlException e) {
+			 
+			 e.printStackTrace();
+			 
+			 throw new RuntimeException("failed to get xml exception. " + e.getLocalizedMessage());
+			 
+		}
+		
+		return o.getOutput();
 	}
 
 	@Override
-	public void send(Object req) {
+	public PayLoad encodeSUIS(Message msg) {
 		
+		msg.getParameter_list();
+		
+		PayLoad load = new PayLoad.Builder()
+				.content("")
+				.build();
+		
+		return load;
 	}
+	
+	/**
+	 * Parse the parameters from the generated request/response XML
+	 * @param xml
+	 * @return
+	 */
+	private List<Parameter> parseParams(String xml) {
+		 
+		 List<Parameter> paramlist = new ArrayList();
+		 
+		 try {
+			 
+			 XmlObject xmlObjExpected = XmlObject.Factory.parse(xml);
+			 
+			 XmlCursor cursor = xmlObjExpected.newCursor();
+			 
+//			 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:vec="http://Vector_XYOffset.grass.ws.laits.gmu.edu">
+//			   <soapenv:Header/>
+//			   <soapenv:Body>
+//			      <vec:moveElement>
+//			         <vec:sourceURL>?</vec:sourceURL>
+//			         <vec:xoffset>?</vec:xoffset>
+//			         <vec:yoffset>?</vec:yoffset>
+//			      </vec:moveElement>
+//			   </soapenv:Body>
+//			</soapenv:Envelope>
+			 
+//			 String nsText = "declare namespace soapenv = 'http://schemas.xmlsoap.org/soap/envelope/'; ";
+//			 String pathText = "$this/soapenv:Envelope/soapenv:Body";
+//			 String queryText = nsText + pathText;
+//			 
+//			 cursor = cursor.execQuery(queryText);
+//			 
+//			 log.info("Body: " + cursor.xmlText());
+			 
+			 while(!cursor.toNextToken().isNone()){
+				 
+				 switch (cursor.currentTokenType().intValue())
+				 {
+					 case TokenType.INT_START:
+						 
+						 if("?".equals(cursor.getTextValue())){
+							 QName qn = cursor.getName();
+							 Parameter p = new Parameter.Builder()
+									 .name(qn.getLocalPart())
+									 .namespace(qn.getNamespaceURI())
+									 .build();
+							 
+							 paramlist.add(p);
+							 
+						 }
+						 
+						 break;
+						 
+					 case TokenType.INT_ATTR:
 
-	@Override
-	public Object receive() {
+						 if("?".equals(cursor.getTextValue())){
+							 
+							 QName qn = cursor.getName();
+							 
+							 Parameter p = new Parameter.Builder()
+									 .name(qn.getLocalPart())
+									 .namespace(qn.getNamespaceURI())
+									 .build();
+							 
+							 paramlist.add(p);
+							 
+						 }
+						 
+						 break;
+				 
+				 }
+				 
+			 }
+			 
+			 cursor.dispose();
+			 
+		} catch (XmlException e) {
+			 
+			 e.printStackTrace();
+			 
+			 throw new RuntimeException("failed to get xml exception. " + e.getLocalizedMessage());
+			 
+		}
 		
-		return null;
-	}
-
-	@Override
-	public Message decodeResp(Object resp) {
+		return paramlist;
 		
-		return null;
 	}
-
-	@Override
-	public Object encodeSUIS(Message msg) {
-		
-		return null;
-	}
+	
 
 	@Override
 	public List<Operation> digest() {
 		
-		List<Operation> os = new ArrayList();
+		operlist = new ArrayList();
 		
 		for(int i=0;i<iface.getAllOperations().length;i++){
         	
@@ -89,83 +386,45 @@ public class SOAPDriver extends AbstractDriver {
         	
         	MessagePart mp = oper.getDefaultRequestParts()[0];
         	
-        	System.out.println("Operation : " + oper.getName());
-        	
-        	System.out.println("has "+oper.getDefaultRequestParts().length + " requests");
-        	
-        	System.out.println("part: "+mp.getName());
-        	
-        	System.out.println("has : "+oper.getDefaultResponseParts().length + " responses");
-        	
-        	System.out.println("has "+mp.getName() + " requests");
-        	
-        	System.out.println("part: "+mp.getName());
-        	
-        	System.out.println("soap version: " + iface.getSoapVersion());
+        	String[] templates = new String[2];
         	
         	String req = oper.createRequest( false );
         	
-        	System.out.println("Request String Content: " + req);
+        	templates[0] = req;
+        	 
+//        	log.info("Request String Content: " + req);
         	
         	//get parameters from the generated request
         	
         	String resp = oper.createResponse(false);
         	
-        	System.out.println("Response String Content: " + resp);
+//        	log.info("Response String Content: " + resp);
+        	
+        	templates[1] = resp;
+        	
+        	templatemap.put(oper.getName(), templates);
         	
         	//get parameters from the generated response
         	
         	//create an operation object
         	
-        	List<Parameter> inparams = new ArrayList();
+        	List<Parameter> inparams = parseParams(req);
         	
-        	for(int j = 0; j<oper.getDefaultRequestParts().length; j++){
-        		
-        		MessagePart part = oper.getDefaultRequestParts()[j];
-        		
-        		Parameter p = new ParameterBuilder()
-        		
-        				.name(part.getName())
-        				
-        				.description(part.getDescription())
-        				
-        				.build();
-        		
-        		inparams.add(p);
-        		
-        	}
-        	
-        	Message in = new MessageBuilder()
+        	Message in = new Message.Builder()
         			
         			.params(inparams)
         			
         			.build();
         	
-        	List<Parameter> outparams = new ArrayList();
+        	List<Parameter> outparams= parseParams(resp);
         	
-        	for(int j=0; j<oper.getDefaultResponseParts().length; j++){
-        		
-        		MessagePart part = oper.getDefaultResponseParts()[j];
-        		
-        		Parameter p = new ParameterBuilder()
-        				
-        				.name(part.getName())
-        				
-        				.description(part.getDescription())
-        				
-        				.build();
-        		
-        		outparams.add(p);
-        		
-        	}
-        	
-        	Message out = new MessageBuilder()
+        	Message out = new Message.Builder()
         			
         			.params(outparams)
         			
         			.build();
         	
-        	Operation o = new OperationBuilder()
+        	Operation o = new Operation.Builder()
         			
         			.name(oper.getName())
         			
@@ -179,11 +438,75 @@ public class SOAPDriver extends AbstractDriver {
         			
         			.build();
         	
-    		os.add(o);
+        	operlist.add(o);
         	
         }
 		
-		return os;
+		return operlist;
+		
+	}
+	
+	public static class Builder extends AbstractDriver.Builder{
+		
+		SOAPDriver driver = new SOAPDriver();
+		
+		WsdlProject project = null;
+		
+		@Override
+		public Builder parse(String descfile) {
+			
+			try{
+				
+				String wsdluri = descfile;
+				
+//				String wsdluri = "http://cube.csiss.gmu.edu/axis2/services/GMU_SOAP_WCS_Service?wsdl";
+				
+				if(project==null){
+					
+					project = new WsdlProject();
+					
+				}
+		        
+		        WsdlInterface iface = WsdlInterfaceFactory.importWsdl(project, wsdluri, false)[0];
+		        
+		        driver.setIface(iface);
+		        
+			}catch(Exception e){
+				
+				e.printStackTrace();
+				
+				throw new RuntimeException("Fail to parse WSDL " + e.getLocalizedMessage());
+				
+			}
+			
+			return this;
+		}
+
+		@Override
+		public Builder access_endpoint(URL url) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Builder desc_endpoint(URL url) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Builder type(ServiceType type) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public AbstractDriver build() {
+			
+			return driver;
+		}
+
+		
 		
 	}
 	

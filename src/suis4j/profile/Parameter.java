@@ -6,7 +6,9 @@ package suis4j.profile;
 */
 public class Parameter {
 	
-	private String name, 
+	private String name,
+				
+				namespace,
 				/**
 				 * Parameter description is optional but strongly recommended. 
 				 * It is very important to let users understand what the parameter is used for and how it is used. 
@@ -30,14 +32,18 @@ public class Parameter {
 	public Object getValue() {
 		return value;
 	}
-
-
-
+	
 	public void setValue(Object value) {
 		this.value = value;
 	}
+	
+	public String getNamespace() {
+		return namespace;
+	}
 
-
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
 
 	public DataType getType() {
 		return type;
@@ -69,6 +75,64 @@ public class Parameter {
 
 	public void setOccurs(int occurs) {
 		this.occurs = occurs;
+	}
+	
+	public static class Builder {
+
+		Parameter p;
+		
+		public Builder(){
+			
+			p = new Parameter();
+			
+		}
+		
+		public Parameter.Builder name(String n){
+			
+			p.setName(n);
+			
+			return this;
+			
+		}
+		
+		public Parameter.Builder namespace(String space){
+			
+			p.setNamespace(space);
+			
+			return this;
+			
+		}
+		
+		public Parameter.Builder description(String desc){		
+			
+			p.setDescription(desc);
+			
+			return this;
+			
+		}
+		
+		public Parameter.Builder type(DataType t){
+			
+			p.setType(t);
+			
+			return this;
+			
+		}
+		
+		public Parameter.Builder occurs(int occurs){
+			
+			p.setOccurs(occurs);
+			
+			return this;
+			
+		}
+		
+		public Parameter build(){
+			
+			return p;
+			
+		}
+		
 	}
 	
 }
