@@ -40,6 +40,26 @@ public class SUISClient {
 		
 	}
 	
+	public Operation operation(String name){
+		
+		Operation o = null;
+		
+		for(Operation theo : this.getDriver().getOperlist()){
+			
+			if(name.equals(theo.getName())){
+				
+				o = theo;
+				
+				break;
+				
+			}
+			
+		}
+		
+		return o;
+		
+	}
+	
 	public Operation operation(int index){
 		
 		return this.getDriver().getOperlist().get(index);
@@ -59,11 +79,11 @@ public class SUISClient {
 	
 	public void listInputs(Operation oper){
 		
-		log.info("Inputs include: ");
+		System.out.println("Inputs include: ");
 		
 		for(Parameter p : oper.getInput().getParameter_list()){
 			
-			log.info("parameter - " + p.getName());
+			System.out.println("parameter - " + p.getName());
 			
 		}
 		
@@ -71,11 +91,11 @@ public class SUISClient {
 	
 	public void listOutputs(Operation oper){
 		
-		log.info("Outputs include: ");
+		System.out.println("Outputs include: ");
 		
 		for(Parameter p : oper.getOutput().getParameter_list()){
 			
-			log.info("parameter - " + p.getName());
+			System.out.println("parameter - " + p.getName());
 			
 		}
 		
@@ -97,6 +117,12 @@ public class SUISClient {
 		
 	}
 	
+	public void listOutput(Message m){
+		
+		m.listKVPs();
+		
+	}
+	
 	public void visualize(Message m){
 		
 		log.info("Begin to visualize the FILE parameters in the message..");
@@ -108,6 +134,10 @@ public class SUISClient {
 		}else{
 			
 			System.out.println("Get Correct Response");
+			
+			m.listKVPs();
+			
+			
 			
 		}
 		

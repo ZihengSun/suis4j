@@ -19,6 +19,48 @@ public class Message {
 	 */
 	protected Message(){}
 	
+	public void listKVPs(){
+		
+		for(int i=0;i<parameter_list.size();i++){
+			
+			System.out.println(parameter_list.get(i).getName() + " - " + parameter_list.get(i).getValue());
+			
+		}
+		
+	}
+	
+	public String getValueAsString(String parameter){
+		
+		Parameter p = this.get(parameter);
+		
+		return String.valueOf(p.getValue());
+		
+	}
+	
+	public double getValueAsDouble(String parameter){
+		
+		return Double.valueOf(getValueAsString(parameter));
+		
+	}
+	
+	public int getValueAsInt(String parameter){
+		
+		return Integer.valueOf(getValueAsString(parameter));
+		
+	}
+	
+	public float getValueAsFloat(String parameter){
+		
+		return Float.valueOf(getValueAsString(parameter));
+		
+	}
+	
+	public boolean getValueAsBoolean(String parameter){
+		
+		return "true".equals(getValueAsString(parameter).toLowerCase());
+		
+	}
+	
 	public Message value(String parameter, String value){
 		
 		Parameter p = this.get(parameter);

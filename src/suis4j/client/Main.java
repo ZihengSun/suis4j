@@ -19,7 +19,9 @@ public class Main {
 			
 			SUISClient sc = new SUISClient.Builder()
 					//Every client corresponds to only a service. To call multiple services, create multiple clients. 
-					.initialize("http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_XYOffset?wsdl", ServiceType.SOAP)
+					.initialize("http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_Buffer_OGR?wsdl", ServiceType.SOAP)
+//					.initialize("http://cube.csiss.gmu.edu/axis/services/Vector_GML2SHP?wsdl", ServiceType.SOAP)
+//					.initialize("http://www3.csiss.gmu.edu/axis2/services/GMU_SOAP_WCS_Service?wsdl", ServiceType.SOAP)
 //					.initialize("http://eds-mobile.com/eds.wsdl", ServiceType.SOAP)
 //					.initialize("http://queue.amazonaws.com/doc/2009-02-01/QueueService.wsdl", ServiceType.SOAP)
 //					.initialize("http://cube.csiss.gmu.edu/cgi-bin/wcs-all.cgi?service=WCS&version=2.0.0&request=GetCapabilities", ServiceType.OGC)
@@ -35,13 +37,14 @@ public class Main {
 			sc.listOutputs(o);
 			
 			Message inm = o.getInput()
-					.value("sourceURL", "http://test.com/test.zip")
-					.value("xoffset", 1.0)
-					.value("yoffset", 1.0);
+					.value("sourceURL", "http://www3.csiss.gmu.edu/data/building.zip")
+					.value("buffer", 100);
 			
 			Message outm = sc.call(o, inm);
 			
-			sc.visualize(outm);
+			sc.listOutput(outm);
+			
+//			sc.visualize(outm);
 			
 		}catch(Exception e){
 			
