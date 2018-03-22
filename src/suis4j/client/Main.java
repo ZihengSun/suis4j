@@ -19,7 +19,8 @@ public class Main {
 			
 			SUISClient sc = new SUISClient.Builder()
 					//Every client corresponds to only a service. To call multiple services, create multiple clients. 
-					.initialize("http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_Buffer_OGR?wsdl", ServiceType.SOAP)
+//					.initialize("http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_Buffer_OGR?wsdl", ServiceType.SOAP)
+					.initialize("https://service.iris.edu/irisws/timeseries/1/application.wadl", ServiceType.REST)
 //					.initialize("http://cube.csiss.gmu.edu/axis/services/Vector_GML2SHP?wsdl", ServiceType.SOAP)
 //					.initialize("http://www3.csiss.gmu.edu/axis2/services/GMU_SOAP_WCS_Service?wsdl", ServiceType.SOAP)
 //					.initialize("http://eds-mobile.com/eds.wsdl", ServiceType.SOAP)
@@ -30,21 +31,33 @@ public class Main {
 			
 			sc.listOperations();
 			
-			Operation o = sc.operation(0);
+			Operation o = sc.operation(3);
 			
 			sc.listInputs(o);
 			
 			sc.listOutputs(o);
 			
+			//for SOAP test
+//			Message inm = o.getInput()
+//					.value("sourceURL", "http://www3.csiss.gmu.edu/data/building.zip")
+//					.value("buffer", 100);
+			
+			//for REST test
 			Message inm = o.getInput()
-					.value("sourceURL", "http://www3.csiss.gmu.edu/data/building.zip")
-					.value("buffer", 100);
+					.value("network", "IU")
+					.value("station", "ANMO")
+					.value("location", "00")
+					.value("channel", "BHZ")
+					.value("starttime", "2001-12-09T12:00:00")
+					.value("endtime", "2001-12-09T12:20:00")
+//					.value("duration", "30")
+					.value("output", "plot");
 			
 			Message outm = sc.call(o, inm);
 			
 			sc.listOutput(outm);
 			
-//			sc.visualize(outm);
+			sc.visualize(outm);
 			
 		}catch(Exception e){
 			

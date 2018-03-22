@@ -6,6 +6,6 @@ package suis4j.profile;
 */
 public enum DataType {
 
-	NUMBER, STRING, DATE, FILE
+	NUMBER, STRING, DATE, FILE, BOOL
 	
 }

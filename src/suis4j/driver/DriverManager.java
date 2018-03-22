@@ -14,6 +14,22 @@ public class DriverManager {
 	
 	private DriverManager(){}
 	
+	public static AbstractDriver create(ServiceType st){
+		
+		AbstractDriver ad = null;
+		
+		switch(st){
+		
+			case SOAP: ad = new SOAPDriver(); break;
+			case REST: ad = new RESTDriver(); break;
+			case OGC: ad = new OGCDriver();break;
+		
+		}
+		
+		return ad;
+		
+	}
+	
 	/**
 	 * Get AbstractDriver
 	 * @param oname

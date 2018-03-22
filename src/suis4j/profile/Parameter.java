@@ -16,9 +16,9 @@ public class Parameter {
 				description;
 	
 	/**
-	 * This attribute is optional. Default value is 1. Unlimited is -1.  
+	 * The following two attributes are optional. Default value is 1. Unlimited is -1.  
 	 */
-	private int occurs = 1;
+	private int min_occurs = 1, max_occurs = 1;
 	
 	private DataType type;
 	
@@ -68,15 +68,25 @@ public class Parameter {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public int getOccurs() {
-		return occurs;
-	}
-
-	public void setOccurs(int occurs) {
-		this.occurs = occurs;
-	}
 	
+	public int getMin_occurs() {
+		return min_occurs;
+	}
+
+	public void setMin_occurs(int min_occurs) {
+		this.min_occurs = min_occurs;
+	}
+
+	public int getMax_occurs() {
+		return max_occurs;
+	}
+
+	public void setMax_occurs(int max_occurs) {
+		this.max_occurs = max_occurs;
+	}
+
+
+
 	public static class Builder {
 
 		Parameter p;
@@ -119,9 +129,17 @@ public class Parameter {
 			
 		}
 		
-		public Parameter.Builder occurs(int occurs){
+		public Parameter.Builder maxoccurs(int occurs){
 			
-			p.setOccurs(occurs);
+			p.setMax_occurs(occurs);
+			
+			return this;
+			
+		}
+		
+		public Parameter.Builder minoccurs(int occurs){
+			
+			p.setMin_occurs(occurs);
 			
 			return this;
 			

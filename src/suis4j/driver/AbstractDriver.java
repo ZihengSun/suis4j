@@ -76,12 +76,33 @@ public abstract class AbstractDriver {
 		this.servicetype = servicetype;
 	}
 	
+
+	public Operation getOperation(String name){
+		
+		Operation o = null;
+		
+		for(int i=0;i<operlist.size();i++){
+			
+			if(operlist.get(i).getName().equals(name)){
+				
+				o = operlist.get(i);
+				
+				break;
+				
+			}
+			
+		}
+		
+		return o;
+		
+	}
+	
 	/**
 	 * Decode returned payload (received payload from client) to SUIS message object
 	 * @param rawmsg
 	 * @return
 	 */
-	abstract public Message decodeSUIS(PayLoad rawmsg);
+	abstract public Message decodeSUIS(Object rawmsg);
 	
 	/**
 	 * Encode SUIS request message object to payload
@@ -114,7 +135,7 @@ public abstract class AbstractDriver {
 	 * @param msg
 	 * @return
 	 */
-	abstract public PayLoad encodeSUIS(Message msg);
+	abstract public Object encodeSUIS(Message msg);
 	
 	/**
 	 * Digest the service description file

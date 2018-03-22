@@ -135,8 +135,11 @@ public class SUISClient {
 			
 			System.out.println("Get Correct Response");
 			
-			m.listKVPs();
+			System.out.println("save the result to file");
 			
+			m.get("result").getValue();
+			
+//			m.listKVPs();
 			
 			
 		}

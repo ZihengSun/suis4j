@@ -55,7 +55,11 @@ public class OGCDriver extends AbstractDriver {
 
 		@Override
 		public Builder parse(String descfile) {
-			// TODO Auto-generated method stub
+			
+			//parse the getcapabilities URL
+			
+			
+			
 			return null;
 		}
 

@@ -55,7 +55,7 @@ public class SOAPDriver extends AbstractDriver {
 	}
 	
 	@Override
-	public Message decodeSUIS(PayLoad rawmsg) {
+	public Message decodeSUIS(Object rawmsg) {
 		
 		return null;
 	}
@@ -172,25 +172,6 @@ public class SOAPDriver extends AbstractDriver {
 		
 	}
 	
-	public Operation getOperation(String name){
-		
-		Operation o = null;
-		
-		for(int i=0;i<operlist.size();i++){
-			
-			if(operlist.get(i).getName().equals(name)){
-				
-				o = operlist.get(i);
-				
-				break;
-				
-			}
-			
-		}
-		
-		return o;
-		
-	}
 	
 	
 	
@@ -275,7 +256,7 @@ public class SOAPDriver extends AbstractDriver {
 	}
 
 	@Override
-	public PayLoad encodeSUIS(Message msg) {
+	public Object encodeSUIS(Message msg) {
 		
 		msg.getParameter_list();
 		

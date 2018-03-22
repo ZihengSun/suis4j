@@ -1,10 +1,37 @@
 package suis4j.driver;
 
 import java.net.*;
+
+import org.dom4j.Document;
+import org.dom4j.io.SAXReader;
+
 import java.io.*;
 
 public class HttpUtils
 {
+	/**
+	 * Parse file from URL
+	 * @param url
+	 * @return
+	 */
+	public static Document parseURL(String url) 
+    {
+		
+		URL myURL;
+	       
+        SAXReader reader = new SAXReader();
+        Document document = null;
+		try {
+
+		    myURL = new URL(url);
+			document = reader.read(myURL);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        return document;
+    }
+	
+	
 	public static String doPost(String url, String postContent) throws Exception {
 		
 		URL u = new URL(url);
