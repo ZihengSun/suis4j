@@ -1,6 +1,8 @@
 package suis4j.driver;
 
 import java.net.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
@@ -30,6 +32,24 @@ public class HttpUtils
 		}
         return document;
     }
+	
+	/**
+	 * 
+	 * @param url
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public static Map<String, String> splitQuery(URL url) throws UnsupportedEncodingException {
+	    Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+	    String query = url.getQuery();
+	    String[] pairs = query.split("&");
+	    for (String pair : pairs) {
+	        int idx = pair.indexOf("=");
+	        query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8").toLowerCase(), 
+	        		URLDecoder.decode(pair.substring(idx + 1), "UTF-8").toLowerCase()); //everything is lowcased
+	    }
+	    return query_pairs;
+	}
 	
 	
 	public static String doPost(String url, String postContent) throws Exception {

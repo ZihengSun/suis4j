@@ -101,7 +101,7 @@ public class SUISClient {
 		
 	}
 	
-	public Message call(Operation o, Message input){
+	public Message call(Operation o){
 		
 		log.info("Call the web service..");
 		
@@ -111,7 +111,7 @@ public class SUISClient {
 		
 		ad.setCurrentOperation(o.getName());
 		
-		ad.send(ad.encodeReq(input));
+		ad.send(ad.encodeReq(o.getInput()));
 		
 		return ad.decodeResp(ad.receive());
 		
@@ -137,7 +137,7 @@ public class SUISClient {
 			
 			System.out.println("save the result to file");
 			
-			m.get("result").getValue();
+			m.get("return").getValue();
 			
 //			m.listKVPs();
 			

@@ -214,7 +214,7 @@ public class RESTDriver extends AbstractDriver {
 			
 			for(Resource r : rs.getResource()){
 				
-				//create input message
+				//create input message - Right now, only for query parameters. Path parameters are not supported.
 				
 				List<Parameter> inparams = new ArrayList();
 				
@@ -317,7 +317,6 @@ public class RESTDriver extends AbstractDriver {
 						.input(inm)
 						.output(outm)
 //						.description(r.getDoc().get(0).getTitle())
-						.driver(this.getId())
 						.build();
 				
 				operlist.add(o);
@@ -325,6 +324,8 @@ public class RESTDriver extends AbstractDriver {
 			}
 			
 		}
+		
+		connect();
 		
 		return operlist;
 	}
@@ -351,6 +352,8 @@ public class RESTDriver extends AbstractDriver {
 				Application application = (Application) unmarshaller.unmarshal(reader);
 				
 				driver.setApplication(application);
+				
+				driver.setDesc_endpoint(new URL(descfile));
 				
 			}catch(Exception e){
 				

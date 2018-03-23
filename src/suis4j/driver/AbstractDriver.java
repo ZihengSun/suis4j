@@ -96,6 +96,18 @@ public abstract class AbstractDriver {
 		return o;
 		
 	}
+	/**
+	 * Connect operation to driver
+	 */
+	public void connect(){
+		
+		for(Operation o: this.getOperlist()){
+			
+			o.setDriverid(this.getId());
+			
+		}
+		
+	}
 	
 	/**
 	 * Decode returned payload (received payload from client) to SUIS message object

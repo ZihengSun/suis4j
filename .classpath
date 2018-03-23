@@ -16,5 +16,19 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/net.opengis.csw-v_2_0_2-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.filter-v_1_1_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.filter-v_2_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.gml-v_3_1_1-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.ows-v_1_0_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.ows-v_1_1_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.ows-v_2_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.wcs-v_2_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.wfs-v_2_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.wms-v_1_3_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.wps-v_1_0_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.wps-v_2_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/xlink-v_1_0-1.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb2-basics-runtime-0.11.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

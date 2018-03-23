@@ -365,7 +365,7 @@ public class SOAPDriver extends AbstractDriver {
         	
         	com.eviware.soapui.model.iface.Operation oper = iface.getAllOperations()[i];
         	
-        	MessagePart mp = oper.getDefaultRequestParts()[0];
+//        	MessagePart mp = oper.getDefaultRequestParts()[0];
         	
         	String[] templates = new String[2];
         	
@@ -411,8 +411,6 @@ public class SOAPDriver extends AbstractDriver {
         			
         			.description(oper.getDescription())
         			
-        			.driver(this.getId())
-        			
         			.input(in)
         			
         			.output(out)
@@ -422,6 +420,8 @@ public class SOAPDriver extends AbstractDriver {
         	operlist.add(o);
         	
         }
+		
+		connect();
 		
 		return operlist;
 		
