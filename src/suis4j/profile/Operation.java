@@ -35,6 +35,7 @@ public class Operation {
 
 
 	public Message getInput() {
+		
 		return input;
 	}
 

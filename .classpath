@@ -30,5 +30,8 @@
 	<classpathentry kind="lib" path="lib/net.opengis.wps-v_2_0-2.6.2-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/xlink-v_1_0-1.4.0.jar"/>
 	<classpathentry kind="lib" path="lib/jaxb2-basics-runtime-0.11.0.jar"/>
+	<classpathentry kind="lib" path="lib/gml-v_3_2_1-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/gmlcov-v_1_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.sweCommon-v_2_0-2.6.2-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

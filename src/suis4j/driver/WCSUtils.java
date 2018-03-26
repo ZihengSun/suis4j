@@ -1,11 +1,13 @@
 package suis4j.driver;
 
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 
 import org.apache.log4j.Logger;
 
@@ -16,6 +18,7 @@ import net.opengis.wcs.v_2_0.CoverageSummaryType;
 import net.opengis.wcs.v_2_0.DescribeCoverageType;
 import net.opengis.wcs.v_2_0.GetCoverageType;
 import net.opengis.wcs.v_2_0.ObjectFactory;
+import net.opengis.wps.v_1_0_0.Execute;
 
 /**
 *Class WCSUtils.java
@@ -48,6 +51,30 @@ public class WCSUtils {
 			throw new RuntimeException("Fail to parse the capabilities document." + e.getLocalizedMessage());
 		}
 		return ca;
+	}
+	/**
+	 * Turn coverage description to XML
+	 * @param cdt
+	 * @return
+	 */
+	public static String turnDescribeCoverageTypeToXML(DescribeCoverageType cdt){
+		String theXML = null;
+		try{
+			// serialise to xml
+			StringWriter writer = new StringWriter();
+			JAXBContext context = JAXBContext.newInstance(DescribeCoverageType.class);            
+			Marshaller m = context.createMarshaller();
+			m.marshal(cdt, writer);
+	
+			// output string to console
+			 theXML = writer.toString();
+//			System.out.println(theXML);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return theXML;
+		
 	}
 	
 	/**
@@ -135,6 +162,32 @@ public class WCSUtils {
 	 * @return
 	 * 
 	 */
+	public static String getCoverageListString(CapabilitiesType ca){
+		
+		ContentsType cts = ca.getContents();
+		
+		List<CoverageSummaryType> clist = cts.getCoverageSummary();
+		
+		StringBuffer capalist = new StringBuffer();
+		
+		for(int i=0;i<clist.size();i++){
+		
+			CoverageSummaryType cst = clist.get(i);
+			
+			capalist.append(cst.getCoverageId()).append("\n");
+		}
+		
+		return capalist.toString();
+		
+	}
+	
+	/**
+	 * Get the list of coverage
+	 * @param ca
+	 * capabilities object
+	 * @return
+	 * 
+	 */
 	public static List getCoverageList(CapabilitiesType ca){
 		ContentsType cts = ca.getContents();
 		List<CoverageSummaryType> clist = cts.getCoverageSummary();
@@ -148,17 +201,17 @@ public class WCSUtils {
 	
 	public static void main(String[] args){
 //		String wcsurl = "http://cube.csiss.gmu.edu/cgi-bin/gbwcs-dem.cgi?service=wcs&request=getcapabilities&version=1.0.0";
-//		String wcsurl = "http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r?service=wcs&request=getcapabilities&version=2.0.0";
+		String wcsurl = "http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r?service=wcs&request=getcapabilities&version=2.0.0";
 //		String wcsurl = "https://tb12.cubewerx.com/a045/cubeserv?DATASTORE=Satellite_Soil_Moisture&SERVICE=WCS&REQUEST=GetCapabilities";
 		
-		String wcsurl = "http://www3.csiss.gmu.edu/axis2swa/services/GMU_SOAP_WCS_Service.GMU_SOAP_WCS_ServiceHttpSoap12Endpoint/";
-		theLogger.info(wcsurl);
+//		String wcsurl = "http://www3.csiss.gmu.edu/axis2swa/services/GMU_SOAP_WCS_Service.GMU_SOAP_WCS_ServiceHttpSoap12Endpoint/";
+//		theLogger.info(wcsurl);
 		/**
 		 * test parsing capability
 		 */
-//		CapabilitiesType cat = WCSUtils.parseCapabilities(wcsurl);
+		CapabilitiesType cat = WCSUtils.parseCapabilities(wcsurl);
 //		CapabilitiesType cat = WCSUtils.parseCapabilities_SOAP(wcsurl);
-//		theLogger.info("There are total "+cat.getContents().getCoverageSummary().size() + " coverages in this WCS.");
+		theLogger.info("There are total "+cat.getContents().getCoverageSummary().size() + " coverages in this WCS.");
 		
 		
 		/**

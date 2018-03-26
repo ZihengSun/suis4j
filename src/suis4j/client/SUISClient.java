@@ -68,6 +68,8 @@ public class SUISClient {
 	
 	public void listOperations(){
 		
+		System.out.println("There are totally " + driver.getOperlist().size() + " operations");
+		
 		for(Operation oper : driver.getOperlist()){
 			
 			System.out.println("operation " + oper.getName());
@@ -78,6 +80,10 @@ public class SUISClient {
 	
 	
 	public void listInputs(Operation oper){
+		
+		AbstractDriver ad = DriverManager.get(oper.getDriverid());
+		
+		ad.initParams(oper);
 		
 		System.out.println("Inputs include: ");
 		
@@ -90,6 +96,10 @@ public class SUISClient {
 	}
 	
 	public void listOutputs(Operation oper){
+		
+		AbstractDriver ad = DriverManager.get(oper.getDriverid());
+		
+		ad.initParams(oper);
 		
 		System.out.println("Outputs include: ");
 		
@@ -137,7 +147,7 @@ public class SUISClient {
 			
 			System.out.println("save the result to file");
 			
-			m.get("return").getValue();
+//			m.get("return").getValue();
 			
 //			m.listKVPs();
 			

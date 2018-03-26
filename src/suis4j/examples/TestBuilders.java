@@ -29,7 +29,7 @@ public class TestBuilders {
 				.name("param1")
 				.description("")
 				.type(DataType.FILE)
-				.occurs(1)
+				.minoccurs(1)
 				.build();
 
 		System.out.println(p.getName());

@@ -30,8 +30,6 @@ public class RESTDriver extends AbstractDriver {
 	
 	Application application = null;
 	
-	PayLoad response = null;
-	
 	public Application getApplication() {
 		return application;
 	}
@@ -329,6 +327,11 @@ public class RESTDriver extends AbstractDriver {
 		
 		return operlist;
 	}
+
+	@Override
+	public void initParams(Operation o) {
+		//nothing
+	}
 	
 	public static class Builder extends AbstractDriver.Builder {
 		
@@ -378,13 +381,7 @@ public class RESTDriver extends AbstractDriver {
 			
 			return this;
 		}
-
-		@Override
-		public Builder type(ServiceType type) {
-			
-			return this;
-		}
-
+		
 		@Override
 		public AbstractDriver build() {
 			return driver;

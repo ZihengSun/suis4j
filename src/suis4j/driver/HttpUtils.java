@@ -60,6 +60,12 @@ public class HttpUtils
 		URLConnection uc = u.openConnection();
 		
 		HttpURLConnection huc = (HttpURLConnection)uc;
+
+		huc.setRequestProperty("User-Agent", "Apache-HttpClient/4.1.1");
+		
+		huc.setRequestMethod("POST");
+		
+//		huc.setRequestProperty("content-type", "application/xml");
 		
 		huc.setDoOutput(true);
 		
@@ -75,9 +81,21 @@ public class HttpUtils
 		dstream.close();
 		
 		// Read Response
-		InputStream in = huc.getInputStream();
+		InputStream in = null;
 		
-		BufferedReader r = new BufferedReader(new InputStreamReader(in));
+		BufferedReader r = null;
+		
+        if(huc.getResponseCode()==200){
+        	
+        	in = huc.getInputStream();
+        	
+        }else{
+        	
+        	in = huc.getErrorStream();
+        	
+        }
+        
+        r = new BufferedReader(new InputStreamReader(in));
 		
 		StringBuffer buf = new StringBuffer();
 		

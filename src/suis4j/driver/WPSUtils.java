@@ -22,6 +22,7 @@ import net.opengis.wps.v_1_0_0.DocumentOutputDefinitionType;
 import net.opengis.wps.v_1_0_0.Execute;
 import net.opengis.wps.v_1_0_0.ExecuteResponse;
 import net.opengis.wps.v_1_0_0.InputDescriptionType;
+import net.opengis.wps.v_1_0_0.InputReferenceType;
 import net.opengis.wps.v_1_0_0.InputType;
 import net.opengis.wps.v_1_0_0.LiteralDataType;
 import net.opengis.wps.v_1_0_0.ObjectFactory;
@@ -137,7 +138,7 @@ public class WPSUtils {
 		ProcessDescriptions ca = null;
 		try {
 			String resp = HttpUtils.doGet(dpreq);
-			System.out.println(resp);
+//			System.out.println(resp);
 			ca = JAXB.unmarshal(new StringReader(resp.trim()), ProcessDescriptions.class);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -692,21 +693,17 @@ public class WPSUtils {
 		
 	}
 	/**
-	 * For 1.0.0
+	 * For version 1.0.0
 	 * @param ca
-	 * @param dt
+	 * @param pdt
 	 * @param kvp
 	 * @return
 	 */
-	public static Execute getExecuteRequest(WPSCapabilitiesType ca, ProcessDescriptions dt, Map kvp) {
+	public static Execute getExecuteRequest(WPSCapabilitiesType ca, ProcessDescriptionType pdt, Map kvp) {
 		
 		ObjectFactory of = new ObjectFactory();
 		
 		Execute exe = of.createExecute();
-		
-		//set process identifier
-		
-		ProcessDescriptionType pdt = dt.getProcessDescription().get(0);
 		
 		exe.setIdentifier(pdt.getIdentifier());
 		
@@ -716,107 +713,128 @@ public class WPSUtils {
 		
 		ResponseDocumentType rdt = of.createResponseDocumentType();
 		
-		List<OutputDescriptionType> odts = pdt.getProcessOutputs().getOutput();
-		
-		List<DocumentOutputDefinitionType> dodts = new ArrayList();
-		
-		//generate process outputs
-		
-		for(int i=0; i<odts.size(); i++){
+		if(pdt.getProcessOutputs()!=null){
 			
-			OutputDescriptionType odt = odts.get(i);
+			List<OutputDescriptionType> odts = pdt.getProcessOutputs().getOutput();
 			
-			DocumentOutputDefinitionType dodt = of.createDocumentOutputDefinitionType();
+			List<DocumentOutputDefinitionType> dodts = new ArrayList();
 			
-			dodt.setAbstract(odt.getAbstract());
+			//generate process outputs
 			
-			dodt.setIdentifier(odt.getIdentifier());
-			
-			dodt.setTitle(odt.getTitle());
-			
-			if(odt.getComplexOutput()!=null){
+			for(int i=0; i<odts.size(); i++){
 				
-				ComplexDataCombinationsType cdct = odt.getComplexOutput().getSupported();
+				OutputDescriptionType odt = odts.get(i);
 				
-				ComplexDataDescriptionType cddt = cdct.getFormat().get(0);
+				DocumentOutputDefinitionType dodt = of.createDocumentOutputDefinitionType();
 				
-				dodt.setMimeType(cddt.getMimeType());
+				dodt.setAbstract(odt.getAbstract());
 				
+				dodt.setIdentifier(odt.getIdentifier());
+				
+				dodt.setTitle(odt.getTitle());
+				
+				dodt.setAsReference(true); //default is reference
+				
+				if(odt.getComplexOutput()!=null){
+					
+					ComplexDataCombinationsType cdct = odt.getComplexOutput().getSupported();
+					
+					ComplexDataDescriptionType cddt = cdct.getFormat().get(0);
+					
+					dodt.setMimeType(cddt.getMimeType());
+					
+				}
+				
+				dodts.add(dodt);
 			}
-
 			
-			dodts.add(dodt);
+			rdt.setOutput(dodts);
+			
 		}
-		
-		rdt.setOutput(dodts);
 		
 		//add input parameters
 		
 		DataInputsType di = of.createDataInputsType();
 		
-		List<InputDescriptionType> idtlist = pdt.getDataInputs().getInput();
-		
 		List<InputType> inputs = new ArrayList();
 		
-		for(int i=0; i<idtlist.size();i++){
+		if(pdt.getDataInputs()!=null){
 			
-			InputDescriptionType idt = idtlist.get(i);
+			List<InputDescriptionType> idtlist = pdt.getDataInputs().getInput();
 			
-			InputType it = of.createInputType();
 			
-			it.setIdentifier(idt.getIdentifier());
-			
-			it.setTitle(idt.getTitle());
-			
-			DataType newdt = of.createDataType();
-			
-			if(idt.getLiteralData() != null){
+			for(int i=0; i<idtlist.size();i++){
 				
-				LiteralDataType  ldt = of.createLiteralDataType();
+				InputDescriptionType idt = idtlist.get(i);
 				
-				ldt.setValue((String)kvp.get(idt.getIdentifier().getValue()));
+				InputType it = of.createInputType();
 				
-				newdt.setLiteralData(ldt);
+				it.setIdentifier(idt.getIdentifier());
 				
-				it.setData(newdt);
+				it.setTitle(idt.getTitle());
 				
-			}else if(idt.getComplexData()!=null){
+				DataType newdt = of.createDataType();
 				
-				ComplexDataType cdt = of.createComplexDataType();
+				if(idt.getLiteralData() != null){
+					
+					LiteralDataType  ldt = of.createLiteralDataType();
+					
+					ldt.setValue((String)kvp.get(idt.getIdentifier().getValue()));
+					
+					newdt.setLiteralData(ldt);
+					
+					it.setData(newdt);
+					
+				}else if(idt.getComplexData()!=null){
+					
+					String datavalue = (String)kvp.get(idt.getIdentifier().getValue());
+					
+					if(datavalue.toLowerCase().startsWith("http")){
+						
+						InputReferenceType irt = of.createInputReferenceType();
+						
+						irt.setHref((String)kvp.get(idt.getIdentifier().getValue()));
+						
+						irt.setMethod("GET");
+						
+						irt.setSchema("http://schemas.opengis.net/gml/3.1.1/base/feature.xsd"); //default as GMLv3
+						
+						it.setReference(irt);
+						
+					}else{
+						
+						ComplexDataType cdt = of.createComplexDataType();
+						
+						ComplexDataDescriptionType cddt = idt.getComplexData().getSupported().getFormat().get(0);
+						
+						cdt.setEncoding(cddt.getEncoding());
+						
+						cdt.setMimeType(cddt.getMimeType());
+						
+						List<Serializable> conts = new ArrayList();
+						
+						conts.add(datavalue);
+						
+						cdt.setContent((List<Serializable>)conts);
+						
+						newdt.setComplexData(cdt);
+						
+						it.setData(newdt);
+						
+					}
+					
+				}else {
+					
+					throw new RuntimeException("Unable to recognize the input type.");
+					
+				}
 				
-				ComplexDataDescriptionType cddt = idt.getComplexData().getSupported().getFormat().get(0);
-				
-				cdt.setEncoding(cddt.getEncoding());
-				
-				cdt.setMimeType(cddt.getMimeType());
-				
-				List<Serializable> conts = new ArrayList();
-				
-				conts.add((String)kvp.get(idt.getIdentifier().getValue()));
-				
-				cdt.setContent((List<Serializable>)conts);
-				
-				newdt.setComplexData(cdt);
-				
-				it.setData(newdt);
-				
-//				InputReferenceType irt = of.createInputReferenceType();
-//				
-//				irt.setHref((String)kvp.get(idt.getIdentifier().getValue()));
-//				
-//				irt.setMethod("GET");
-//				
-//				it.setReference(irt);
-				
-			}else {
-				
-				throw new RuntimeException("Unable to recognize the input type.");
+				inputs.add(it);
 				
 			}
 			
-			inputs.add(it);
-			
 		}
+		
 		
 		di.setInput(inputs);
 		
@@ -830,6 +848,18 @@ public class WPSUtils {
 		
 		
 		return exe;
+		
+	}
+	/**
+	 * For 1.0.0
+	 * @param ca
+	 * @param dt
+	 * @param kvp
+	 * @return
+	 */
+	public static Execute getExecuteRequest(WPSCapabilitiesType ca, ProcessDescriptions dt, Map kvp) {
+		
+		return getExecuteRequest(ca, dt.getProcessDescription().get(0), kvp);
 		
 	}
 	

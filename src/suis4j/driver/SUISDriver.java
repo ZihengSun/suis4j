@@ -27,7 +27,7 @@ public class SUISDriver extends AbstractDriver{
 	ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Override
-	public Message decodeSUIS(PayLoad rawmsg) {
+	public Message decodeSUIS(Object rawmsg) {
 		
 		logger.info("decode raw message into SUIS message object..");
 		
@@ -35,7 +35,7 @@ public class SUISDriver extends AbstractDriver{
 		
 		try {
 			
-			m = objectMapper.readValue((String)rawmsg.getContent(), Message.class);
+			m = objectMapper.readValue((String)rawmsg, Message.class);
 			
 			logger.info("parameter size :" + m.getParameter_list().size());
 			
@@ -104,7 +104,7 @@ public class SUISDriver extends AbstractDriver{
 
 	
 	public class Builder extends AbstractDriver.Builder {
-
+		
 		SUISDriver driver = new SUISDriver();
 		
 		public Builder parse(String descfile){
@@ -123,13 +123,7 @@ public class SUISDriver extends AbstractDriver{
 			
 			return null;
 		}
-
-		@Override
-		public Builder type(ServiceType type) {
-			
-			return null;
-		}
-
+		
 		public AbstractDriver build(){
 			
 			return driver;

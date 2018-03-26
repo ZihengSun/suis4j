@@ -28,6 +28,8 @@ public abstract class AbstractDriver {
 	
 	String id = UUID.randomUUID().toString(); //used to pair with Profile
 	
+	PayLoad response;
+	
 	public String getCurrent_operation() {
 		return current_operation;
 	}
@@ -164,6 +166,12 @@ public abstract class AbstractDriver {
 		current_operation = name;
 		
 	}
+	/**
+	 * If the service params are not contained in the description file, 
+	 * use this function to initialize the input and output parameters.
+	 * @param o
+	 */
+	public abstract void initParams(Operation o);
 	
 	public static abstract class Builder {
 		
@@ -172,8 +180,6 @@ public abstract class AbstractDriver {
 		public abstract Builder access_endpoint(URL url);
 		
 		public abstract Builder desc_endpoint(URL url);
-		
-		public abstract Builder type(ServiceType type);
 		
 		abstract public AbstractDriver build();
 

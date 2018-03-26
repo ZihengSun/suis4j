@@ -1,6 +1,8 @@
 package suis4j.profile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
 *Class Message.java
@@ -19,7 +21,29 @@ public class Message {
 	 */
 	protected Message(){}
 	
+	public Map toKVPs(){
+		
+		Map kvp = new HashMap();
+		
+		for(int i=0;i<parameter_list.size();i++){
+			
+//			System.out.println(parameter_list.get(i).getName() + " - " + parameter_list.get(i).getValue());
+			
+			if(parameter_list.get(i).getValue()!=null){
+
+				kvp.put(parameter_list.get(i).getName(), parameter_list.get(i).getValue());
+				
+			}
+			
+		}
+		
+		return kvp;
+		
+	}
+	
 	public void listKVPs(){
+		
+		System.out.println(">> List output params and values: ");
 		
 		for(int i=0;i<parameter_list.size();i++){
 			

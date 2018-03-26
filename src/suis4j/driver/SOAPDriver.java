@@ -17,7 +17,6 @@ import org.apache.xmlbeans.XmlObject;
 import com.eviware.soapui.impl.WsdlInterfaceFactory;
 import com.eviware.soapui.impl.wsdl.WsdlInterface;
 import com.eviware.soapui.impl.wsdl.WsdlProject;
-import com.eviware.soapui.model.iface.MessagePart;
 
 import suis4j.profile.Message;
 import suis4j.profile.Operation;
@@ -35,8 +34,6 @@ public class SOAPDriver extends AbstractDriver {
 	Map<String, String[]> templatemap; //operation to request & response xml
 	
 	Logger log = Logger.getLogger(SOAPDriver.class);
-	
-	PayLoad response;
 	
 	protected SOAPDriver(){
 		
@@ -111,7 +108,9 @@ public class SOAPDriver extends AbstractDriver {
 							 log.debug("set value: " + cursor.getTextValue());
 							 
 						 }
+						 
 						 break;
+						 
 					 case TokenType.INT_ATTR:
 						 
 						 if("?".equals(cursor.getTextValue())){
@@ -122,7 +121,9 @@ public class SOAPDriver extends AbstractDriver {
 							 log.debug("set value: " + cursor.getTextValue());
 							 
 						 }
+						 
 						 break;
+						 
 				 }
 				 
 			 }
@@ -171,9 +172,6 @@ public class SOAPDriver extends AbstractDriver {
 		return response;
 		
 	}
-	
-	
-	
 	
 	@Override
 	public Message decodeResp(PayLoad resp) {
@@ -461,33 +459,41 @@ public class SOAPDriver extends AbstractDriver {
 			}
 			
 			return this;
+			
 		}
 
 		@Override
 		public Builder access_endpoint(URL url) {
-			// TODO Auto-generated method stub
-			return null;
+			
+			driver.setAccess_endpoint(url);
+			
+			return this;
+			
 		}
 
 		@Override
 		public Builder desc_endpoint(URL url) {
-			// TODO Auto-generated method stub
-			return null;
+			
+			driver.setDesc_endpoint(url);
+			
+			return this;
+			
 		}
-
-		@Override
-		public Builder type(ServiceType type) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
+		
 		@Override
 		public AbstractDriver build() {
 			
 			return driver;
+			
 		}
 
 		
+		
+	}
+
+	@Override
+	public void initParams(Operation o) {
+		// TODO Auto-generated method stub
 		
 	}
 	

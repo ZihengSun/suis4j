@@ -145,6 +145,14 @@ public class Parameter {
 			
 		}
 		
+		public Parameter.Builder value(Object content){
+			
+			p.setValue(content);
+			
+			return this;
+			
+		}
+		
 		public Parameter build(){
 			
 			return p;
