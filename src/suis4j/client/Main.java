@@ -25,7 +25,9 @@ public class Main {
 //					.initialize("http://www3.csiss.gmu.edu/axis2/services/GMU_SOAP_WCS_Service?wsdl", ServiceType.SOAP)
 //					.initialize("http://eds-mobile.com/eds.wsdl", ServiceType.SOAP)
 //					.initialize("http://queue.amazonaws.com/doc/2009-02-01/QueueService.wsdl", ServiceType.SOAP)
-					.initialize("http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r?service=WCS&version=2.0.0&request=GetCapabilities", ServiceType.OGC)
+//					.initialize("http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r?service=WCS&version=2.0.0&request=GetCapabilities", ServiceType.OGC)
+//					.initialize("http://earthserver.ecmwf.int/rasdaman/ows?service=WCS&request=GetCapabilities&version=2.0.1", ServiceType.OGC)
+					.initialize("https://geoservice.dlr.de/eoc/atmosphere/wcs?SERVICE=WCS&REQUEST=GetCapabilities&version=2.0.0", ServiceType.OGC)
 //					.initialize("http://cube.csiss.gmu.edu/cgi-bin/pywps.cgi?service=WPS&request=GetCapabilities&version=1.0.0", ServiceType.OGC) //for WPS 1.0.0 test
 //					.initialize("http://geoprocessing.demo.52north.org/latest-wps/WebProcessingService?Request=GetCapabilities&Service=WPS&version=1.0.0", ServiceType.OGC)
 					
@@ -36,7 +38,7 @@ public class Main {
 			
 			sc.listOperations();
 			
-			Operation o = sc.operation("DescribeCoverage");
+			Operation o = sc.operation("GetCoverage");
 			
 			sc.listInputs(o);
 			
@@ -59,7 +61,8 @@ public class Main {
 //					.value("output", "plot");
 			
 			//for OGC WPS test
-			o.getInput().value("coverageId", "GEOTIFF:\"/home/zsun/testfiles/data/bay_dem.tif\":Band");
+//			o.getInput().value("coverageId", "GEOTIFF:\"/home/zsun/testfiles/data/bay_dem.tif\":Band");
+			o.getInput().value("coverageId", "atmosphere__METOP-B_GOME-2_L3_TROPOSPHERIC_O3_MIXINGRATIO_STD");
 			
 			Message outm = sc.call(o);
 			

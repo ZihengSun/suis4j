@@ -1,5 +1,6 @@
 package suis4j.driver;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -7,8 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import net.opengis.wcs.v_2_0.CapabilitiesType;
+import net.opengis.wcs.v_2_0.CoverageDescriptionType;
 import net.opengis.wcs.v_2_0.CoverageDescriptionsType;
 import net.opengis.wps.v_1_0_0.Execute;
 import net.opengis.wps.v_1_0_0.ExecuteResponse;
@@ -36,6 +39,8 @@ public class OGCDriver extends AbstractDriver {
 	String version = "1.0.0";
 	
 	Object capa;
+	
+	static String TEMPORARY_PATH = System.getProperty("java.io.tmpdir") + File.separator;
 	
 	Map<String, Object> processdescriptions; //operation name to process description
 	
@@ -82,15 +87,22 @@ public class OGCDriver extends AbstractDriver {
 			
 			if(version.equals("2.0.0")){
 				
-				if("DescribeCoverage".equals(this.getCurrent_operation())){
+				if("GetCoverageList".equals(this.getCurrent_operation())){
+					
+					content = WCSUtils.turnGetCapabilitiesTypeToXML(
+							WCSUtils.createAGetCapabilitiesRequest());
+					
+				}else if("DescribeCoverage".equals(this.getCurrent_operation())){
 
 					content = WCSUtils.turnDescribeCoverageTypeToXML(
 							WCSUtils.createADescribeCoverageRequest(
-									msg.getValueAsString("coverageId")));
+									msg.getValueAsString("coverageId"), this.getVersion()));
 					
 				}else if("GetCoverage".equals(this.getCurrent_operation())){
 					
-					content = WCSUtils.createAGetCoverageRequest(msg.getValueAsString("coverageId")).toString();
+					content = WCSUtils.turnGetCoverageTypeToXML(
+							WCSUtils.createAGetCoverageRequest(
+									msg.getValueAsString("coverageId"), this.getVersion()));
 					
 				}
 				
@@ -109,23 +121,35 @@ public class OGCDriver extends AbstractDriver {
 		
 		try {
 			
+			String resp = null;
+			
 			System.out.println(">> "+(String)req.getContent());
 			
-			String resp = HttpUtils.doPost(this.getAccess_endpoint().toString(), (String)req.getContent());
+			if("GetCoverage".equals(this.getCurrent_operation())){
+				
+				//download the file and save to a temporary file path
+				
+				String filename = "coverage-" + UUID.randomUUID().toString();
+				
+				HttpUtils.doPostFile(this.getAccess_endpoint().toString(), (String)req.getContent(),TEMPORARY_PATH + filename);
+				
+				resp = "file:" + TEMPORARY_PATH + filename;
+				
+			}else{
+				
+				resp = HttpUtils.doPost(this.getAccess_endpoint().toString(), (String)req.getContent());
+				
+			}
 			
 			System.out.println(">> " + resp);
 			
-			response = new PayLoad.Builder()
-					.content(resp)
-					.build();
+			response = new PayLoad.Builder().content(resp).build();
 			
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 			
-			response = new PayLoad.Builder()
-					.content(e.getLocalizedMessage())
-					.build();
+			response = new PayLoad.Builder().content(e.getLocalizedMessage()).build();
 			
 		}
 		
@@ -141,7 +165,9 @@ public class OGCDriver extends AbstractDriver {
 	@Override
 	public Message decodeResp(PayLoad resp) {
 		
-		List<Parameter> params = new ArrayList();
+//		List<Parameter> params = new ArrayList();
+		
+		Operation oper = this.getOperation(this.getCurrent_operation());
 		
 		Message respmsg = new Message.Builder().build();
 		
@@ -159,9 +185,10 @@ public class OGCDriver extends AbstractDriver {
 						
 						for(OutputDataType odt : odtlist){
 							
-							Parameter p = new Parameter.Builder()
-									.name(odt.getIdentifier().getValue())
-									.build();
+//							Parameter p = new Parameter.Builder()
+//									.name(odt.getIdentifier().getValue())
+//									.build();
+							Parameter p = oper.getOutput().get(odt.getIdentifier().getValue());
 							
 							if(odt.getReference()!=null){
 								
@@ -187,18 +214,18 @@ public class OGCDriver extends AbstractDriver {
 								
 							}
 							
-							params.add(p);
+//							params.add(p);
 							
 						}
 						
-						respmsg.setParameter_list(params);
+//						respmsg.setParameter_list(params);
 						
 					}else{
 						
 						respmsg.setError((String)resp.getContent());
 						
 					}
-						
+					
 				}
 				
 			}else if("wcs".equals(category)){
@@ -209,36 +236,33 @@ public class OGCDriver extends AbstractDriver {
 						
 						//list all the supported coverages
 						
+						CapabilitiesType ct = WCSUtils.parseCapabilities(String.valueOf(resp.getContent()));
 						
+						oper.getOutput().get("coveragelist").setValue(WCSUtils.getCoverageListString(ct));
 						
 					}else if("DescribeCoverage".equals(this.getCurrent_operation())){						
 						
-						CoverageDescriptionsType cdt = WCSUtils.parseCoverageDescriptions(String.valueOf(resp.getContent()));
+						CoverageDescriptionsType cdts = WCSUtils.parseCoverageDescriptions(String.valueOf(resp.getContent()));
 						
-						params.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
+						CoverageDescriptionType cdt = cdts.getCoverageDescription().get(0);
 						
-						params.add(new Parameter.Builder().name("coverage-Function").minoccurs(0).maxoccurs(1).build());
+						oper.getOutput().get("coverageId").setValue(cdt.getCoverageId());
 						
-						params.add(new Parameter.Builder().name("metadata").minoccurs(0).maxoccurs(-1).build());
+						oper.getOutput().get("metadata").setValue(WCSUtils.turnMetadataListToXML(cdt.getMetadata()));
 						
-						params.add(new Parameter.Builder().name("domainSet").minoccurs(1).maxoccurs(1).build());
+						oper.getOutput().get("domainSet").setValue(WCSUtils.turnDomainSetTypeToXML(cdt.getDomainSet().getValue()));
 						
-						params.add(new Parameter.Builder().name("rangeType").minoccurs(1).maxoccurs(1).build());
+						oper.getOutput().get("rangeType").setValue(WCSUtils.turnDataRecordPropertyTypeToXML(cdt.getRangeType()));
 						
-						params.add(new Parameter.Builder().name("service-Parameters").minoccurs(1).maxoccurs(1).build());
-						
+						oper.getOutput().get("service-Parameters").setValue(WCSUtils.turnServiceParametersToXML(cdt.getServiceParameters()));
 						
 					}else if("GetCoverage".equals(this.getCurrent_operation())){
 						
 						//save the coverage to a temporary file and give the file path back
 						
-						
+						oper.getOutput().get("coverage").setValue((String)resp.getContent());
 						
 					}
-					
-					
-					
-					
 					
 				}
 				
@@ -249,6 +273,8 @@ public class OGCDriver extends AbstractDriver {
 			respmsg.setError((String)resp.getContent());
 			
 		}
+		
+		respmsg = oper.getOutput();
 		
 		return respmsg;
 		
@@ -523,7 +549,7 @@ public class OGCDriver extends AbstractDriver {
 			
 			connect();
 
-		} catch (MalformedURLException e) {
+		} catch (Exception e) {
 			
 			e.printStackTrace();
 			

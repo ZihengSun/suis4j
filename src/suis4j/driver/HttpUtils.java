@@ -50,7 +50,74 @@ public class HttpUtils
 	    }
 	    return query_pairs;
 	}
-	
+	/**
+	 * Save the returned file from a post request
+	 * @param url
+	 * @param postContent
+	 * @return
+	 * @throws Exception
+	 */
+	public static void doPostFile(String url, String postContent, String filepath)throws Exception{
+
+		URL u = new URL(url);
+		
+		// Open the connection and prepare to POST
+		URLConnection uc = u.openConnection();
+		
+		HttpURLConnection huc = (HttpURLConnection)uc;
+
+		huc.setRequestProperty("User-Agent", "Apache-HttpClient/4.1.1");
+		
+		huc.setRequestMethod("POST");
+		
+		huc.setRequestProperty("Content-Type", "application/xml");
+		
+		huc.setDoOutput(true);
+		
+		huc.setDoInput(true);
+		
+		huc.setAllowUserInteraction(false);
+		
+		DataOutputStream dstream = new DataOutputStream(huc.getOutputStream());
+		
+		// POST it
+		dstream.writeBytes(postContent);
+		
+		dstream.close();
+		
+		// Read Response
+		InputStream in = null;
+		
+		BufferedReader r = null;
+		
+        if(huc.getResponseCode()==200){
+        	
+        	in = huc.getInputStream();
+        	
+        }else{
+        	
+        	in = huc.getErrorStream();
+        	
+        }
+        
+        r = new BufferedReader(new InputStreamReader(in));
+        
+        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filepath)));
+		
+		String line;
+		
+		while ((line = r.readLine())!=null){
+			
+//			buf.append(line);
+			bw.write(line);
+			
+		}
+		
+		in.close();
+		
+		bw.close();
+		
+	}
 	
 	public static String doPost(String url, String postContent) throws Exception {
 		
@@ -65,7 +132,7 @@ public class HttpUtils
 		
 		huc.setRequestMethod("POST");
 		
-//		huc.setRequestProperty("content-type", "application/xml");
+		huc.setRequestProperty("Content-Type", "application/xml");
 		
 		huc.setDoOutput(true);
 		
@@ -204,4 +271,16 @@ public class HttpUtils
 
 		return buf.toString();
 	}
+	
+	public static void main(String[] args) throws Exception{
+		
+		String req = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><DescribeCoverage service=\"WCS\" version=\"2.0.0\" xmlns:ns2=\"http://www.opengis.net/ows/2.0\" xmlns=\"http://www.opengis.net/wcs/2.0\" xmlns:ns4=\"http://www.opengis.net/gml/3.2\" xmlns:ns3=\"http://www.w3.org/1999/xlink\" xmlns:ns5=\"http://www.opengis.net/gmlcov/1.0\" xmlns:ns6=\"http://www.opengis.net/swe/2.0\"><CoverageId>atmosphere__METOP-B_GOME-2_L3_TROPOSPHERIC_O3_MIXINGRATIO_STD</CoverageId></DescribeCoverage>";
+		
+		String resp = HttpUtils.doPost("https://geoservice.dlr.de/eoc/atmosphere/wcs", req);
+		
+		System.out.println(resp);
+		
+		
+	}
+	
 }
