@@ -2,15 +2,20 @@ package suis4j.driver;
 
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
 
 import org.apache.log4j.Logger;
 
+import net.opengis.ows.v_2_0.Operation;
 import net.opengis.wcs.v_2_0.CapabilitiesType;
 import net.opengis.wcs.v_2_0.ContentsType;
 import net.opengis.wcs.v_2_0.CoverageDescriptionsType;
@@ -18,7 +23,6 @@ import net.opengis.wcs.v_2_0.CoverageSummaryType;
 import net.opengis.wcs.v_2_0.DescribeCoverageType;
 import net.opengis.wcs.v_2_0.GetCoverageType;
 import net.opengis.wcs.v_2_0.ObjectFactory;
-import net.opengis.wps.v_1_0_0.Execute;
 
 /**
 *Class WCSUtils.java
@@ -62,12 +66,14 @@ public class WCSUtils {
 		try{
 			// serialise to xml
 			StringWriter writer = new StringWriter();
-			JAXBContext context = JAXBContext.newInstance(DescribeCoverageType.class);            
+			JAXBContext context = JAXBContext.newInstance(DescribeCoverageType.class);
 			Marshaller m = context.createMarshaller();
-			m.marshal(cdt, writer);
-	
+			QName qName = new QName("http://www.opengis.net/wcs/2.0", "DescribeCoverage");
+		    JAXBElement<DescribeCoverageType> root = new JAXBElement<>(qName, DescribeCoverageType.class, cdt);
+			m.marshal(root, writer);
+			
 			// output string to console
-			 theXML = writer.toString();
+			theXML = writer.toString();
 //			System.out.println(theXML);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -82,19 +88,15 @@ public class WCSUtils {
 	 * @param url
 	 * @return
 	 */
-	public static CoverageDescriptionsType parseCoverageDescriptions(String url){
+	public static CoverageDescriptionsType parseCoverageDescriptions(String content){
 		
 		CoverageDescriptionsType cdt = null;
 		
 		try{
 			
-			theLogger.info("D URL: " + url);
-			
-			String descriptiondoc = HttpUtils.doGet(url);
-			
 			JAXBContext jaxbContext = null;
 			
-			cdt = JAXB.unmarshal(new StringReader(descriptiondoc), CoverageDescriptionsType.class);
+			cdt = JAXB.unmarshal(new StringReader(content), CoverageDescriptionsType.class);
 			
 		}catch(Exception e){
 			
@@ -156,6 +158,36 @@ public class WCSUtils {
 	}
 	
 	/**
+	 * Get access endpoint
+	 * @param ct
+	 * capabilitiestype
+	 * @return
+	 * URL
+	 * @throws MalformedURLException 
+	 */
+	public static URL getEndpoint(CapabilitiesType ct) throws MalformedURLException {
+		
+		List<Operation> opers = ct.getOperationsMetadata().getOperation();
+		
+		String exeurl = null;
+		
+		for(int i=0; i<opers.size(); i++){
+			
+			Operation oper = opers.get(i);
+			
+			if("GetCoverage".equals(oper.getName())){
+				
+				exeurl = oper.getDCP().get(0).getHTTP().getGetOrPost().get(0).getValue().getHref();
+				
+			}
+			
+		}
+		
+		return new URL(exeurl);
+		
+	}
+	
+	/**
 	 * Get the list of coverage
 	 * @param ca
 	 * capabilities object
@@ -209,16 +241,16 @@ public class WCSUtils {
 		/**
 		 * test parsing capability
 		 */
-		CapabilitiesType cat = WCSUtils.parseCapabilities(wcsurl);
-//		CapabilitiesType cat = WCSUtils.parseCapabilities_SOAP(wcsurl);
-		theLogger.info("There are total "+cat.getContents().getCoverageSummary().size() + " coverages in this WCS.");
+//		CapabilitiesType cat = WCSUtils.parseCapabilities(wcsurl);
+////		CapabilitiesType cat = WCSUtils.parseCapabilities_SOAP(wcsurl);
+//		theLogger.info("There are total "+cat.getContents().getCoverageSummary().size() + " coverages in this WCS.");
 		
 		
 		/**
 		 * test describe coverage
 		 */
-//		DescribeCoverageType dct = WCSUtils.createADescribeCoverageRequest("xyz");
-//		CoverageDescriptionsType cdt = WCSUtils.getCoverageDescription(wcsurl, dct);
+		DescribeCoverageType dct = WCSUtils.createADescribeCoverageRequest("xyz");
+		CoverageDescriptionsType cdt = WCSUtils.getCoverageDescription(wcsurl, dct);
 		
 		/**
 		 * test get coverage
@@ -232,5 +264,6 @@ public class WCSUtils {
 		
 		
 	}
+
 	
 }

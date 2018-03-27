@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.opengis.wcs.v_2_0.CapabilitiesType;
+import net.opengis.wcs.v_2_0.CoverageDescriptionsType;
 import net.opengis.wps.v_1_0_0.Execute;
 import net.opengis.wps.v_1_0_0.ExecuteResponse;
 import net.opengis.wps.v_1_0_0.InputDescriptionType;
@@ -88,7 +89,7 @@ public class OGCDriver extends AbstractDriver {
 									msg.getValueAsString("coverageId")));
 					
 				}else if("GetCoverage".equals(this.getCurrent_operation())){
-
+					
 					content = WCSUtils.createAGetCoverageRequest(msg.getValueAsString("coverageId")).toString();
 					
 				}
@@ -142,8 +143,7 @@ public class OGCDriver extends AbstractDriver {
 		
 		List<Parameter> params = new ArrayList();
 		
-		Message respmsg = new Message.Builder()
-			.build();
+		Message respmsg = new Message.Builder().build();
 		
 		try{
 			
@@ -199,6 +199,47 @@ public class OGCDriver extends AbstractDriver {
 						
 					}
 						
+				}
+				
+			}else if("wcs".equals(category)){
+				
+				if("2.0.0".equals(version)){
+					
+					if("GetCoverageList".equals(this.getCurrent_operation())){
+						
+						//list all the supported coverages
+						
+						
+						
+					}else if("DescribeCoverage".equals(this.getCurrent_operation())){						
+						
+						CoverageDescriptionsType cdt = WCSUtils.parseCoverageDescriptions(String.valueOf(resp.getContent()));
+						
+						params.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
+						
+						params.add(new Parameter.Builder().name("coverage-Function").minoccurs(0).maxoccurs(1).build());
+						
+						params.add(new Parameter.Builder().name("metadata").minoccurs(0).maxoccurs(-1).build());
+						
+						params.add(new Parameter.Builder().name("domainSet").minoccurs(1).maxoccurs(1).build());
+						
+						params.add(new Parameter.Builder().name("rangeType").minoccurs(1).maxoccurs(1).build());
+						
+						params.add(new Parameter.Builder().name("service-Parameters").minoccurs(1).maxoccurs(1).build());
+						
+						
+					}else if("GetCoverage".equals(this.getCurrent_operation())){
+						
+						//save the coverage to a temporary file and give the file path back
+						
+						
+						
+					}
+					
+					
+					
+					
+					
 				}
 				
 			}
@@ -323,168 +364,170 @@ public class OGCDriver extends AbstractDriver {
 	public List<Operation> digest() {
 		
 		operlist = new ArrayList();
-		
-		if("wps".equals(category)){
+
+		try {
 			
-			if(version==null||version.equals("1.0.0")){
+			if("wps".equals(category)){
 				
-				//add all the processes as operations
-				
-				WPSCapabilitiesType wct = WPSUtils.parseCapabilities(this.getDesc_endpoint().toString());
-				
-				capa = wct;
-				
-				try {
+				if(version==null||version.equals("1.0.0")){
+					
+					//add all the processes as operations
+					
+					WPSCapabilitiesType wct = WPSUtils.parseCapabilities(this.getDesc_endpoint().toString());
+					
+					capa = wct;
 					
 					this.setAccess_endpoint(new URL(WPSUtils.getExecuteEndpoint(wct)));
 					
-				} catch (MalformedURLException e) {
+					List<ProcessBriefType> processes = wct.getProcessOfferings().getProcess();
 					
-					e.printStackTrace();
+					processdescriptions = new HashMap();
+					
+					for(int i=0;i<processes.size();i++){
+						
+						ProcessBriefType p = processes.get(i);
+						
+						String pname = p.getIdentifier().getValue();
+						
+						System.out.println("processing: " + pname);
+						
+						Operation o = new Operation.Builder()
+								.name(pname)
+								.build();
+						
+						operlist.add(o);
+						
+					}
+					
+				}else if(version.equals("2.0.0")||version.equals("2.0")){
+					
+					net.opengis.wps.v_2_0.WPSCapabilitiesType wct = WPSUtils.parseCapabilities20(this.getDesc_endpoint().toString());
+					
+					System.err.println("Not implemented yet.");
 					
 				}
 				
-				List<ProcessBriefType> processes = wct.getProcessOfferings().getProcess();
+			}else if("wcs".equals(category)){
 				
-				processdescriptions = new HashMap();
-				
-				for(int i=0;i<processes.size();i++){
+				if(version==null||version.equals("2.0.0")){
 					
-					ProcessBriefType p = processes.get(i);
+					CapabilitiesType ct = WCSUtils.parseCapabilities(this.getDesc_endpoint().toString());
 					
-					String pname = p.getIdentifier().getValue();
+					capa = ct;
 					
-					System.out.println("processing: " + pname);
+					this.setAccess_endpoint(WCSUtils.getEndpoint(ct));
+	
+					//list coverages
 					
-					Operation o = new Operation.Builder()
-							.name(pname)
+					List<Parameter> inparams = new ArrayList();
+					
+					List<Parameter> outparams = new ArrayList();
+					
+					Parameter p = new Parameter.Builder()
+							.name("coveragelist")
+							.description("the list of coverages that this WCS hosts")
+							.minoccurs(1)
+							.maxoccurs(1)
+							.type(DataType.STRING)
+							.value(WCSUtils.getCoverageListString(ct))
 							.build();
 					
-					operlist.add(o);
+					outparams.add(p);
+					
+					Operation listcoverageoper = new Operation.Builder()
+							.name("GetCoverageList")
+							.output(new Message.Builder()
+									.params(outparams)
+									.build())
+							.build();
+					
+					operlist.add(listcoverageoper);
+					
+					//describe coverage
+					
+					inparams = new ArrayList();
+					
+					inparams.add(new Parameter.Builder()
+							.name("coverageId")
+							.description("coverage identifier")
+							.minoccurs(1)
+							.type(DataType.STRING)
+							.build());
+					
+					outparams = new ArrayList();
+					
+					outparams.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
+					
+					outparams.add(new Parameter.Builder().name("coverage-Function").minoccurs(0).maxoccurs(1).build());
+					
+					outparams.add(new Parameter.Builder().name("metadata").minoccurs(0).maxoccurs(-1).build());
+					
+					outparams.add(new Parameter.Builder().name("domainSet").minoccurs(1).maxoccurs(1).build());
+					
+					outparams.add(new Parameter.Builder().name("rangeType").minoccurs(1).maxoccurs(1).build());
+					
+					outparams.add(new Parameter.Builder().name("service-Parameters").minoccurs(1).maxoccurs(1).build());
+					
+					Operation describecoverageoper = new Operation.Builder()
+							.name("DescribeCoverage")
+							.input(new Message.Builder()
+									.params(inparams)
+									.build())
+							.output(new Message.Builder()
+									.params(outparams)
+									.build())
+							.build();
+					
+					operlist.add(describecoverageoper);
+					
+					//get coverage
+					
+					inparams = new ArrayList();
+					
+					inparams.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
+					
+					inparams.add(new Parameter.Builder().name("dimension-Subset").minoccurs(0).maxoccurs(-1).build());
+					
+					outparams = new ArrayList();
+					
+					outparams.add(new Parameter.Builder().name("coverage").minoccurs(1).maxoccurs(1).type(DataType.FILE).build());
+					
+					Operation getcoverageoper = new Operation.Builder()
+							.name("GetCoverage")
+							.input(new Message.Builder()
+									.params(inparams)
+									.build())
+							.output(new Message.Builder()
+									.params(outparams)
+									.build())
+							.build();
+					
+					operlist.add(getcoverageoper);
 					
 				}
 				
-			}else if(version.equals("2.0.0")||version.equals("2.0")){
+			}else if("wfs".equals(category)){
 				
-				net.opengis.wps.v_2_0.WPSCapabilitiesType wct = WPSUtils.parseCapabilities20(this.getDesc_endpoint().toString());
 				
-				System.err.println("Not implemented yet.");
+			}else if("wms".equals(category)){
+				
+				
+			}else if("csw".equals(category)){
+				
+				
+			}else{
+				
+				throw new RuntimeException("The service category ["+category+"] is not supported yet.");
 				
 			}
 			
-		}else if("wcs".equals(category)){
-			
-			if(version==null||version.equals("2.0.0")){
-				
-				CapabilitiesType ct = WCSUtils.parseCapabilities(this.getDesc_endpoint().toString());
-				
-				capa = ct;
+			connect();
 
-				//list coverages
-				
-				List<Parameter> inparams = new ArrayList();
-				
-				List<Parameter> outparams = new ArrayList();
-				
-				Parameter p = new Parameter.Builder()
-						.name("coveragelist")
-						.description("the list of coverages that this WCS hosts")
-						.minoccurs(1)
-						.maxoccurs(1)
-						.type(DataType.STRING)
-						.value(WCSUtils.getCoverageListString(ct))
-						.build();
-				
-				outparams.add(p);
-				
-				Operation listcoverageoper = new Operation.Builder()
-						.name("GetCoverageList")
-						.output(new Message.Builder()
-								.params(outparams)
-								.build())
-						.build();
-				
-				operlist.add(listcoverageoper);
-				
-				//describe coverage
-				
-				inparams = new ArrayList();
-				
-				inparams.add(new Parameter.Builder()
-						.name("coverageId")
-						.description("coverage identifier")
-						.minoccurs(1)
-						.type(DataType.STRING)
-						.build());
-				
-				outparams = new ArrayList();
-				
-				outparams.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
-				
-				outparams.add(new Parameter.Builder().name("coverage-Function").minoccurs(0).maxoccurs(1).build());
-				
-				outparams.add(new Parameter.Builder().name("metadata").minoccurs(0).maxoccurs(-1).build());
-				
-				outparams.add(new Parameter.Builder().name("domainSet").minoccurs(1).maxoccurs(1).build());
-				
-				outparams.add(new Parameter.Builder().name("rangeType").minoccurs(1).maxoccurs(1).build());
-				
-				outparams.add(new Parameter.Builder().name("service-Parameters").minoccurs(1).maxoccurs(1).build());
-				
-				Operation describecoverageoper = new Operation.Builder()
-						.name("DescribeCoverage")
-						.input(new Message.Builder()
-								.params(inparams)
-								.build())
-						.output(new Message.Builder()
-								.params(outparams)
-								.build())
-						.build();
-				
-				operlist.add(describecoverageoper);
-				
-				//get coverage
-				
-				inparams = new ArrayList();
-				
-				inparams.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
-				
-				inparams.add(new Parameter.Builder().name("dimension-Subset").minoccurs(0).maxoccurs(-1).build());
-				
-				outparams = new ArrayList();
-				
-				outparams.add(new Parameter.Builder().name("coverage").minoccurs(1).maxoccurs(1).type(DataType.FILE).build());
-				
-				Operation getcoverageoper = new Operation.Builder()
-						.name("GetCoverage")
-						.input(new Message.Builder()
-								.params(inparams)
-								.build())
-						.output(new Message.Builder()
-								.params(outparams)
-								.build())
-						.build();
-				
-				operlist.add(getcoverageoper);
-				
-			}
+		} catch (MalformedURLException e) {
 			
-		}else if("wfs".equals(category)){
-			
-			
-		}else if("wms".equals(category)){
-			
-			
-		}else if("csw".equals(category)){
-			
-			
-		}else{
-			
-			throw new RuntimeException("The service category ["+category+"] is not supported yet.");
+			e.printStackTrace();
 			
 		}
-		
-		connect();
 		
 		return this.getOperlist();
 	
