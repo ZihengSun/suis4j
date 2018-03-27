@@ -22,12 +22,30 @@ public abstract class AbstractDriver {
 	
 	ServiceType servicetype;
 	
-	AbstractRequestBuilder reqbuilder;
+	String current_operation;
 	
-	AbstractResponseParser respparser;
+	List<Operation> operlist;
 	
 	String id = UUID.randomUUID().toString(); //used to pair with Profile
 	
+	PayLoad response;
+	
+	public String getCurrent_operation() {
+		return current_operation;
+	}
+
+	public void setCurrent_operation(String current_operation) {
+		this.current_operation = current_operation;
+	}
+
+	public List<Operation> getOperlist() {
+		return operlist;
+	}
+
+	public void setOperlist(List<Operation> operlist) {
+		this.operlist = operlist;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -35,15 +53,7 @@ public abstract class AbstractDriver {
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	public void setReqbuilder(AbstractRequestBuilder reqbuilder) {
-		this.reqbuilder = reqbuilder;
-	}
-
-	public void setRespparser(AbstractResponseParser respparser) {
-		this.respparser = respparser;
-	}
-
+	
 	public URL getAccess_endpoint() {
 		return access_endpoint;
 	}
@@ -63,47 +73,77 @@ public abstract class AbstractDriver {
 	public ServiceType getServicetype() {
 		return servicetype;
 	}
-
+	
 	public void setServicetype(ServiceType servicetype) {
 		this.servicetype = servicetype;
 	}
 	
+
+	public Operation getOperation(String name){
+		
+		Operation o = null;
+		
+		for(int i=0;i<operlist.size();i++){
+			
+			if(operlist.get(i).getName().equals(name)){
+				
+				o = operlist.get(i);
+				
+				break;
+				
+			}
+			
+		}
+		
+		return o;
+		
+	}
 	/**
-	 * Each driver should equip with a request builder and a response builder
-	 * @return
+	 * Connect operation to driver
 	 */
-	abstract public AbstractRequestBuilder getReqbuilder();
-	
-	abstract public AbstractResponseParser getRespparser();
+	public void connect(){
+		
+		for(Operation o: this.getOperlist()){
+			
+			o.setDriverid(this.getId());
+			
+		}
+		
+	}
 	
 	/**
-	 * Decode SUIS raw message (received payload from client) to SUIS message object
+	 * Decode returned payload (received payload from client) to SUIS message object
 	 * @param rawmsg
 	 * @return
 	 */
 	abstract public Message decodeSUIS(Object rawmsg);
+	
 	/**
-	 * Encode SUIS request message object to service-compliant request message
+	 * Encode SUIS request message object to payload
 	 * @param msg
 	 * @return
 	 */
-	abstract public Object encodeReq(Message msg);
+	abstract public PayLoad encodeReq(Message msg);
+	
 	/**
 	 * Send service-compliant request message to the actual web service
 	 * @param req
 	 */
-	abstract public void send(Object req);
+	abstract public void send(PayLoad req);
+	
 	/**
 	 * Receive the response from actual web service
 	 * @return
 	 */
-	abstract public Object receive();
+	abstract public PayLoad receive();
+	
 	/**
 	 * Decode the response from actual web service into SUIS message object
 	 * @param resp
 	 * @return
 	 */
-	abstract public Message decodeResp(Object resp);
+	abstract public Message decodeResp(PayLoad resp);
+	
 	/**
 	 * Encode the SUIS message object into transferable payload (SUIS raw message)
 	 * @param msg
@@ -111,8 +151,38 @@ public abstract class AbstractDriver {
 	 */
 	abstract public Object encodeSUIS(Message msg);
 	
-	
+	/**
+	 * Digest the service description file
+	 * @return
+	 */
 	abstract public List<Operation> digest();
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public void setCurrentOperation(String name){
+		
+		current_operation = name;
+		
+	}
+	/**
+	 * If the service params are not contained in the description file, 
+	 * use this function to initialize the input and output parameters.
+	 * @param o
+	 */
+	public abstract void initParams(Operation o);
 	
+	public static abstract class Builder {
+		
+		public abstract Builder parse(String descfile);
+		
+		public abstract Builder access_endpoint(URL url);
+		
+		public abstract Builder desc_endpoint(URL url);
+		
+		abstract public AbstractDriver build();
+
+	}
 	
 }

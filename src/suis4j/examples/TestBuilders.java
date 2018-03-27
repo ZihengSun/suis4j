@@ -2,11 +2,8 @@ package suis4j.examples;
 
 import suis4j.profile.DataType;
 import suis4j.profile.Message;
-import suis4j.profile.MessageBuilder;
 import suis4j.profile.Operation;
-import suis4j.profile.OperationBuilder;
 import suis4j.profile.Parameter;
-import suis4j.profile.ParameterBuilder;
 
 /**
 *Class TestBuilders.java
@@ -17,7 +14,7 @@ public class TestBuilders {
 	
 	public static void testOperation(){
 		
-		Operation o = new OperationBuilder()
+		Operation o = new Operation.Builder()
 				.name("test")
 				.description("this is a test")
 				.input(null)
@@ -28,11 +25,11 @@ public class TestBuilders {
 	
 	public static void testParameter(){
 		
-		Parameter p = new ParameterBuilder()
+		Parameter p = new Parameter.Builder()
 				.name("param1")
 				.description("")
 				.type(DataType.FILE)
-				.occurs(1)
+				.minoccurs(1)
 				.build();
 
 		System.out.println(p.getName());
@@ -41,7 +38,7 @@ public class TestBuilders {
 	
 	public static void testMessage(){
 		
-		Message m = new MessageBuilder()
+		Message m = new Message.Builder()
 				.params(null)
 				.build();
 		

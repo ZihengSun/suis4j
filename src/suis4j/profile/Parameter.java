@@ -6,7 +6,9 @@ package suis4j.profile;
 */
 public class Parameter {
 	
-	private String name, 
+	private String name,
+				
+				namespace,
 				/**
 				 * Parameter description is optional but strongly recommended. 
 				 * It is very important to let users understand what the parameter is used for and how it is used. 
@@ -14,9 +16,9 @@ public class Parameter {
 				description;
 	
 	/**
-	 * This attribute is optional. Default value is 1. Unlimited is -1.  
+	 * The following two attributes are optional. Default value is 1. Unlimited is -1.  
 	 */
-	private int occurs = 1;
+	private int min_occurs = 1, max_occurs = 1;
 	
 	private DataType type;
 	
@@ -30,14 +32,18 @@ public class Parameter {
 	public Object getValue() {
 		return value;
 	}
-
-
-
+	
 	public void setValue(Object value) {
 		this.value = value;
 	}
+	
+	public String getNamespace() {
+		return namespace;
+	}
 
-
+	public void setNamespace(String namespace) {
+		this.namespace = namespace;
+	}
 
 	public DataType getType() {
 		return type;
@@ -62,13 +68,97 @@ public class Parameter {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public int getOccurs() {
-		return occurs;
+	
+	public int getMin_occurs() {
+		return min_occurs;
 	}
 
-	public void setOccurs(int occurs) {
-		this.occurs = occurs;
+	public void setMin_occurs(int min_occurs) {
+		this.min_occurs = min_occurs;
+	}
+
+	public int getMax_occurs() {
+		return max_occurs;
+	}
+
+	public void setMax_occurs(int max_occurs) {
+		this.max_occurs = max_occurs;
+	}
+
+
+
+	public static class Builder {
+
+		Parameter p;
+		
+		public Builder(){
+			
+			p = new Parameter();
+			
+		}
+		
+		public Parameter.Builder name(String n){
+			
+			p.setName(n);
+			
+			return this;
+			
+		}
+		
+		public Parameter.Builder namespace(String space){
+			
+			p.setNamespace(space);
+			
+			return this;
+			
+		}
+		
+		public Parameter.Builder description(String desc){		
+			
+			p.setDescription(desc);
+			
+			return this;
+			
+		}
+		
+		public Parameter.Builder type(DataType t){
+			
+			p.setType(t);
+			
+			return this;
+			
+		}
+		
+		public Parameter.Builder maxoccurs(int occurs){
+			
+			p.setMax_occurs(occurs);
+			
+			return this;
+			
+		}
+		
+		public Parameter.Builder minoccurs(int occurs){
+			
+			p.setMin_occurs(occurs);
+			
+			return this;
+			
+		}
+		
+		public Parameter.Builder value(Object content){
+			
+			p.setValue(content);
+			
+			return this;
+			
+		}
+		
+		public Parameter build(){
+			
+			return p;
+			
+		}
+		
 	}
 	
 }

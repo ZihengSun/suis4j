@@ -7,10 +7,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import suis4j.driver.AbstractDriver;
+import suis4j.driver.DriverManager;
+import suis4j.driver.PayLoad;
 import suis4j.driver.SOAPDriver;
 import suis4j.driver.SUISDriver;
+import suis4j.driver.ServiceType;
 import suis4j.profile.Message;
-import suis4j.profile.MessageBuilder;
 import suis4j.profile.Parameter;
 
 /**
@@ -22,7 +24,7 @@ public class TestEncoder {
 	
 	public static void main(String[] args) {
 		
-		AbstractDriver driver = new SOAPDriver();
+		AbstractDriver driver = DriverManager.create(ServiceType.SOAP);
 		
 		ObjectMapper om = new ObjectMapper();
 		
@@ -40,13 +42,13 @@ public class TestEncoder {
 		
 		List<Parameter> paramlist = new ArrayList();
 		
-		Message msg = new MessageBuilder()
+		Message msg = new Message.Builder()
 		
 				.params(paramlist)
 				
 				.build();
 		
-		String suismsg = (String)driver.encodeSUIS(msg);
+		Object suismsg = driver.encodeSUIS(msg);
 		
 		System.out.println(suismsg);
 		
