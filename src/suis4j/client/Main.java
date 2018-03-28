@@ -19,30 +19,37 @@ public class Main {
 			
 			SUISClient sc = new SUISClient.Builder()
 					//Every client corresponds to only a service. To call multiple services, create multiple clients. 
+					//SOAP
 //					.initialize("http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_Buffer_OGR?wsdl", ServiceType.SOAP)
-//					.initialize("https://service.iris.edu/irisws/timeseries/1/application.wadl", ServiceType.REST)
 //					.initialize("http://cube.csiss.gmu.edu/axis/services/Vector_GML2SHP?wsdl", ServiceType.SOAP)
 //					.initialize("http://www3.csiss.gmu.edu/axis2/services/GMU_SOAP_WCS_Service?wsdl", ServiceType.SOAP)
 //					.initialize("http://eds-mobile.com/eds.wsdl", ServiceType.SOAP)
 //					.initialize("http://queue.amazonaws.com/doc/2009-02-01/QueueService.wsdl", ServiceType.SOAP)
+					//REST-WADL
+//					.initialize("https://service.iris.edu/irisws/timeseries/1/application.wadl", ServiceType.REST)
+					//WCS
 //					.initialize("http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r?service=WCS&version=2.0.0&request=GetCapabilities", ServiceType.OGC)
 //					.initialize("http://earthserver.ecmwf.int/rasdaman/ows?service=WCS&request=GetCapabilities&version=2.0.1", ServiceType.OGC)
 //					.initialize("https://geoservice.dlr.de/eoc/atmosphere/wcs?SERVICE=WCS&REQUEST=GetCapabilities&version=2.0.0", ServiceType.OGC)
+					//WFS
+//					.initialize("http://cube.csiss.gmu.edu/geoserver/topp/ows?service=WFS&request=GetCapabilities&version=2.0.0", ServiceType.OGC) //for WFS 1.0.0 test
+					//WPS
 //					.initialize("http://cube.csiss.gmu.edu/cgi-bin/pywps.cgi?service=WPS&request=GetCapabilities&version=1.0.0", ServiceType.OGC) //for WPS 1.0.0 test
 //					.initialize("http://geoprocessing.demo.52north.org/latest-wps/WebProcessingService?Request=GetCapabilities&Service=WPS&version=1.0.0", ServiceType.OGC)
-					
-					.initialize("http://cube.csiss.gmu.edu/geoserver/topp/ows?service=WFS&request=GetCapabilities&version=2.0.0", ServiceType.OGC) //for WFS 1.0.0 test
 //					.initialize("http://wps.statistical.d4science.org/wps/WebProcessingService?service=WPS&Request=GetCapabilities&version=1.0.0", ServiceType.OGC)
+					//REST-RSDL
 //					.initialize("https://raw.githubusercontent.com/jonathanrobie/restful-service-description-language/master/examples/maps.rsdl", ServiceType.REST) //for RSDL, but is not support at this moment.
+					//WMS
+					.initialize("http://cube.csiss.gmu.edu/geoserver/topp/ows?service=WMS&request=GetCapabilities&version=1.3.0", ServiceType.OGC)
 					.build(); 
 			
 			sc.listOperations();
 			
-			Operation o = sc.operation("DescribeFeatureType");
+			Operation o = sc.operation("GetMap");
 			
-			sc.listInputs(o);
+			sc.listInputParams(o);
 			
-			sc.listOutputs(o);
+			sc.listOutputParams(o);
 			
 			//for SOAP test
 //			o.getInput()
@@ -66,11 +73,19 @@ public class Main {
 			
 			//for OGC WFS test
 //			o.getInput().value("query", "typeNames=topp:tasmania_roads");
-			o.getInput().value("typeName", "topp:tasmania_roads");
+//			o.getInput().value("typeName", "topp:tasmania_roads");
+			
+			//for OGC WMS test
+			o.getInput().value("layers", "topp:states");
+			o.getInput().value("bbox", "-124.73142200000001,24.955967,-66.969849,49.371735");
+			o.getInput().value("width", 768);
+			o.getInput().value("height", 330);
+			o.getInput().value("crs", "EPSG:4326");
+			o.getInput().value("format", "image/jpeg");
 			
 			Message outm = sc.call(o);
 			
-			sc.listOutput(outm);
+			sc.listOutputValues(outm);
 			
 		}catch(Exception e){
 			

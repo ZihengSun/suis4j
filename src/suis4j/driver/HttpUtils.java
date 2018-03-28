@@ -102,22 +102,31 @@ public class HttpUtils
         	
         }
         
-        r = new BufferedReader(new InputStreamReader(in));
-        
-        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filepath)));
+//        r = new BufferedReader(new InputStreamReader(in));
+//        
+//        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filepath)));
+//		
+//		String line;
+//		
+//		while ((line = r.readLine())!=null){
+//			
+////			buf.append(line);
+//			bw.write(line);
+//			
+//		}
 		
-		String line;
-		
-		while ((line = r.readLine())!=null){
-			
-//			buf.append(line);
-			bw.write(line);
-			
+		OutputStream os = new FileOutputStream(filepath);
+
+		byte[] b = new byte[2048];
+		int length;
+
+		while ((length = in.read(b)) != -1) {
+			os.write(b, 0, length);
 		}
 		
 		in.close();
 		
-		bw.close();
+		os.close();
 		
 	}
 	
@@ -264,22 +273,30 @@ public class HttpUtils
         	
         }
         
-        r = new BufferedReader(new InputStreamReader(in));
+//        r = new BufferedReader(new InputStreamReader(in));
         
-        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filepath)));
-		
-		String line;
-		
-		while ((line = r.readLine())!=null){
-			
-//			buf.append(line);
-			bw.write(line);
-			
+        OutputStream os = new FileOutputStream(filepath);
+
+		byte[] b = new byte[2048];
+		int length;
+
+		while ((length = in.read(b)) != -1) {
+			os.write(b, 0, length);
 		}
+        
+//        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filepath)));
+//		
+////        ByteArrayOutputStream out = new ByteArrayOutputStream();
+//        byte[] buf = new byte[1024];
+//        int n = 0;
+//        while (-1!=(n=in.read(buf)))
+//        {
+//        	bw.write(buf, 0, n);
+//        }
 		
 		in.close();
 		
-		bw.close();
+		os.close();
 		
 	}
 	

@@ -79,7 +79,7 @@ public class SUISClient {
 	}
 	
 	
-	public void listInputs(Operation oper){
+	public void listInputParams(Operation oper){
 		
 		AbstractDriver ad = DriverManager.get(oper.getDriverid());
 		
@@ -95,7 +95,7 @@ public class SUISClient {
 		
 	}
 	
-	public void listOutputs(Operation oper){
+	public void listOutputParams(Operation oper){
 		
 		AbstractDriver ad = DriverManager.get(oper.getDriverid());
 		
@@ -127,7 +127,7 @@ public class SUISClient {
 		
 	}
 	
-	public void listOutput(Message m){
+	public void listOutputValues(Message m){
 		
 		m.listKVPs();
 		

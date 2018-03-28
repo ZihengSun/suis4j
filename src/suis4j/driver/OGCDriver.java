@@ -15,6 +15,7 @@ import net.opengis.wcs.v_2_0.CoverageDescriptionType;
 import net.opengis.wcs.v_2_0.CoverageDescriptionsType;
 import net.opengis.wfs.v_2_0.DescribeFeatureTypeType;
 import net.opengis.wfs.v_2_0.WFSCapabilitiesType;
+import net.opengis.wms.v_1_3_0.WMSCapabilities;
 import net.opengis.wps.v_1_0_0.Execute;
 import net.opengis.wps.v_1_0_0.ExecuteResponse;
 import net.opengis.wps.v_1_0_0.InputDescriptionType;
@@ -134,6 +135,28 @@ public class OGCDriver extends AbstractDriver {
 			}
 			
 			
+		}else if("wms".equals(category)){
+			
+			if(version==null||version.equals("1.3.0")){
+				
+				if("GetCapabilities".equals(this.getCurrent_operation())){
+					
+					//do nothing
+					
+				}else if("GetMap".equals(this.getCurrent_operation())){
+					
+					content = "layers=" + msg.getValueAsString("layers") + "&bbox=" + msg.getValueAsString("bbox")
+						+ "&width=" + msg.getValueAsString("width") + "&height=" + msg.getValueAsString("height")
+						+ "&crs=" + msg.getValueAsString("crs") + "&format=" + msg.getValueAsString("format");
+					
+				}else{
+					
+					throw new RuntimeException("No such operation.");
+					
+				}
+				
+			}
+			
 		}else{
 			
 			throw new RuntimeException("Encoder doesn't support.");
@@ -156,11 +179,13 @@ public class OGCDriver extends AbstractDriver {
 			System.out.println(">> "+(String)req.getContent());
 			
 			if("GetFeature".equals(this.getCurrent_operation())
-					||"DescribeFeatureType".equals(this.getCurrent_operation())){
+					||"DescribeFeatureType".equals(this.getCurrent_operation())
+					||"GetMap".equals(this.getCurrent_operation())){
 				
-				String filename = "featurecollection-" + UUID.randomUUID().toString();
+				String filename = "temp-" + UUID.randomUUID().toString();
 				
 				//doGetFile
+				
 				String url = null;
 				
 				if(this.getAccess_endpoint().toString().endsWith("?")){
@@ -327,6 +352,10 @@ public class OGCDriver extends AbstractDriver {
 						
 						oper.getOutput().get("coverage").setValue((String)resp.getContent());
 						
+					}else{
+						
+						throw new RuntimeException("No such operation.");
+						
 					}
 					
 				}
@@ -347,11 +376,35 @@ public class OGCDriver extends AbstractDriver {
 						
 						oper.getOutput().get("xmlSchema").setValue((String)resp.getContent());
 						
+					}else{
+						
+						throw new RuntimeException("No such operation.");
+						
 					}
 					
 				}else{
 					
 					throw new RuntimeException("Decoder doesn't support this version of WFS.");
+					
+				}
+				
+			}else if("wms".equals(category)){
+				
+				if(version.equals("1.3.0")){
+					
+					if("GetCapabilities".equals(oper.getName())){
+						
+						//do nothing
+						
+					}else if("GetMap".equals(oper.getName())){
+						
+						oper.getOutput().get("map").setValue((String)resp.getContent());
+						
+					}else{
+						
+						throw new RuntimeException("No such operation.");
+						
+					}
 					
 				}
 				
@@ -771,6 +824,115 @@ public class OGCDriver extends AbstractDriver {
 		
 	}
 	
+	private void digestWMS130() throws Exception{
+		
+		String capacontent = HttpUtils.doGet(this.getDesc_endpoint().toString());
+		
+		WMSCapabilities wmc = WMSUtils.parseWMSCapabilityResponse(capacontent);
+		
+		capa = wmc;
+		
+		this.setAccess_endpoint(WMSUtils.getEndpoint(wmc));
+		
+		//GetCapabilities
+		
+		List<Parameter> inparams = new ArrayList();
+		
+		List<Parameter> outparams = new ArrayList();
+		
+		outparams.add(new Parameter.Builder().name("capabilities")
+				.description("capabilities of the wms")
+				.minoccurs(1).maxoccurs(1).type(DataType.STRING)	.value(capacontent).build());
+		
+		Operation getcapabilitiesoper = new Operation.Builder()
+				.name("GetCapabilities")
+				.input(new Message.Builder()
+						.params(inparams)
+						.build())
+				.output(new Message.Builder()
+						.params(outparams)
+						.build())
+				.build();
+		
+		operlist.add(getcapabilitiesoper);
+		
+		//GetMap
+		
+		inparams = new ArrayList();
+		
+		inparams.add(new Parameter.Builder().name("layers")
+				.description("comma-separated list of one or more map layers")
+				.minoccurs(1).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("styles")
+				.description("comma-separated list of one rendering style per requested layer")
+				.minoccurs(1).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("crs")
+				.description("coordinate reference system")
+				.minoccurs(1).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("bbox")
+				.description("bounding box corners (lower left, upper right) in CRS units")
+				.minoccurs(1).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("width")
+				.description("width in pixels of map picture")
+				.minoccurs(1).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("height")
+				.description("height in pixels of map picture")
+				.minoccurs(1).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("format")
+				.description("output format of map")
+				.minoccurs(1).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder()
+				.name("transparent")
+				.description("background transparency of map (default = FALSE)")
+				.minoccurs(0).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder()
+				.name("bgcolor")
+				.description("hexadecimal red-gree-blue colour value for the background color (default=0xFFFFFF)")
+				.minoccurs(0).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder()
+				.name("exceptions")
+				.description("the format in which exceptions are to be reported by the WMS (default=XML)")
+				.minoccurs(0).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder()
+				.name("elevation")
+				.description("Elevation of layer desired")
+				.minoccurs(0).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder()
+				.name("time")
+				.description("time value of layer desired")
+				.minoccurs(0).maxoccurs(1).build());
+		
+		outparams = new ArrayList();
+		
+		outparams.add(new Parameter.Builder().name("map")
+				.description("a map of the spatially referenced information layer requested, in the desired style, and having the specified coordiante reference system, bounding box, size, format and transparency")
+				.minoccurs(1).maxoccurs(1).build());
+		
+		Operation getmapoper = new Operation.Builder()
+				.name("GetMap")
+				.input(new Message.Builder()
+						.params(inparams)
+						.build())
+				.output(new Message.Builder()
+						.params(outparams)
+						.build())
+				.build();
+		
+		operlist.add(getmapoper);
+		
+	}
+	
 	@Override
 	public List<Operation> digest() {
 		
@@ -812,11 +974,19 @@ public class OGCDriver extends AbstractDriver {
 				
 			}else if("wms".equals(category)){
 				
-				
+				if(version==null||version.equals("1.3.0")){
+					
+					this.digestWMS130();
+					
+				}else{
+					
+					throw new RuntimeException("This version of WMS is not supported yet.");
+					
+				}
 				
 			}else if("csw".equals(category)){
 				
-				
+				throw new RuntimeException("Not supported");
 				
 			}else{
 				
