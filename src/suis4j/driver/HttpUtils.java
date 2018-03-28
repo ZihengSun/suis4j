@@ -50,6 +50,8 @@ public class HttpUtils
 	    }
 	    return query_pairs;
 	}
+	
+	
 	/**
 	 * Save the returned file from a post request
 	 * @param url
@@ -219,6 +221,66 @@ public class HttpUtils
 		    e.printStackTrace();
         }
         return result;
+	}
+	
+	/**
+	 * Save the returned file from a post request
+	 * @param url
+	 * @param postContent
+	 * @return
+	 * @throws Exception
+	 */
+	public static void doGETFile(String url, String filepath)throws Exception{
+
+		URL u = new URL(url);
+		
+		// Open the connection and prepare to POST
+		URLConnection uc = u.openConnection();
+		
+		HttpURLConnection huc = (HttpURLConnection)uc;
+
+		huc.setRequestProperty("User-Agent", "Apache-HttpClient/4.1.1");
+		
+		huc.setRequestMethod("GET");
+		
+		huc.setDoOutput(true);
+		
+		huc.setDoInput(true);
+		
+		huc.setAllowUserInteraction(false);
+		
+		// Read Response
+		InputStream in = null;
+		
+		BufferedReader r = null;
+		
+        if(huc.getResponseCode()==200){
+        	
+        	in = huc.getInputStream();
+        	
+        }else{
+        	
+        	in = huc.getErrorStream();
+        	
+        }
+        
+        r = new BufferedReader(new InputStreamReader(in));
+        
+        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filepath)));
+		
+		String line;
+		
+		while ((line = r.readLine())!=null){
+			
+//			buf.append(line);
+			bw.write(line);
+			
+		}
+		
+		in.close();
+		
+		bw.close();
+		
 	}
 	
 	public static String doGet(String url) throws Exception

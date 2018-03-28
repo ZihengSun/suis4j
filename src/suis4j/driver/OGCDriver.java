@@ -13,6 +13,8 @@ import java.util.UUID;
 import net.opengis.wcs.v_2_0.CapabilitiesType;
 import net.opengis.wcs.v_2_0.CoverageDescriptionType;
 import net.opengis.wcs.v_2_0.CoverageDescriptionsType;
+import net.opengis.wfs.v_2_0.DescribeFeatureTypeType;
+import net.opengis.wfs.v_2_0.WFSCapabilitiesType;
 import net.opengis.wps.v_1_0_0.Execute;
 import net.opengis.wps.v_1_0_0.ExecuteResponse;
 import net.opengis.wps.v_1_0_0.InputDescriptionType;
@@ -79,8 +81,7 @@ public class OGCDriver extends AbstractDriver {
 				
 			}else if(version.equals("2.0")||version.equals("2.0.0")){
 				
-				
-				
+				System.err.println("This version of WPS is not supported yet.");
 			}
 			
 		}else if("wcs".equals(category)){
@@ -108,6 +109,35 @@ public class OGCDriver extends AbstractDriver {
 				
 			}
 			
+		}else if("wfs".equals(category)){
+			
+			if(version.equals("2.0.0")){
+				
+				if("GetFeature".equals(this.getCurrent_operation())){
+					
+					content = msg.getValueAsString("query");
+					
+				}else if("DescribeFeatureType".equals(this.getCurrent_operation())){
+					
+//					DescribeFeatureTypeType dftt = WFSUtils.createADescribeFeatureTypeRequest(msg.getValueAsString("typeName"));
+					
+//					content = WFSUtils.turnDescribeFeatureTypeTypeToXML(dftt);
+					
+					content = "typeNames=" + msg.getValueAsString("typeName");
+					
+				}
+				
+			}else{
+				
+				throw new RuntimeException("This version of WFS is not supported.");
+				
+			}
+			
+			
+		}else{
+			
+			throw new RuntimeException("Encoder doesn't support.");
+			
 		}
 		
 		return new PayLoad.Builder()
@@ -125,30 +155,50 @@ public class OGCDriver extends AbstractDriver {
 			
 			System.out.println(">> "+(String)req.getContent());
 			
-			if("GetCoverage".equals(this.getCurrent_operation())){
+			if("GetFeature".equals(this.getCurrent_operation())
+					||"DescribeFeatureType".equals(this.getCurrent_operation())){
+				
+				String filename = "featurecollection-" + UUID.randomUUID().toString();
+				
+				//doGetFile
+				String url = null;
+				
+				if(this.getAccess_endpoint().toString().endsWith("?")){
+					
+					url = this.getAccess_endpoint().toString();
+					
+				}else if(this.getAccess_endpoint().toString().contains("?")){
+					
+					url = this.getAccess_endpoint().toString() + "&";
+					
+				}else {
+					
+					url = this.getAccess_endpoint().toString() + "?";
+					
+				}
+				
+				url += "service="+category+"&version=" + version + "&request="+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+				
+				HttpUtils.doGETFile(url, TEMPORARY_PATH + filename);
+				
+				resp = "file:" + TEMPORARY_PATH + filename;
+				
+			}else if("GetCoverage".equals(this.getCurrent_operation())){
 				
 				//download the file and save to a temporary file path
 				
 				String filename = "coverage-" + UUID.randomUUID().toString();
 				
-//				String url = null;
-//				
-//				if(this.getAccess_endpoint().toString().endsWith("?")){
-//					
-//					url = this.getAccess_endpoint().toString() 
-//							
-//					
-//				}else{
-//					
-//					
-//					
-//				}
-//				
-//				url += "service="+category+"&version=" + version + "&request=GetCoverage&" + String.valueOf(req.getContent());
-				
-				HttpUtils.doPostFile(this.getAccess_endpoint().toString(), (String)req.getContent(),TEMPORARY_PATH + filename);
+				//doPostFile
+				HttpUtils.doPostFile(this.getAccess_endpoint().toString(), String.valueOf(req.getContent()), TEMPORARY_PATH + filename);
 				
 				resp = "file:" + TEMPORARY_PATH + filename;
+				
+			}else if("GetCapabilities".equals(this.getCurrent_operation())){
+				
+				//do nothing
+				
+				resp = this.getOperation(this.getCurrent_operation()).getOutput().getValueAsString("capabilities");
 				
 			}else{
 				
@@ -281,6 +331,34 @@ public class OGCDriver extends AbstractDriver {
 					
 				}
 				
+			}else if("wfs".equals(category)){
+				
+				if(version.equals("2.0.0")){
+					
+					if("GetCapabilities".equals(oper.getName())){
+						
+						//do nothing
+						
+					}else if("GetFeature".equals(oper.getName())){
+						
+						oper.getOutput().get("featureCollection").setValue((String)resp.getContent());
+						
+					}else if("DescribeFeatureType".equals(oper.getName())){
+						
+						oper.getOutput().get("xmlSchema").setValue((String)resp.getContent());
+						
+					}
+					
+				}else{
+					
+					throw new RuntimeException("Decoder doesn't support this version of WFS.");
+					
+				}
+				
+			}else{
+				
+				throw new RuntimeException("This OGC type is not supported.");
+				
 			}
 			
 		}catch(Exception e){
@@ -401,6 +479,298 @@ public class OGCDriver extends AbstractDriver {
 		
 	}
 	
+	private void digestWPS200(){
+		
+		net.opengis.wps.v_2_0.WPSCapabilitiesType wct = WPSUtils.parseCapabilities20(this.getDesc_endpoint().toString());
+		
+		System.err.println("Not implemented yet.");
+		
+	}
+	
+	private void digestWPS100() throws MalformedURLException{
+		
+		//add all the processes as operations
+		
+		WPSCapabilitiesType wct = WPSUtils.parseCapabilities(this.getDesc_endpoint().toString());
+		
+		capa = wct;
+		
+		this.setAccess_endpoint(new URL(WPSUtils.getExecuteEndpoint(wct)));
+		
+		List<ProcessBriefType> processes = wct.getProcessOfferings().getProcess();
+		
+		processdescriptions = new HashMap();
+		
+		for(int i=0;i<processes.size();i++){
+			
+			ProcessBriefType p = processes.get(i);
+			
+			String pname = p.getIdentifier().getValue();
+			
+			System.out.println("processing: " + pname);
+			
+			Operation o = new Operation.Builder()
+					.name(pname)
+					.build();
+			
+			operlist.add(o);
+			
+		}
+		
+	}
+	
+	private void digestWCS200() throws Exception{
+		
+		CapabilitiesType ct = WCSUtils.parseCapabilities(this.getDesc_endpoint().toString());
+		
+		capa = ct;
+		
+		this.setAccess_endpoint(WCSUtils.getEndpoint(ct));
+
+		//list coverages
+		
+		List<Parameter> inparams = new ArrayList();
+		
+		List<Parameter> outparams = new ArrayList();
+		
+		Parameter p = new Parameter.Builder()
+				.name("coveragelist")
+				.description("the list of coverages that this WCS hosts")
+				.minoccurs(1)
+				.maxoccurs(1)
+				.type(DataType.STRING)
+				.value(WCSUtils.getCoverageListString(ct))
+				.build();
+		
+		outparams.add(p);
+		
+		Operation listcoverageoper = new Operation.Builder()
+				.name("GetCoverageList")
+				.input(new Message.Builder()
+						.params(inparams)
+						.build())
+				.output(new Message.Builder()
+						.params(outparams)
+						.build())
+				.build();
+		
+		operlist.add(listcoverageoper);
+		
+		//describe coverage
+		
+		inparams = new ArrayList();
+		
+		inparams.add(new Parameter.Builder()
+				.name("coverageId")
+				.description("coverage identifier")
+				.minoccurs(1)
+				.type(DataType.STRING)
+				.build());
+		
+		outparams = new ArrayList();
+		
+		outparams.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
+		
+		outparams.add(new Parameter.Builder().name("coverage-Function").minoccurs(0).maxoccurs(1).build());
+		
+		outparams.add(new Parameter.Builder().name("metadata").minoccurs(0).maxoccurs(-1).build());
+		
+		outparams.add(new Parameter.Builder().name("domainSet").minoccurs(1).maxoccurs(1).build());
+		
+		outparams.add(new Parameter.Builder().name("rangeType").minoccurs(1).maxoccurs(1).build());
+		
+		outparams.add(new Parameter.Builder().name("service-Parameters").minoccurs(1).maxoccurs(1).build());
+		
+		Operation describecoverageoper = new Operation.Builder()
+				.name("DescribeCoverage")
+				.input(new Message.Builder()
+						.params(inparams)
+						.build())
+				.output(new Message.Builder()
+						.params(outparams)
+						.build())
+				.build();
+		
+		operlist.add(describecoverageoper);
+		
+		//get coverage
+		
+		inparams = new ArrayList();
+		
+		inparams.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("dimension-Subset").minoccurs(0).maxoccurs(-1).build());
+		
+		inparams.add(new Parameter.Builder().name("format").minoccurs(0).maxoccurs(1).build());
+		
+		outparams = new ArrayList();
+		
+		outparams.add(new Parameter.Builder().name("coverage").minoccurs(1).maxoccurs(1).type(DataType.FILE).build());
+		
+		Operation getcoverageoper = new Operation.Builder()
+				.name("GetCoverage")
+				.input(new Message.Builder()
+						.params(inparams)
+						.build())
+				.output(new Message.Builder()
+						.params(outparams)
+						.build())
+				.build();
+		
+		operlist.add(getcoverageoper);
+		
+	}
+	/**
+	 * Digest WFS 2.0.0
+	 * @throws Exception
+	 */
+	private void digestWFS200() throws Exception{
+		
+		String capacontent = HttpUtils.doGet(this.getDesc_endpoint().toString());
+		
+		WFSCapabilitiesType wca = WFSUtils.parseCapabilities(capacontent);
+		
+		capa = wca;
+		
+		this.setAccess_endpoint(WFSUtils.getEndpoint(wca));
+		
+		//list features
+		
+		List<Parameter> inparams = new ArrayList();
+		
+		List<Parameter> outparams = new ArrayList();
+		
+		outparams.add(new Parameter.Builder().name("capabilities")
+				.description("capabilities of the wfs")
+				.minoccurs(1)
+				.maxoccurs(1)
+				.type(DataType.STRING)
+				.value(capacontent)
+				.build());
+		
+		Operation getcapabilitiesoper = new Operation.Builder()
+				.name("GetCapabilities")
+				.input(new Message.Builder()
+						.params(inparams)
+						.build())
+				.output(new Message.Builder()
+						.params(outparams)
+						.build())
+				.build();
+		
+		operlist.add(getcapabilitiesoper);
+		
+		//DescribeFeatureType
+		
+		inparams = new ArrayList();
+		
+		inparams.add(new Parameter.Builder()
+				.name("typeName")
+				.description("a comma separated list of feature types to describe. If no value is specified, the complete application schema offered by the server shall be described.")
+				.minoccurs(0)
+				.maxoccurs(1)
+				.type(DataType.STRING)
+				.build());
+		
+		inparams.add(new Parameter.Builder()
+				.name("outputFormat")
+				.description("Shall support the value <application/gml+xml; version=3.2> indicating that a GML (see ISO19136:2007) application schema shall be generated. A server may support other values to which this Interantional Standard does not assign any meaning.")
+				.minoccurs(0)
+				.maxoccurs(1)
+				.build());
+		
+		outparams = new ArrayList();
+		
+		outparams.add(new Parameter.Builder()
+				.name("xmlSchema")
+				.description("In the event that a DescribeFeatureType operation requests that feature types in multiple namespaces be described, the server shall generate the complete shcema for one of the requested namespaces and import the remaining namespaces. The WFS standard doesn't madate which naemspace's schema should be generated and which namespaces should be imported.")
+				.minoccurs(1)
+				.maxoccurs(1)
+				.type(DataType.FILE)
+				.build());
+		
+		Operation describefeaturetypeoper = new Operation.Builder()
+				.name("DescribeFeatureType")
+				.input(new Message.Builder()
+						.params(inparams)
+						.build())
+				.output(new Message.Builder()
+						.params(outparams)
+						.build())
+				.build();
+		
+		operlist.add(describefeaturetypeoper);
+		
+		//get feature
+		
+		inparams = new ArrayList();
+		
+		inparams.add(new Parameter.Builder().name("query")
+				.description("A GetFeature request contains one or more query expressions. A query expression identifies a set of feature instances that shall be presented to a client in the response document. Query expressions in a GetFeature request shall be independent on each other and may be executed in any order.")
+				.minoccurs(1).maxoccurs(-1).build());
+		
+		inparams.add(new Parameter.Builder().name("resolve").minoccurs(0).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("resolveDepth").minoccurs(0).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("resolveTimeout").minoccurs(0).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("startIndex").minoccurs(0).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("count").minoccurs(0).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("outputFormat").minoccurs(0).maxoccurs(1).build());
+		
+		inparams.add(new Parameter.Builder().name("resultStyle").minoccurs(0).maxoccurs(1).build());
+		
+		//storedquery and adhocquery is not considered at present. Will be added soon. - Z.S. on 20180328
+		
+		outparams = new ArrayList();
+		
+		outparams.add(new Parameter.Builder().name("featureCollection").minoccurs(1).maxoccurs(1).type(DataType.FILE).build());
+		
+		Operation getfeatureoper = new Operation.Builder()
+				.name("GetFeature")
+				.input(new Message.Builder()
+						.params(inparams)
+						.build())
+				.output(new Message.Builder()
+						.params(outparams)
+						.build())
+				.build();
+		
+		operlist.add(getfeatureoper);
+		
+		//get property value
+		
+		inparams = new ArrayList();
+		
+		inparams.add(new Parameter.Builder().name("query")
+				.description("A query expression identifies a set of feature instances whose property values shall be presented to a client in the response document.")
+				.minoccurs(1).maxoccurs(-1).build());
+		
+		inparams.add(new Parameter.Builder().name("valueReference")
+				.description("The valueRefernece parameter is an XPath expression that identifies a node, or child node of a property node of a feature whose value shall be retrieved from a server's data store and reported in the response document.")
+				.minoccurs(1).maxoccurs(1).build());
+		
+		outparams = new ArrayList();
+		
+		outparams.add(new Parameter.Builder().name("valueCollection").minoccurs(1).maxoccurs(1).type(DataType.FILE).build());
+		
+		Operation getpropertyvalueoper = new Operation.Builder()
+				.name("GetPropertyValue")
+				.input(new Message.Builder()
+						.params(inparams)
+						.build())
+				.output(new Message.Builder()
+						.params(outparams)
+						.build())
+				.build();
+		
+		operlist.add(getpropertyvalueoper);
+		
+	}
+	
 	@Override
 	public List<Operation> digest() {
 		
@@ -412,39 +782,11 @@ public class OGCDriver extends AbstractDriver {
 				
 				if(version==null||version.equals("1.0.0")){
 					
-					//add all the processes as operations
-					
-					WPSCapabilitiesType wct = WPSUtils.parseCapabilities(this.getDesc_endpoint().toString());
-					
-					capa = wct;
-					
-					this.setAccess_endpoint(new URL(WPSUtils.getExecuteEndpoint(wct)));
-					
-					List<ProcessBriefType> processes = wct.getProcessOfferings().getProcess();
-					
-					processdescriptions = new HashMap();
-					
-					for(int i=0;i<processes.size();i++){
-						
-						ProcessBriefType p = processes.get(i);
-						
-						String pname = p.getIdentifier().getValue();
-						
-						System.out.println("processing: " + pname);
-						
-						Operation o = new Operation.Builder()
-								.name(pname)
-								.build();
-						
-						operlist.add(o);
-						
-					}
+					this.digestWPS100();
 					
 				}else if(version.equals("2.0.0")||version.equals("2.0")){
 					
-					net.opengis.wps.v_2_0.WPSCapabilitiesType wct = WPSUtils.parseCapabilities20(this.getDesc_endpoint().toString());
-					
-					System.err.println("Not implemented yet.");
+					this.digestWPS200();
 					
 				}
 				
@@ -452,110 +794,28 @@ public class OGCDriver extends AbstractDriver {
 				
 				if(version==null||version.equals("2.0.0")){
 					
-					CapabilitiesType ct = WCSUtils.parseCapabilities(this.getDesc_endpoint().toString());
-					
-					capa = ct;
-					
-					this.setAccess_endpoint(WCSUtils.getEndpoint(ct));
-	
-					//list coverages
-					
-					List<Parameter> inparams = new ArrayList();
-					
-					List<Parameter> outparams = new ArrayList();
-					
-					Parameter p = new Parameter.Builder()
-							.name("coveragelist")
-							.description("the list of coverages that this WCS hosts")
-							.minoccurs(1)
-							.maxoccurs(1)
-							.type(DataType.STRING)
-							.value(WCSUtils.getCoverageListString(ct))
-							.build();
-					
-					outparams.add(p);
-					
-					Operation listcoverageoper = new Operation.Builder()
-							.name("GetCoverageList")
-							.output(new Message.Builder()
-									.params(outparams)
-									.build())
-							.build();
-					
-					operlist.add(listcoverageoper);
-					
-					//describe coverage
-					
-					inparams = new ArrayList();
-					
-					inparams.add(new Parameter.Builder()
-							.name("coverageId")
-							.description("coverage identifier")
-							.minoccurs(1)
-							.type(DataType.STRING)
-							.build());
-					
-					outparams = new ArrayList();
-					
-					outparams.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
-					
-					outparams.add(new Parameter.Builder().name("coverage-Function").minoccurs(0).maxoccurs(1).build());
-					
-					outparams.add(new Parameter.Builder().name("metadata").minoccurs(0).maxoccurs(-1).build());
-					
-					outparams.add(new Parameter.Builder().name("domainSet").minoccurs(1).maxoccurs(1).build());
-					
-					outparams.add(new Parameter.Builder().name("rangeType").minoccurs(1).maxoccurs(1).build());
-					
-					outparams.add(new Parameter.Builder().name("service-Parameters").minoccurs(1).maxoccurs(1).build());
-					
-					Operation describecoverageoper = new Operation.Builder()
-							.name("DescribeCoverage")
-							.input(new Message.Builder()
-									.params(inparams)
-									.build())
-							.output(new Message.Builder()
-									.params(outparams)
-									.build())
-							.build();
-					
-					operlist.add(describecoverageoper);
-					
-					//get coverage
-					
-					inparams = new ArrayList();
-					
-					inparams.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
-					
-					inparams.add(new Parameter.Builder().name("dimension-Subset").minoccurs(0).maxoccurs(-1).build());
-					
-					inparams.add(new Parameter.Builder().name("format").minoccurs(0).maxoccurs(1).build());
-					
-					outparams = new ArrayList();
-					
-					outparams.add(new Parameter.Builder().name("coverage").minoccurs(1).maxoccurs(1).type(DataType.FILE).build());
-					
-					Operation getcoverageoper = new Operation.Builder()
-							.name("GetCoverage")
-							.input(new Message.Builder()
-									.params(inparams)
-									.build())
-							.output(new Message.Builder()
-									.params(outparams)
-									.build())
-							.build();
-					
-					operlist.add(getcoverageoper);
+					this.digestWCS200();
 					
 				}
 				
 			}else if("wfs".equals(category)){
 				
+				if(version==null||version.equals("2.0.0")){
+					
+					this.digestWFS200();
+					
+				}else{
+					
+					throw new RuntimeException("This version of WFS is not supported yet.");
+					
+				}
 				
 			}else if("wms".equals(category)){
 				
 				
+				
 			}else if("csw".equals(category)){
+				
 				
 				
 			}else{
