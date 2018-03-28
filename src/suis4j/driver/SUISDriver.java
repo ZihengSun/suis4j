@@ -95,6 +95,11 @@ public class SUISDriver extends AbstractDriver{
 	public Message decodeResp(PayLoad resp) {
 		throw new UnsupportedOperationException();
 	}
+	
+	@Override
+	public void initParams(Operation o) {
+		
+	}
 
 	@Override
 	public List<Operation> digest() {
@@ -130,6 +135,8 @@ public class SUISDriver extends AbstractDriver{
 		}
 		
 	}
+
+
 
 	
 }
