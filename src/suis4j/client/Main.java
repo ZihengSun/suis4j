@@ -34,7 +34,7 @@ public class Main {
 					.initialize("http://cube.csiss.gmu.edu/geoserver/topp/ows?service=WFS&request=GetCapabilities&version=2.0.0", ServiceType.OGC) //for WFS 1.0.0 test
 //					.initialize("http://wps.statistical.d4science.org/wps/WebProcessingService?service=WPS&Request=GetCapabilities&version=1.0.0", ServiceType.OGC)
 //					.initialize("https://raw.githubusercontent.com/jonathanrobie/restful-service-description-language/master/examples/maps.rsdl", ServiceType.REST) //for RSDL, but is not support at this moment.
-					.build();
+					.build(); 
 			
 			sc.listOperations();
 			
