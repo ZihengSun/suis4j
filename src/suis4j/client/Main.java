@@ -61,7 +61,7 @@ public class Main {
 //					.value("output", "plot");
 			
 			//for OGC WPS test
-//			o.getInput().value("coverageId", "GEOTIFF:\"/home/zsun/testfiles/data/bay_dem.tif\":Band");
+//			o.getInput().value("coverageId", "GEOTIFF:\"/home/zsun/testfiles/data/bay_dem.tif\":Band").value("format", "image/geotiff");
 			o.getInput().value("coverageId", "atmosphere__METOP-B_GOME-2_L3_TROPOSPHERIC_O3_MIXINGRATIO_STD");
 			
 			Message outm = sc.call(o);

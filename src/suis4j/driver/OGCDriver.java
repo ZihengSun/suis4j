@@ -102,7 +102,7 @@ public class OGCDriver extends AbstractDriver {
 					
 					content = WCSUtils.turnGetCoverageTypeToXML(
 							WCSUtils.createAGetCoverageRequest(
-									msg.getValueAsString("coverageId"), this.getVersion()));
+									msg.getValueAsString("coverageId"), msg.getValueAsString("format"), this.getVersion()));
 					
 				}
 				
@@ -130,6 +130,21 @@ public class OGCDriver extends AbstractDriver {
 				//download the file and save to a temporary file path
 				
 				String filename = "coverage-" + UUID.randomUUID().toString();
+				
+//				String url = null;
+//				
+//				if(this.getAccess_endpoint().toString().endsWith("?")){
+//					
+//					url = this.getAccess_endpoint().toString() 
+//							
+//					
+//				}else{
+//					
+//					
+//					
+//				}
+//				
+//				url += "service="+category+"&version=" + version + "&request=GetCoverage&" + String.valueOf(req.getContent());
 				
 				HttpUtils.doPostFile(this.getAccess_endpoint().toString(), (String)req.getContent(),TEMPORARY_PATH + filename);
 				
@@ -513,6 +528,8 @@ public class OGCDriver extends AbstractDriver {
 					inparams.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
 					
 					inparams.add(new Parameter.Builder().name("dimension-Subset").minoccurs(0).maxoccurs(-1).build());
+					
+					inparams.add(new Parameter.Builder().name("format").minoccurs(0).maxoccurs(1).build());
 					
 					outparams = new ArrayList();
 					

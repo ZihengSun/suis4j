@@ -336,11 +336,12 @@ public class WCSUtils {
 	 * @param coverageid
 	 * @return
 	 */
-	public static GetCoverageType createAGetCoverageRequest(String coverageid, String version){
+	public static GetCoverageType createAGetCoverageRequest(String coverageid, String format, String version){
 		ObjectFactory of = new ObjectFactory();
 		GetCoverageType gct = of.createGetCoverageType();
 		gct.setVersion(version);
 		gct.setCoverageId(coverageid);
+		gct.setFormat(format);
 		return gct;
 	}
 	
