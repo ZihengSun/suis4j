@@ -171,8 +171,7 @@ sc.listInputParams(o);
 
 sc.listOutputParams(o);
 
-o.getInput().value("query", "typeNames=topp:tasmania_roads")
-	value("typeName", "topp:tasmania_roads");
+o.getInput().value("query", "typeNames=topp:tasmania_roads");
 
 Message outm = sc.call(o);
 		

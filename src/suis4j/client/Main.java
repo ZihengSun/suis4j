@@ -28,7 +28,7 @@ public class Main {
 					//REST-WADL
 //					.initialize("https://service.iris.edu/irisws/timeseries/1/application.wadl", ServiceType.REST)
 					//WCS
-//					.initialize("http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r?service=WCS&version=2.0.0&request=GetCapabilities", ServiceType.OGC)
+					.initialize("http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r?service=WCS&version=2.0.0&request=GetCapabilities", ServiceType.OGC)
 //					.initialize("http://earthserver.ecmwf.int/rasdaman/ows?service=WCS&request=GetCapabilities&version=2.0.1", ServiceType.OGC)
 //					.initialize("https://geoservice.dlr.de/eoc/atmosphere/wcs?SERVICE=WCS&REQUEST=GetCapabilities&version=2.0.0", ServiceType.OGC)
 					//WFS
@@ -40,7 +40,9 @@ public class Main {
 					//REST-RSDL
 //					.initialize("https://raw.githubusercontent.com/jonathanrobie/restful-service-description-language/master/examples/maps.rsdl", ServiceType.REST) //for RSDL, but is not support at this moment.
 					//WMS
-					.initialize("http://cube.csiss.gmu.edu/geoserver/topp/ows?service=WMS&request=GetCapabilities&version=1.3.0", ServiceType.OGC)
+//					.initialize("http://cube.csiss.gmu.edu/geoserver/topp/ows?service=WMS&request=GetCapabilities&version=1.3.0", ServiceType.OGC)
+					//CSW
+//					.initialize("http://cube.csiss.gmu.edu/srv/csw?service=CSW&request=GetCapabilities&version=2.0.2", ServiceType.OGC)
 					.build(); 
 			
 			sc.listOperations();
