@@ -26,7 +26,7 @@ The general service-call process of SUIS includes the foloowing basic steps:
 
 6) return suis message to display results
 
-#Running
+# Running
 
 An example code of calling RESTful service:
 
@@ -178,17 +178,17 @@ Message outm = sc.call(o);
 sc.listOutputValues(outm);
 ```
 
-#Deployment
+# Deployment
 
 Import the suis4j library into your eclipse project classpath, or use Maven.
 
-#Contributing
+# Contributing
 
 
-#Versioning
+# Versioning
 
 
-#Author
+# Author
 
 * **Ziheng Sun** - *Initial work* - [contact](https://zihengsun.com)
 
