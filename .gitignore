@@ -20,4 +20,9 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/target/
+target/
+
+# don't include Eclipse files. use maven pom.xml as basis
+.settings/
+.classpath
+.project
