@@ -16,17 +16,17 @@ The `SUIS4J` repository includes a comprehensive test suite and a prototype appl
 
 # Basic Steps for Service Calls:
 
-1) Create the _SUIS request_ message
+1) Create the `SUIS request` message
 
-2) Encode the _SUIS request_ to _service request_ payload
+2) Encode the `SUIS request` to `service request` payload
 
-3) Send the _service request_ payload to service endpoint
+3) Send the `service request` payload to service endpoint
 
-4) Receive the _service response_ payload from service endpoint
+4) Receive the `service response` payload from service endpoint
 
-5) Decode _service response_ payload to _SUIS response_ message
+5) Decode `service response` payload to `SUIS response` message
 
-6) Use the _SUIS reponse_ in application workflow logic
+6) Use the `SUIS reponse` in application workflow logic
 
 
 # Code Examples
