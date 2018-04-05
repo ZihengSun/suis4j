@@ -14,24 +14,25 @@ The `SUIS4J` repository includes a comprehensive test suite and a prototype appl
 
 
 
-# Basic Steps for Service Calls:
+# Basic Steps
 
-1) Create the `SUIS request` message
+1) Create the `SUIS Request` message
 
-2) Encode the `SUIS request` to `service request` payload
+2) Encode the `SUIS Request` into a `Service Request` payload
 
-3) Send the `service request` payload to service endpoint
+3) Send the `Service Request` payload to the service endpoint
 
-4) Receive the `service response` payload from service endpoint
+4) Receive the `Service Response` payload from the service endpoint
 
-5) Decode `service response` payload to `SUIS response` message
+5) Decode the `Service Response` payload into a `SUIS Response` message
 
-6) Use the `SUIS reponse` in application workflow logic
+6) Use the `SUIS Response` in application workflow logic
 
 
 # Code Examples
 
-Example code of calling RESTful service:
+
+## RESTful service
 
 ```
 SUISClient sc = new SUISClient.Builder()
@@ -60,7 +61,7 @@ Message outm = sc.call(o);
 sc.listOutputValues(outm);
 ```
 
-An example code of calling SOAP service:
+## SOAP service
 
 ```
 SUISClient sc = new SUISClient.Builder()
@@ -84,7 +85,7 @@ Message outm = sc.call(o);
 sc.listOutputValues(outm);
 ```
 
-An example code of calling WPS 1.0.0:
+## WPS 1.0.0
 
 ```
 SUISClient sc = new SUISClient.Builder()
@@ -108,7 +109,7 @@ sc.listOutputValues(outm);
 
 ```
 
-An example code of calling WCS 2.0.0:
+## WCS 2.0.0
 
 ```
 SUISClient sc = new SUISClient.Builder()
@@ -132,7 +133,7 @@ sc.listOutputValues(outm);
 
 ```
 
-An example code of calling WMS 1.3.0:
+## WMS 1.3.0
 
 ```
 SUISClient sc = new SUISClient.Builder()
@@ -159,7 +160,7 @@ Message outm = sc.call(o);
 sc.listOutputValues(outm);
 ```
 
-An example code of calling WFS 2.0.0:
+## WFS 2.0.0
 
 ```
 SUISClient sc = new SUISClient.Builder()
