@@ -1,34 +1,37 @@
 # suis4j
 
-SUIS (simple universal interface of service) java library
+SUIS (Simple Universal Interface for Services) Java Library
 
 # Introduction
 
-The disparate interfaces of web-based spatial information and analysis services cause very high barrier of entry. Simple Universal Interface of Service (SUIS) is invented to facilitate the use of heterogeneous web services in Earth science application. SUIS addresses to hide the technical details such as protocols, styles, bindings, schemas and addresses. An enhanced service-oriented framework is created to map the disparate interfaces into SUIS. 
+The disparate interfaces of web-based spatial information and analysis services cause very high barriers of entry. Simple Universal Interface for Services (__SUIS4J__) simplifies the use of heterogeneous web services in Earth science applications.
 
-A Java library is developed to support the automatic mapping from/to SOAP, OGC and REST services. SUIS aims to be extremely simple for entry-level consumers. With SUIS, users could be relieved from learning and communicating with all sorts of interfaces. Importantly, this work does not intend to replace the existing interfaces but supplement with an easier one to proxy them. 
+__SUIS4J__ allow users to access geospatial web services without bogging down in technical details such as protocols, styles, bindings, schemas and addressing mechanisms. SUIS is a service-oriented framework that maps disparate interfaces onto a simple, user-friendly API.
 
-A prototype excises SUIS and builds geoprocessing workflows over it.
+__SUIS4J__ supports __SOAP__, __OGC__ and __REST__ spatial web services -- it does not replace existing interfaces but supplements them with a unified proxy. 
 
-# The underline principle of suis4j library:
+The `SUIS4J` repository includes a comprehensive test suite and a prototype application that demonstrates SUIS4J capabilities for building geoprocessing workflows.
 
-The general service-call process of SUIS includes the foloowing basic steps:
 
-1) create/read a suis request message
 
-2) transform suis request message to service payload
+# Basic Steps for Service Calls:
 
-3) send the service payload to service endpoint
+1) Create the _SUIS request_ message
 
-4) receive the returned payload from service endpoint
+2) Encode the _SUIS request_ to _service request_ payload
 
-5) transform response payload to suis response message
+3) Send the _service request_ payload to service endpoint
 
-6) return suis message to display results
+4) Receive the _service response_ payload from service endpoint
 
-# Running
+5) Decode _service response_ payload to _SUIS response_ message
 
-An example code of calling RESTful service:
+6) Use the _SUIS reponse_ in application workflow logic
+
+
+# Code Examples
+
+Example code of calling RESTful service:
 
 ```
 SUISClient sc = new SUISClient.Builder()
