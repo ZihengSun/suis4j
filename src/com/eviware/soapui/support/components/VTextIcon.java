@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.support.components;
@@ -29,7 +29,7 @@ import java.beans.PropertyChangeListener;
  * It's useful for JTabbedPanes with LEFT or RIGHT tabs but can be used in any
  * component which supports Icons, such as JLabel or JButton
  * <p/>
- * You can provide a hint to indicate whether to rotate the string to the left
+ * You can provide a hint to indicate whether to rotate the string to the lef
  * or right, or not at all, and it checks to make sure that the rotation is
  * legal for the given string (for example, Chinese/Japanese/Korean scripts have
  * special rules when drawn vertically and should never be rotated)
@@ -89,7 +89,7 @@ public class VTextIcon implements Icon, PropertyChangeListener {
      */
     public void setLabel(String label) {
         fLabel = label;
-        fRotation = verifyRotation(label, fRotation); // Make sure the current
+        fRotation = verifyRotation(label, fRotation); // Make sure the curren
         // rotation is still legal
         recalcDimensions();
     }
@@ -106,7 +106,7 @@ public class VTextIcon implements Icon, PropertyChangeListener {
     }
 
     /**
-     * Calculates the dimensions. If they've changed, invalidates the component
+     * Calculates the dimensions. If they've changed, invalidates the componen
      */
     void recalcDimensions() {
         int wOld = getIconWidth();
@@ -141,7 +141,7 @@ public class VTextIcon implements Icon, PropertyChangeListener {
                 fCharStrings[i] = new String(data, i, 1);
                 // small kana and punctuation
                 if (sDrawsInTopRight.indexOf(ch) >= 0) // if ch is in
-                // sDrawsInTopRight
+                // sDrawsInTopRigh
                 {
                     fPosition[i] = POSITION_TOP_RIGHT;
                 } else if (sDrawsInFarTopRight.indexOf(ch) >= 0) {
@@ -167,7 +167,7 @@ public class VTextIcon implements Icon, PropertyChangeListener {
      * foreground or background color.
      */
     public void paintIcon(Component c, Graphics g, int x, int y) {
-        // We don't insist that it be on the same Component
+        // We don't insist that it be on the same Componen
 
         g.setColor(fComponent.getForeground());
         g.setFont(fComponent.getFont());
@@ -187,7 +187,7 @@ public class VTextIcon implements Icon, PropertyChangeListener {
                         break;
                     case POSITION_TOP_RIGHT:
                         tweak = fCharHeight / 3; // Should be 2, but they aren't actually
-                        // half-height
+                        // half-heigh
                         g.drawString(fCharStrings[i], x + (tweak / 2), yPos - tweak);
                         break;
                     case POSITION_FAR_TOP_RIGHT:
@@ -255,8 +255,8 @@ public class VTextIcon implements Icon, PropertyChangeListener {
      * may be rotated 90 % clockwise so that the characters are also ordered from
      * top to bottom.
      * <p/>
-     * Rotation rules - Roman can rotate left, right, or none - default right
-     * (counterclockwise) - CJK can't rotate - Arabic must rotate - default left
+     * Rotation rules - Roman can rotate left, right, or none - default righ
+     * (counterclockwise) - CJK can't rotate - Arabic must rotate - default lef
      * (clockwise)
      * <p/>
      * from the online edition of _The Unicode Standard, Version 3.0_, file
@@ -267,7 +267,7 @@ public class VTextIcon implements Icon, PropertyChangeListener {
      * <p/>
      * from http://www.unicode.org/unicode/faq/writingdirections.html East Asian
      * scripts are frequently written in vertical lines which run from
-     * top-to-bottom and are arrange columns either from left-to-right
+     * top-to-bottom and are arrange columns either from left-to-righ
      * (Mongolian) or right-to-left (other scripts). Most characters use the same
      * shape and orientation when displayed horizontally or vertically, but many
      * punctuation characters will change their shape when displayed vertically.
@@ -279,7 +279,7 @@ public class VTextIcon implements Icon, PropertyChangeListener {
      * angles.
      * <p/>
      * Unlike the bidirectional case, the choice of vertical layout is usually
-     * treated as a formatting style; therefore, the Unicode Standard does not
+     * treated as a formatting style; therefore, the Unicode Standard does no
      * define default rendering behavior for vertical text nor provide
      * directionality controls designed to override such behavior
      */

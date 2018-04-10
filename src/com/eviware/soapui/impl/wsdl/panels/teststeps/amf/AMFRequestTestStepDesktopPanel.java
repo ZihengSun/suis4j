@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.panels.teststeps.amf;
@@ -370,7 +370,7 @@ public class AMFRequestTestStepDesktopPanel extends ModelItemDesktopPanel<AMFReq
         toolbar.add(tabsButton);
         toolbar.add(splitButton);
 
-        toolbar.addFixed(UISupport
+        toolbar.addFixed(UISuppor
                 .createToolbarButton(new ShowOnlineHelpAction(HelpUrls.TEST_AMF_REQUEST_EDITOR_HELP_URL)));
 
         return toolbar;
@@ -523,9 +523,9 @@ public class AMFRequestTestStepDesktopPanel extends ModelItemDesktopPanel<AMFReq
 
                 @SuppressWarnings("unchecked")
                 private String scriptInfo(SubmitContext context) {
-                    HashMap<String, Object> parameters = (HashMap<String, Object>) context
+                    HashMap<String, Object> parameters = (HashMap<String, Object>) contex
                             .getProperty(AMFRequest.AMF_SCRIPT_PARAMETERS);
-                    HashMap<String, Object> amfHeaders = (HashMap<String, Object>) context
+                    HashMap<String, Object> amfHeaders = (HashMap<String, Object>) contex
                             .getProperty(AMFRequest.AMF_SCRIPT_HEADERS);
                     StringBuilder sb = new StringBuilder();
                     sb.append("parameters " + (parameters != null ? parameters.toString() : ""));

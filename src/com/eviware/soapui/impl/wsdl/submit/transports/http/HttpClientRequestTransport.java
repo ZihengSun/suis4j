@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.submit.transports.http;
@@ -195,7 +195,7 @@ public class HttpClientRequestTransport implements BaseHttpRequestTransport {
                 }
             }
 
-            // do request
+            // do reques
             WsdlProject project = (WsdlProject) ModelSupport.getModelItemProject(httpRequest);
             WssCrypto crypto = null;
             if (project != null && project.getWssContainer() != null) {
@@ -277,7 +277,7 @@ public class HttpClientRequestTransport implements BaseHttpRequestTransport {
             }
 
             Response response = (Response) submitContext.getProperty(BaseHttpRequestTransport.RESPONSE);
-            StringToStringMap responseProperties = (StringToStringMap) submitContext
+            StringToStringMap responseProperties = (StringToStringMap) submitContex
                     .getProperty(BaseHttpRequestTransport.RESPONSE_PROPERTIES);
 
             for (String key : responseProperties.keySet()) {
@@ -331,7 +331,7 @@ public class HttpClientRequestTransport implements BaseHttpRequestTransport {
         getMethod.setURI(newUri);
 
         // Thijs Brentjens: if the location contains a different Host, due to the redirect, then use that instead of the already existing Host-header. So just set the Host header to the new host of the URI
-        
+
         getMethod.setHeader("Host",uri.getHost());
 
         org.apache.http.HttpResponse response = submitRequest(getMethod, httpContext);
@@ -360,7 +360,7 @@ public class HttpClientRequestTransport implements BaseHttpRequestTransport {
                                        ExtendedHttpMethod httpMethod) {
         String requestContent = (String) submitContext.getProperty(BaseHttpRequestTransport.REQUEST_CONTENT);
 
-        // check content-type for multipart
+        // check content-type for multipar
         String responseContentTypeHeader = null;
         if (httpMethod.hasHttpResponse() && httpMethod.getHttpResponse().getEntity() != null) {
             Header h = httpMethod.getHttpResponse().getEntity().getContentType();
@@ -423,7 +423,7 @@ public class HttpClientRequestTransport implements BaseHttpRequestTransport {
     }
 
     private void saveRequestHeaders(ExtendedHttpMethod httpMethod, HttpContext httpContext) {
-        List<Header> requestHeaders = (List<Header>) httpContext
+        List<Header> requestHeaders = (List<Header>) httpContex
                 .getAttribute(HeaderRequestInterceptor.SOAPUI_REQUEST_HEADERS);
 
         if (requestHeaders != null) {

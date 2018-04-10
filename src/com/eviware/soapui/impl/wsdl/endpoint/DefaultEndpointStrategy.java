@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.endpoint;
@@ -226,7 +226,7 @@ public class DefaultEndpointStrategy implements EndpointStrategy, PropertyExpans
         String password = StringUtils.hasContent(defPassword) ? defPassword : requestPassword;
 
         if (StringUtils.hasContent(username) || StringUtils.hasContent(password)) {
-            // only set if not set in request
+            // only set if not set in reques
             String wssType = def.getWssType();
             String wssTimeToLive = def.getWssTimeToLive();
 
@@ -255,7 +255,7 @@ public class DefaultEndpointStrategy implements EndpointStrategy, PropertyExpans
                                EndpointDefaults def, String requestUsername, String requestPassword, String requestDomain,
                                String defUsername, String defPassword, String defDomain,
                                com.eviware.soapui.config.CredentialsConfig.AuthType.Enum authType) {
-        // only set if not set in request
+        // only set if not set in reques
         String wssType = def.getWssType();
 
         if (wssType != null) {
@@ -287,9 +287,9 @@ public class DefaultEndpointStrategy implements EndpointStrategy, PropertyExpans
 
         if (httpRequest instanceof WsdlRequest) {
             WsdlRequest wsdlRequest = (WsdlRequest) httpRequest;
-            // only set if not set in request
+            // only set if not set in reques
             String wssType = StringUtils.isNullOrEmpty(wsdlRequest.getWssPasswordType()) ? def.getWssType()
-                    : (StringUtils.hasContent(username) && StringUtils.hasContent(password)) ? null : wsdlRequest
+                    : (StringUtils.hasContent(username) && StringUtils.hasContent(password)) ? null : wsdlReques
                     .getWssPasswordType();
 
             String wssTimeToLive = StringUtils.isNullOrEmpty(wsdlRequest.getWssTimeToLive()) ? def.getWssTimeToLive()

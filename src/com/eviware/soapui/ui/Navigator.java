@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.ui;
@@ -128,14 +128,14 @@ public class Navigator extends JPanel {
             // Figure out which row we�re on.
             int nRow = getRowForLocation(pt.x, pt.y);
 
-            // If we are not on a row then ignore this autoscroll request
+            // If we are not on a row then ignore this autoscroll reques
             if (nRow < 0) {
                 return;
             }
 
             Rectangle raOuter = getBounds();
             // Now decide if the row is at the top of the screen or at the
-            // bottom. We do this to make the previous row (or the next
+            // bottom. We do this to make the previous row (or the nex
             // row) visible as appropriate. If we�re at the absolute top or
             // bottom, just return the first or last row respectively.
 
@@ -150,7 +150,7 @@ public class Navigator extends JPanel {
             scrollRowToVisible(nRow);
         }
 
-        // Calculate the insets for the *JTREE*, not the viewport
+        // Calculate the insets for the *JTREE*, not the viewpor
         // the tree is in. This makes it a bit messy.
         public Insets getAutoscrollInsets() {
             Rectangle raOuter = getBounds();

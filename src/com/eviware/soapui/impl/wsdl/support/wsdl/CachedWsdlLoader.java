@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.support.wsdl;
@@ -116,7 +116,7 @@ public class CachedWsdlLoader extends WsdlLoader {
 
     /**
      * Saves the complete definition to the specified folder, returns path to
-     * root part
+     * root par
      *
      * @param folderName
      * @return
@@ -234,7 +234,7 @@ public class CachedWsdlLoader extends WsdlLoader {
 
     private void replaceImportsAndIncludes(XmlObject xmlObject, Map<String, String> urlToFileMap, String baseUrl)
             throws Exception {
-        XmlObject[] wsdlImports = xmlObject
+        XmlObject[] wsdlImports = xmlObjec
                 .selectPath("declare namespace s='http://schemas.xmlsoap.org/wsdl/' .//s:import/@location");
 
         for (int i = 0; i < wsdlImports.length; i++) {
@@ -242,7 +242,7 @@ public class CachedWsdlLoader extends WsdlLoader {
             replaceLocation(urlToFileMap, baseUrl, wsdlImport);
         }
 
-        XmlObject[] schemaImports = xmlObject
+        XmlObject[] schemaImports = xmlObjec
                 .selectPath("declare namespace s='http://www.w3.org/2001/XMLSchema' .//s:import/@schemaLocation");
 
         for (int i = 0; i < schemaImports.length; i++) {
@@ -250,7 +250,7 @@ public class CachedWsdlLoader extends WsdlLoader {
             replaceLocation(urlToFileMap, baseUrl, schemaImport);
         }
 
-        XmlObject[] schemaIncludes = xmlObject
+        XmlObject[] schemaIncludes = xmlObjec
                 .selectPath("declare namespace s='http://www.w3.org/2001/XMLSchema' .//s:include/@schemaLocation");
         for (int i = 0; i < schemaIncludes.length; i++) {
             SimpleValue schemaInclude = ((SimpleValue) schemaIncludes[i]);

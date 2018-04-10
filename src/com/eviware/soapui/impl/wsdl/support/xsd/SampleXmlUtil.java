@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.support.xsd;
@@ -109,7 +109,7 @@ public class SampleXmlUtil {
         // Skip the document node
         cursor.toNextToken();
         // Using the type and the cursor, call the utility method to get a
-        // sample XML payload for that Schema element
+        // sample XML payload for that Schema elemen
         createSampleForType(sType, cursor);
         // Cursor now contains the sample payload
         // Pretty print the result. Note that the cursor is positioned at the
@@ -155,7 +155,7 @@ public class SampleXmlUtil {
         // Skip the document node
         cursor.toNextToken();
         // Using the type and the cursor, call the utility method to get a
-        // sample XML payload for that Schema element
+        // sample XML payload for that Schema elemen
         new SampleXmlUtil(false).createSampleForType(sType, cursor);
         // Cursor now contains the sample payload
         // Pretty print the result. Note that the cursor is positioned at the
@@ -598,7 +598,7 @@ public class SampleXmlUtil {
         boolean minOk = sigMin > 0 || sigMin == 0 && minInclusive;
         boolean maxOk = sigMax < 0 || sigMax == 0 && maxInclusive;
 
-        // Compute the minimum increment
+        // Compute the minimum incremen
         xmlD = (XmlDecimal) sType.getFacet(SchemaType.FACET_FRACTION_DIGITS);
         int fractionDigits = -1;
         BigDecimal increment;
@@ -1124,7 +1124,7 @@ public class SampleXmlUtil {
         }
 
         // it probably only makes sense to put comments in front of individual
-        // elements that repeat
+        // elements that repea
 
         if (!_skipComments) {
             if (sp.getMaxOccurs() == null) {
@@ -1147,7 +1147,7 @@ public class SampleXmlUtil {
     }
 
     /*
-     * Return a name for the element or the particle type to use in the comment
+     * Return a name for the element or the particle type to use in the commen
      * for minoccurs, max occurs
      */
     @SuppressWarnings("unused")
@@ -1162,7 +1162,7 @@ public class SampleXmlUtil {
     }
 
     private void processElement(SchemaParticle sp, XmlCursor xmlc, boolean mixed) {
-        // cast as schema local element
+        // cast as schema local elemen
         SchemaLocalElement element = (SchemaLocalElement) sp;
 
         // Add comment about type

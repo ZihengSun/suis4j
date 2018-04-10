@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.security.scan;
@@ -147,7 +147,7 @@ public class InvalidTypesSecurityScan extends AbstractSecurityScanWithProperties
     }
 
     /*
-     * Set new value for request
+     * Set new value for reques
      */
     private StringToStringMap updateRequestContent(TestStep testStep, SecurityTestRunContext context)
             throws XmlException, Exception {
@@ -252,7 +252,7 @@ public class InvalidTypesSecurityScan extends AbstractSecurityScanWithProperties
      * generate set of requests with all variations
      *
      * @param testStep
-     * @param context
+     * @param contex
      * @throws Exception
      * @throws XmlException
      * @throws XmlException
@@ -340,10 +340,10 @@ public class InvalidTypesSecurityScan extends AbstractSecurityScanWithProperties
     }
 
     /**
-     * This is support class that should keep track of all simple types. Also it
+     * This is support class that should keep track of all simple types. Also i
      * should provide values for creating invalid requests.
      *
-     * @author robert
+     * @author rober
      */
     private class InvalidTypesForSOAP {
 
@@ -354,7 +354,7 @@ public class InvalidTypesSecurityScan extends AbstractSecurityScanWithProperties
         }
 
         /*
-         * see http://www.w3.org/TR/xmlschema-0/#CreatDt
+         * see http://www.w3.org/TR/xmlschema-0/#CreatD
          */
         private void generateInvalidTypes() {
 
@@ -382,13 +382,13 @@ public class InvalidTypesSecurityScan extends AbstractSecurityScanWithProperties
             typeMap.put(SchemaType.BTC_LONG, "-882223334991111111");
             // unsigned long
             typeMap.put(SchemaType.BTC_UNSIGNED_LONG, "882223334991111111");
-            // int
+            // in
             typeMap.put(SchemaType.BTC_INT, "-2147483647");
-            // unsigned int
+            // unsigned in
             typeMap.put(SchemaType.BTC_UNSIGNED_INT, "294967295");
-            // short
+            // shor
             typeMap.put(SchemaType.BTC_SHORT, "-32768");
-            // unsigned short
+            // unsigned shor
             typeMap.put(SchemaType.BTC_UNSIGNED_SHORT, "65535");
             // byte
             typeMap.put(SchemaType.BTC_BYTE, "127");
@@ -396,7 +396,7 @@ public class InvalidTypesSecurityScan extends AbstractSecurityScanWithProperties
             typeMap.put(SchemaType.BTC_UNSIGNED_BYTE, "255");
             // decimal
             typeMap.put(SchemaType.BTC_DECIMAL, "-1.23");
-            // float
+            // floa
             typeMap.put(SchemaType.BTC_FLOAT, "-1E4f");
             // double
             typeMap.put(SchemaType.BTC_DOUBLE, "12.45E+12");

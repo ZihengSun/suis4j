@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.security.scan;
@@ -65,7 +65,7 @@ import java.util.Map;
  * Implementation that is common for all security scans. Support for security
  * workflow.
  *
- * @author robert
+ * @author rober
  */
 public abstract class AbstractSecurityScan extends AbstractWsdlModelItem<SecurityScanConfig> implements
         ResponseAssertion, SecurityScan {
@@ -201,7 +201,7 @@ public abstract class AbstractSecurityScan extends AbstractWsdlModelItem<Securit
             notifier.notifyChange();
             securityScanRequestResult.stopTimer();
             assertResponse(getSecurityScanRequestResult().getMessageExchange(), context);
-            // add to summary result
+            // add to summary resul
             securityScanResult.addSecurityRequestResult(getSecurityScanRequestResult());
             for (int i = 0; i < securityTestListeners.length; i++) {
                 if (Arrays.asList(((SecurityTest) getParent()).getSecurityTestRunListeners()).contains(
@@ -231,21 +231,21 @@ public abstract class AbstractSecurityScan extends AbstractWsdlModelItem<Securit
     /**
      * should be implemented in every particular scan it executes one request,
      * modified by securityScan if necessary and internally adds messages for
-     * logging to SecurityScanRequestResult
+     * logging to SecurityScanRequestResul
      */
     abstract protected void execute(SecurityTestRunner runner, TestStep testStep, SecurityTestRunContext context);
 
     /**
-     * checks if specific SecurityScan still has modifications left
+     * checks if specific SecurityScan still has modifications lef
      *
      * @param testStep2
-     * @param context
+     * @param contex
      */
     abstract protected boolean hasNext(TestStep testStep2, SecurityTestRunContext context);
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.eviware.soapui.security.scan.SecurityScan#isConfigurable()
 	 */
 
@@ -254,7 +254,7 @@ public abstract class AbstractSecurityScan extends AbstractWsdlModelItem<Securit
     }
 
     /**
-     * Overide if SecurityScan have Optional component
+     * Overide if SecurityScan have Optional componen
      */
     @Override
     public JComponent getComponent() {
@@ -509,7 +509,7 @@ public abstract class AbstractSecurityScan extends AbstractWsdlModelItem<Securit
      *
      * @see com.eviware.soapui.model.testsuite.Assertable#getAssertableType()
      *
-     * Decided to go with assertions on request and response so we can implement
+     * Decided to go with assertions on request and response so we can implemen
      * "men in the middle" attacks using monitor.
      */
     @Override
@@ -600,7 +600,7 @@ public abstract class AbstractSecurityScan extends AbstractWsdlModelItem<Securit
     /**
      * Sets SecurityScanStatus based on the status of all assertions added
      *
-     * @param result
+     * @param resul
      */
     private void setStatus(AssertionStatus result) {
         if (result == AssertionStatus.FAILED) {
@@ -624,7 +624,7 @@ public abstract class AbstractSecurityScan extends AbstractWsdlModelItem<Securit
     // name used in configuration panel
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.eviware.soapui.security.scan.SecurityScan#getConfigName()
 	 */
     public abstract String getConfigName();
@@ -632,7 +632,7 @@ public abstract class AbstractSecurityScan extends AbstractWsdlModelItem<Securit
     // description usd in configuration panel
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.eviware.soapui.security.scan.SecurityScan#getConfigDescription()
 	 */
     public abstract String getConfigDescription();
@@ -640,7 +640,7 @@ public abstract class AbstractSecurityScan extends AbstractWsdlModelItem<Securit
     // help url used for configuration panel ( help for this scan )
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.eviware.soapui.security.scan.SecurityScan#getHelpURL()
 	 */
     public abstract String getHelpURL();

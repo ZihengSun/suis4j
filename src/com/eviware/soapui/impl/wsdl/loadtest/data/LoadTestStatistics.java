@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.loadtest.data;
@@ -45,7 +45,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Model holding statistics.. should be refactored into interface for different
+ * Model holding statistics.. should be refactored into interface for differen
  * statistic models
  *
  * @author Ole.Matzura
@@ -362,7 +362,7 @@ public final class LoadTestStatistics extends AbstractTableModel implements Runn
                     data[totalIndex][BPS_COLUMN] = (data[totalIndex][BYTES_COLUMN] * 1000) / timePassed;
                 } else {
                     data[totalIndex][TPS_COLUMN] = (long) (data[totalIndex][AVG_COLUMN] > 0 ? (10000000F / data[totalIndex][AVG_COLUMN])
-                            * threadCount
+                            * threadCoun
                             : 0);
 
                     long avgBytes = data[totalIndex][CNT_COLUMN] == 0 ? 0 : data[totalIndex][BYTES_COLUMN]

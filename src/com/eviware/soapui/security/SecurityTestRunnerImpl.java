@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.security;
@@ -50,7 +50,7 @@ public class SecurityTestRunnerImpl extends AbstractTestCaseRunner<SecurityTest,
     private long timeTaken;
     /**
      * holds index of current securityScan out of summary number of scans on
-     * SecurityTest level used in main progress bar on SecurityTest
+     * SecurityTest level used in main progress bar on SecurityTes
      */
     private int currentScanOnSecurityTestIndex;
 
@@ -135,7 +135,7 @@ public class SecurityTestRunnerImpl extends AbstractTestCaseRunner<SecurityTest,
 
     protected int runCurrentTestStep(SecurityTestRunContext runContext, int currentStepIndex) {
         // flag for detecting if running has been interrupted either by canceling
-        // securityScanRequest
+        // securityScanReques
         // or if request result is null(backward compatibility for running
         // TestCase )
         boolean jumpExit = false;
@@ -247,8 +247,8 @@ public class SecurityTestRunnerImpl extends AbstractTestCaseRunner<SecurityTest,
     }
 
     /**
-     * @param runContext
-     * @param securityScanResult
+     * @param runContex
+     * @param securityScanResul
      */
     private void runAfterListeners(SecurityTestRunContext runContext, SecurityScanResult securityScanResult) {
         for (int j = 0; j < securityTestStepListeners.length; j++) {
@@ -331,7 +331,7 @@ public class SecurityTestRunnerImpl extends AbstractTestCaseRunner<SecurityTest,
      * com.eviware.soapui.impl.wsdl.support.AbstractTestCaseRunner#notifyAfterRun
      * ()
      *
-     * The same as for notifyBeforeRun, security listeners come last
+     * The same as for notifyBeforeRun, security listeners come las
      */
     protected void notifyAfterRun() {
         super.notifyAfterRun();

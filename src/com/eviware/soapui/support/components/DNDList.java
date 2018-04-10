@@ -1,28 +1,28 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.support.components;
 
 /**
- * This is an example of a component, which serves as a DragSource as 
+ * This is an example of a component, which serves as a DragSource as
  * well as Drop Target.
- * To illustrate the concept, JList has been used as a droppable target
+ * To illustrate the concept, JList has been used as a droppable targe
  * and a draggable source.
  * Any component can be used instead of a JList.
- * The code also contains debugging messages which can be used for 
+ * The code also contains debugging messages which can be used for
  * diagnostics and understanding the flow of events.
  *
  * @version 1.0
@@ -53,7 +53,7 @@ import java.awt.dnd.DropTargetListener;
 public class DNDList extends JList implements DropTargetListener, DragSourceListener, DragGestureListener {
 
     /**
-     * enables this component to be a dropTarget
+     * enables this component to be a dropTarge
      */
 
     DropTarget dropTarget = null;

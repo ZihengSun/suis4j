@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.tools;
@@ -359,7 +359,7 @@ public class SoapUITestCaseRunner extends AbstractSoapUITestRunner {
 
         List<TestCase> testCasesToRun = new ArrayList<TestCase>();
 
-        // validate testSuite argument
+        // validate testSuite argumen
         if (testSuite != null && project.getTestSuiteByName(testSuite) == null) {
             throw new Exception("TestSuite with name [" + testSuite + "] is missing in Project [" + project.getName()
                     + "]");
@@ -381,7 +381,7 @@ public class SoapUITestCaseRunner extends AbstractSoapUITestRunner {
         }
 
         try {
-            // validate testSuite argument
+            // validate testSuite argumen
             if (testCase != null && testCasesToRun.size() == 0) {
                 if (testSuite == null) {
                     throw new Exception("TestCase with name [" + testCase + "] is missing in Project [" + project.getName()
@@ -557,7 +557,7 @@ public class SoapUITestCaseRunner extends AbstractSoapUITestRunner {
      * Runs the specified TestCase
      *
      * @param testCase the testcase to run
-     * @param context
+     * @param contex
      */
 
     protected void runTestCase(WsdlTestCase testCase) {
@@ -647,12 +647,12 @@ public class SoapUITestCaseRunner extends AbstractSoapUITestRunner {
                         + StringUtils.createFileName(currentStep.getName(), '_') + "-" + count.longValue() + "-"
                         + result.getStatus();
 
-                WsdlTestCaseRunner callingTestCaseRunner = (WsdlTestCaseRunner) runContext
+                WsdlTestCaseRunner callingTestCaseRunner = (WsdlTestCaseRunner) runContex
                         .getProperty("#CallingTestCaseRunner#");
 
                 if (callingTestCaseRunner != null) {
                     WsdlTestCase ctc = callingTestCaseRunner.getTestCase();
-                    WsdlRunTestCaseTestStep runTestCaseTestStep = (WsdlRunTestCaseTestStep) runContext
+                    WsdlRunTestCaseTestStep runTestCaseTestStep = (WsdlRunTestCaseTestStep) runContex
                             .getProperty("#CallingRunTestCaseStep#");
 
                     nameBase = StringUtils.createFileName(ctc.getTestSuite().getName(), '_') + exportSeparator

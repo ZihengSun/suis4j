@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.security.result;
@@ -76,7 +76,7 @@ public class SecurityTestStepResult implements SecurityResult {
     }
 
     /**
-     * Returns a list of actions that can be applied to this result
+     * Returns a list of actions that can be applied to this resul
      */
 
     public ActionList getActions() {
@@ -134,7 +134,7 @@ public class SecurityTestStepResult implements SecurityResult {
         }
         if (securityScanResult.getLogIconStatus().equals(ResultStatus.FAILED)) {
             logIconStatus = securityScanResult.getLogIconStatus();
-        } else if ((securityScanResult.getLogIconStatus().equals(ResultStatus.MISSING_ASSERTIONS) || securityScanResult
+        } else if ((securityScanResult.getLogIconStatus().equals(ResultStatus.MISSING_ASSERTIONS) || securityScanResul
                 .getLogIconStatus().equals(ResultStatus.MISSING_PARAMETERS))
                 && logIconStatus != ResultStatus.FAILED) {
             logIconStatus = securityScanResult.getLogIconStatus();
@@ -166,9 +166,9 @@ public class SecurityTestStepResult implements SecurityResult {
     }
 
     /**
-     * Used for calculating the output
+     * Used for calculating the outpu
      *
-     * @return the number of bytes in this result
+     * @return the number of bytes in this resul
      */
 
     public long getSize() {

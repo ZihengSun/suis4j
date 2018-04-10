@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.submit.transports.http.support.attachments;
@@ -110,7 +110,7 @@ public class WsdlMimeMessageResponse extends MimeMessageResponse implements Wsdl
             // XmlObject xmlObject = XmlObject.Factory.parse( getContentAsString()
             // );
             XmlObject xmlObject = XmlUtils.createXmlObject(getContentAsString());
-            XmlObject[] includes = xmlObject
+            XmlObject[] includes = xmlObjec
                     .selectPath("declare namespace xop='http://www.w3.org/2004/08/xop/include'; //xop:Include");
 
             for (XmlObject include : includes) {
@@ -118,7 +118,7 @@ public class WsdlMimeMessageResponse extends MimeMessageResponse implements Wsdl
                 String href = elm.getAttribute("href");
                 // substing(4) - removing the "cid:" prefix
                 Attachment attachment = getMmSupport().getAttachmentWithContentId("<" + URLDecoder.decode(href.substring(4), "UTF-8") + ">");
-                
+
                 if (attachment != null) {
                     ByteArrayOutputStream data = Tools.readAll(attachment.getInputStream(), 0);
                     byte[] byteArray = data.toByteArray();

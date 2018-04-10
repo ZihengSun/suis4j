@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.security.scan;
@@ -141,7 +141,7 @@ public class MalformedXmlSecurityScan extends AbstractSecurityScanWithProperties
                                 // this finds where node that needs updateing begins
                                 int start = value.indexOf("<" + nodes[cnt].getNodeName()); // keeps
                                 // node
-                                // start
+                                // star
                                 int cnt2 = 0;
                                 // if have more than one node that matches xpath, find
                                 // next one.
@@ -208,7 +208,7 @@ public class MalformedXmlSecurityScan extends AbstractSecurityScanWithProperties
                                     if (parameterMutations.get(param).size() > 0) {
                                         for (int cnt = 0; cnt < nodes.length; cnt++) {
                                             // find right node
-                                            // keeps node start
+                                            // keeps node star
                                             int start = value.indexOf("<" + nodes[cnt].getNodeName());
                                             int cnt2 = 0;
                                             while (cnt2 < cnt) {
@@ -291,7 +291,7 @@ public class MalformedXmlSecurityScan extends AbstractSecurityScanWithProperties
 
         ArrayList<String> result = new ArrayList<String>();
         String nodeXml = getXmlForNode(node);
-        // insert new element
+        // insert new elemen
         if (malformedXmlConfig.getInsertNewElement()) {
             StringBuffer buffer = new StringBuffer(nodeXml);
             if (nodeXml.endsWith("</" + node.getDomNode().getNodeName() + ">")) {

@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.security.ui;
@@ -48,7 +48,7 @@ import java.util.Map;
 /**
  * Table for handling schema types for InvalidTypes Security Scan
  *
- * @author robert
+ * @author rober
  */
 @SuppressWarnings("serial")
 public class InvalidTypesTable extends JPanel {
@@ -261,16 +261,16 @@ public class InvalidTypesTable extends JPanel {
                 // unsigned long
                 case SchemaType.BTC_UNSIGNED_LONG:
                     return "UNSIGNED_LONG";
-                // int
+                // in
                 case SchemaType.BTC_INT:
                     return "INT";
-                // unsigned int
+                // unsigned in
                 case SchemaType.BTC_UNSIGNED_INT:
                     return "UNSIGNED_INT";
-                // short
+                // shor
                 case SchemaType.BTC_SHORT:
                     return "SHORT";
-                // unsigned short
+                // unsigned shor
                 case SchemaType.BTC_UNSIGNED_SHORT:
                     return "UNSIGNED_SHORT";
                 // byte
@@ -282,7 +282,7 @@ public class InvalidTypesTable extends JPanel {
                 // decimal
                 case SchemaType.BTC_DECIMAL:
                     return "DECIMAL";
-                // float
+                // floa
                 case SchemaType.BTC_FLOAT:
                     return "FLOAT";
                 // double

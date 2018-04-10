@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.submit.transports.http.support.attachments;
@@ -98,7 +98,7 @@ public class AttachmentUtils {
             while (!cursor.isEnddoc()) {
                 if (cursor.isContainer()) {
                     // could be an attachment part (as of "old" SwA specs which
-                    // specify a content
+                    // specify a conten
                     // element referring to the attachment)
                     if (messagePart.isAttachmentPart()) {
                         String href = cursor.getAttributeText(XOP_HREF_QNAME);
@@ -207,7 +207,7 @@ public class AttachmentUtils {
                                     isXopAttachment = container.isMtomEnabled();
                                     contentIds.put(textContent, textContent);
                                 }
-                                // content should be binary data; is this an XOP element
+                                // content should be binary data; is this an XOP elemen
                                 // which should be serialized with MTOM?
                                 else if (container.isMtomEnabled()
                                         && (SchemaUtils.isBinaryType(schemaType) || SchemaUtils.isAnyType(schemaType))) {
@@ -441,7 +441,7 @@ public class AttachmentUtils {
                                     if (contentId.startsWith("cid:")) {
                                         HttpAttachmentPart attachmentPart = new HttpAttachmentPart(contentId.substring(4),
                                                 attributeText);
-                                        attachmentPart
+                                        attachmentPar
                                                 .setType(attributeText == null && !forceMtom ? Attachment.AttachmentType.CONTENT
                                                         : Attachment.AttachmentType.XOP);
                                         result.add(attachmentPart);
@@ -524,8 +524,8 @@ public class AttachmentUtils {
                     Attachment att = attachments.get(0);
                     addSingleAttachment(mp, contentIds, att);
                 }
-                // more than one attachment with the same part -> create multipart
-                // attachment
+                // more than one attachment with the same part -> create multipar
+                // attachmen
                 else if (attachments.size() > 1) {
                     addMultipartAttachment(mp, contentIds, attachments);
                 }
@@ -619,7 +619,7 @@ public class AttachmentUtils {
     }
 
     /**
-     * Adds a simple MimeBodyPart from an attachment
+     * Adds a simple MimeBodyPart from an attachmen
      */
 
     public static void addSingleAttachment(MimeMultipart mp, StringToStringMap contentIds, Attachment att)

@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.security.assertion;
@@ -110,12 +110,12 @@ public class CrossSiteScriptAssertion extends WsdlMessageAssertion implements Re
             throws AssertionException {
         TestStep testStep = (TestStep) context.getProperty(CrossSiteScriptingScan.TEST_STEP);
         testStep = SecurityTestRunnerImpl.cloneTestStepForSecurityScan((WsdlTestStep) testStep);
-        SecurityTestRunner securityTestRunner = (SecurityTestRunner) context
+        SecurityTestRunner securityTestRunner = (SecurityTestRunner) contex
                 .getProperty(CrossSiteScriptingScan.TEST_CASE_RUNNER);
 
         List<String> urls = submitScript(messageExchange, context);
 
-        CrossSiteScriptingScanConfig parameterExposureCheckConfig = (CrossSiteScriptingScanConfig) context
+        CrossSiteScriptingScanConfig parameterExposureCheckConfig = (CrossSiteScriptingScanConfig) contex
                 .getProperty(CrossSiteScriptingScan.PARAMETER_EXPOSURE_SCAN_CONFIG);
 
         List<AssertionError> assertionErrorList = new ArrayList<AssertionError>();
@@ -149,7 +149,7 @@ public class CrossSiteScriptAssertion extends WsdlMessageAssertion implements Re
                     (SecurityTestRunContext) context);
 
             for (String value : parameterExposureCheckConfig.getParameterExposureStringsList()) {
-                value = context.expand(value);// property expansion support
+                value = context.expand(value);// property expansion suppor
                 String match = SecurityScanUtil.contains(context, new String(messageExchange2.getRawResponseData()),
                         value, false);
                 if (match != null) {
@@ -168,7 +168,7 @@ public class CrossSiteScriptAssertion extends WsdlMessageAssertion implements Re
                                   CrossSiteScriptingScanConfig parameterExposureCheckConfig, List<AssertionError> assertionErrorList) {
         boolean throwException = false;
         for (String value : parameterExposureCheckConfig.getParameterExposureStringsList()) {
-            value = context.expand(value);// property expansion support
+            value = context.expand(value);// property expansion suppor
             String match = SecurityScanUtil.contains(context, new String(messageExchange.getRawResponseData()), value,
                     false);
             if (match != null) {

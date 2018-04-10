@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.ui.desktop.standalone;
@@ -670,14 +670,14 @@ public class StandaloneDesktop extends AbstractSoapUIDesktop {
 
         /**
          * <p>
-         * True if the coordinates (newX, newY) would put the panel outside the desktop in a manner that would make it
+         * True if the coordinates (newX, newY) would put the panel outside the desktop in a manner that would make i
          * unreachable, false otherwise.
          * </p>
          * <p>
          * Parameters <code>newX</code> and <code>newY</code> are assumed to be the (left, top) origin coordinates of
          * <code>desktopPanel</code>, which is the <code>JInternalFrame</code> being dragged.  The panel's width includes
          * borders, which means that on implementations where the borders are not selectable (Mac Aqua look&feel for
-         * example), the borders must be taken into account otherwise one can drag a panel into a position where it
+         * example), the borders must be taken into account otherwise one can drag a panel into a position where i
          * would no longer be selectable, thus impossible to bring back to the visible area of the parent desktop.
          * </p>
          *
@@ -700,7 +700,7 @@ public class StandaloneDesktop extends AbstractSoapUIDesktop {
             // at left, smallest X is a function of panel width
             // at right, highest X is a funtion of desktop width
             // at top, smalest Y is 0 (we always want to see the title bar)
-            // at bottom, highest Y is a function of desktop height
+            // at bottom, highest Y is a function of desktop heigh
             int smallestReachableX = -(panel.getWidth() - horizontalInsetFactor * panel.getInsets().right);
             int biggestReachableX = ((int) desktopSize.getWidth() - horizontalInsetFactor * panel.getInsets().left);
             int biggestReachableY = ((int) desktopSize.getHeight() - verticalInsetFactor * panel.getInsets().top);

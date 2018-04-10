@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.monitor;
@@ -384,20 +384,20 @@ public class SoapMonitor extends JPanel {
 
     private JComponent buildToolbars(JXToolBar mainToolbar) {
         toolbar = UISupport.createSmallToolbar();
-        mainToolbar.addFixed(startButton = UISupport.createToolbarButton(UISupport
+        mainToolbar.addFixed(startButton = UISupport.createToolbarButton(UISuppor
                 .createImageIcon("/start.png")));
-        mainToolbar.addFixed(stopButton = UISupport.createToolbarButton(UISupport
+        mainToolbar.addFixed(stopButton = UISupport.createToolbarButton(UISuppor
                 .createImageIcon("/stop.png")));
         mainToolbar.addFixed(optionsButton = UISupport.createToolbarButton(new SoapMonitorOptionsAction()));
 
         toolbar
                 .addFixed(createRequestButton = UISupport.createToolbarButton(UISupport.createImageIcon("/soap_request.png")));
-        toolbar.addFixed(addToTestCaseButton = UISupport.createToolbarButton(UISupport
+        toolbar.addFixed(addToTestCaseButton = UISupport.createToolbarButton(UISuppor
                 .createImageIcon("/testcase.png")));
         // toolbar.addFixed( addToRestTestCaseButton =
-        // UISupport.createToolbarButton( UISupport
+        // UISupport.createToolbarButton( UISuppor
         // .createImageIcon( "/testcase.png" ) ) );
-        toolbar.addFixed(addToMockServiceButton = UISupport.createToolbarButton(UISupport
+        toolbar.addFixed(addToMockServiceButton = UISupport.createToolbarButton(UISuppor
                 .createImageIcon("/soap_virt.png")));
         toolbar
                 .addFixed(clearButton = UISupport.createToolbarButton(UISupport.createImageIcon("/clear.png")));
@@ -453,7 +453,7 @@ public class SoapMonitor extends JPanel {
     }
 
     /**
-     * Method start
+     * Method star
      */
     public void start() {
         int localPort = getLocalPort();
@@ -1060,7 +1060,7 @@ public class SoapMonitor extends JPanel {
         }
 
         private synchronized void processMessage(WsdlMonitorMessageExchange messageExchange) {
-            messageExchange.prepare(project.getWssContainer().getIncomingWssByName(incomingRequestWss), project
+            messageExchange.prepare(project.getWssContainer().getIncomingWssByName(incomingRequestWss), projec
                     .getWssContainer().getIncomingWssByName(incomingResponseWss));
 
             tableModel.addMessageExchange(messageExchange);

@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.teststeps.assertions.basic;
@@ -45,7 +45,7 @@ import org.w3c.dom.Node;
 import javax.swing.JTextArea;
 
 /**
- * Assertion that matches a specified XQuery expression and its expected result
+ * Assertion that matches a specified XQuery expression and its expected resul
  * against the associated WsdlTestRequests response message
  *
  * @author Ole.Matzura
@@ -69,7 +69,7 @@ public class XQueryContainsAssertion extends AbstractXmlContainsAssertion {
             if (expectedContent == null) {
                 return "Missing content for XQuery Assertion";
             }
-            
+
             XmlOptions options = new XmlOptions();
             if (ignoreComments) {
                 options.setLoadStripComments();
@@ -88,7 +88,7 @@ public class XQueryContainsAssertion extends AbstractXmlContainsAssertion {
                 contentObj = XmlUtils.createXmlObject(expandedContent, options);
             } catch (Exception e) {
                 // this is ok.. it just means that the content to match is not xml
-                // but
+                // bu
                 // (hopefully) just a string
             	e.printStackTrace();
             }
@@ -162,7 +162,7 @@ public class XQueryContainsAssertion extends AbstractXmlContainsAssertion {
 
         return type + " matches content for [" + path + "]";
     }
-   
+
 
     private void compareValues(String expandedContent, String expandedValue) throws Exception {
         Diff diff = new Diff(expandedContent, expandedValue);
@@ -282,8 +282,8 @@ public class XQueryContainsAssertion extends AbstractXmlContainsAssertion {
         }
 
     }
-    
+
     protected  String getQueryType() {
     	return "XQuery";
-    }    
+    }
 }

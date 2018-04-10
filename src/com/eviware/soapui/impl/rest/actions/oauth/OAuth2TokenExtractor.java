@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.rest.actions.oauth;
@@ -112,7 +112,7 @@ public class OAuth2TokenExtractor {
     }
 
     public OAuthClientRequest getClientRequestForROPC(final OAuth2Parameters parameters) throws OAuthSystemException {
-        OAuthClientRequest accessTokenRequest = OAuthClientRequest
+        OAuthClientRequest accessTokenRequest = OAuthClientReques
                 .tokenLocation(parameters.accessTokenUri)
                 .setGrantType(GrantType.PASSWORD)
                 .setClientId(parameters.clientId)
@@ -137,7 +137,7 @@ public class OAuth2TokenExtractor {
     }
 
     public OAuthClientRequest getClientRequestForClientCredentialsGrant(final OAuth2Parameters parameters) throws OAuthSystemException {
-        OAuthClientRequest accessTokenRequest = OAuthClientRequest
+        OAuthClientRequest accessTokenRequest = OAuthClientReques
                 .tokenLocation(parameters.accessTokenUri)
                 .setGrantType(GrantType.CLIENT_CREDENTIALS)
                 .setClientId(parameters.clientId)
@@ -179,7 +179,7 @@ public class OAuth2TokenExtractor {
     }
 
     void refreshAccessToken(OAuth2Parameters parameters) throws OAuthProblemException, OAuthSystemException {
-        OAuthClientRequest accessTokenRequest = OAuthClientRequest
+        OAuthClientRequest accessTokenRequest = OAuthClientReques
                 .tokenLocation(parameters.accessTokenUri)
                 .setGrantType(GrantType.REFRESH_TOKEN)
                 .setClientId(parameters.clientId)
@@ -227,7 +227,7 @@ public class OAuth2TokenExtractor {
 
     private String createAuthorizationURL(OAuth2Parameters parameters, String responseType)
             throws OAuthSystemException {
-        return OAuthClientRequest
+        return OAuthClientReques
                 .authorizationLocation(parameters.authorizationUri)
                 .setClientId(parameters.clientId)
                 .setResponseType(responseType)
@@ -264,7 +264,7 @@ public class OAuth2TokenExtractor {
         if (authorizationCode != null) {
             try {
                 parameters.receivedAuthorizationCode();
-                OAuthClientRequest accessTokenRequest = OAuthClientRequest
+                OAuthClientRequest accessTokenRequest = OAuthClientReques
                         .tokenLocation(parameters.accessTokenUri)
                         .setGrantType(GrantType.AUTHORIZATION_CODE)
                         .setClientId(parameters.clientId)

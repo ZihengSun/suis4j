@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.support.wsa;
@@ -112,7 +112,7 @@ public class WsaUtils {
 
     private Element getHeader(WsaContainer wsaContainer) throws XmlException {
 
-        // version="2005/08" is default
+        // version="2005/08" is defaul
         wsaVersionNameSpace = WS_A_NAMESPACE_200508;
         if (wsaContainer.getWsaConfig().getVersion().equals(WsaVersionTypeConfig.X_200408.toString())) {
             wsaVersionNameSpace = WS_A_NAMESPACE_200408;
@@ -203,11 +203,11 @@ public class WsaUtils {
      *                         values
      * @param elementLocalName - property string to add, for instance: any:Action, or
      *                         any:ReplyTo
-     * @param wsaPropValue     - wsa property value, inserted in input box, or default
+     * @param wsaPropValue     - wsa property value, inserted in input box, or defaul
      *                         generated
      * @param address          - indicates if property is an endpoint reference, i.e. if it has
      *                         <address> tag inside itself
-     * @param refParamsContent - the content of ReferenceParameters for specific endpoint
+     * @param refParamsContent - the content of ReferenceParameters for specific endpoin
      *                         reference, null if property is an absolute IRI
      */
     private Element processWsaProperty(Element header, boolean override, String elementLocalName, String wsaPropValue,
@@ -437,7 +437,7 @@ public class WsaUtils {
                 requestHeader = (Element) SoapUtils.getHeaderElement(requestXmlObject, request.getSoapVersion(), true)
                         .getDomNode();
 
-                // request.messageId = mockResponse.relatesTo so get it
+                // request.messageId = mockResponse.relatesTo so get i
                 Element msgNode = XmlUtils.getFirstChildElementNS(requestHeader, requestWsaVersionNameSpace, "MessageID");
                 String requestMessageId = null;
                 if (msgNode != null) {
@@ -481,7 +481,7 @@ public class WsaUtils {
                     }
                 }
 
-                // request.replyTo = mockResponse.to so get it
+                // request.replyTo = mockResponse.to so get i
                 Element replyToNode = XmlUtils
                         .getFirstChildElementNS(requestHeader, requestWsaVersionNameSpace, "ReplyTo");
                 String requestReplyToValue = null;
@@ -500,11 +500,11 @@ public class WsaUtils {
                         header = processWsaProperty(header, override, wsaPrefix + ":To", to, false);
                     }
                 } else {
-                    // if to not specified but wsa:to mandatory get default
+                    // if to not specified but wsa:to mandatory get defaul
                     // value
                     if (!StringUtils.isNullOrEmpty(requestReplyToValue)) {
                         // if anonymous prohibited than default anonymous should
-                        // not
+                        // no
                         // be added
                         if (!(AnonymousTypeConfig.PROHIBITED.toString().equals(anonymousType) && isAnonymousAddress(
                                 requestReplyToValue, wsaVersionNameSpace))) {
@@ -596,7 +596,7 @@ public class WsaUtils {
                 if (refParamsContent != null) {
                     // Text propertyRefParamsContent =
                     // document.createTextNode(refParamsContent);
-                    Element refParamsElm = document
+                    Element refParamsElm = documen
                             .createElementNS(wsaVersionNameSpace, wsaPrefix + ":ReferenceParameters");
                     refParamsContent = "<dummy>" + refParamsContent + "</dummy>";
                     Node xx = document.importNode(XmlUtils.parseXml(refParamsContent).getDocumentElement(), true);

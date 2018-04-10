@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.support.soap;
@@ -302,7 +302,7 @@ public class SoapMessageBuilder implements MessageBuilder {
 
     private void buildRpcRequest(BindingOperation bindingOperation, XmlCursor cursor, SampleXmlUtil xmlGenerator)
             throws Exception {
-        // rpc requests use the operation name as root element
+        // rpc requests use the operation name as root elemen
         String ns = WsdlUtils.getSoapBodyNamespace(bindingOperation.getBindingInput().getExtensibilityElements());
         if (ns == null) {
             ns = WsdlUtils.getTargetNamespace(wsdlContext.getDefinition());
@@ -364,9 +364,9 @@ public class SoapMessageBuilder implements MessageBuilder {
 
     private void buildRpcResponse(BindingOperation bindingOperation, XmlCursor cursor, SampleXmlUtil xmlGenerator)
             throws Exception {
-        // rpc requests use the operation name as root element
+        // rpc requests use the operation name as root elemen
         BindingOutput bindingOutput = bindingOperation.getBindingOutput();
-        String ns = bindingOutput == null ? null : WsdlUtils.getSoapBodyNamespace(bindingOutput
+        String ns = bindingOutput == null ? null : WsdlUtils.getSoapBodyNamespace(bindingOutpu
                 .getExtensibilityElements());
 
         if (ns == null) {

@@ -342,7 +342,7 @@ public class OAuth1Form extends AbstractAuthenticationForm implements OAuth1Toke
     private void hideAccessTokenFormDialogAndEnableDisclosureButton(JDialog accessTokenFormDialog) {
         accessTokenFormDialog.setVisible(false);
         disclosureButton.setIcon(UISupport.createImageIcon("/pop-down-open.png"));
-        // If the focus is lost due to click on the disclosure button then don't enable it yet, since it
+        // If the focus is lost due to click on the disclosure button then don't enable it yet, since i
         // will then show the dialog directly again.
         if (!isMouseOnDisclosureLabel) {
             disclosureButtonDisabled = false;

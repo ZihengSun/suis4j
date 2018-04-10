@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.support.soap;
@@ -72,7 +72,7 @@ public class SoapUtils {
      * Init soapversion from content-type header.. should envelope be checked
      * and/or override?
      *
-     * @param xmlObject
+     * @param xmlObjec
      */
 
     public static SoapVersion deduceSoapVersion(String contentType, XmlObject xmlObject) {
@@ -230,7 +230,7 @@ public class SoapUtils {
                     continue;
                 }
 
-                // check content
+                // check conten
                 if (wsdlOperation.getStyle().equals(WsdlOperation.STYLE_DOCUMENT)) {
                     // check that all attachments match
                     BindingOperation bindingOperation = wsdlOperation.getBindingOperation();
@@ -238,7 +238,7 @@ public class SoapUtils {
                     List<Part> parts = message.getOrderedParts(null);
 
                     for (int x = 0; x < parts.size(); x++) {
-                        // check for attachment part
+                        // check for attachment par
                         if (WsdlUtils.isAttachmentInputPart(parts.get(x), bindingOperation)) {
                             for (Attachment attachment : attachments) {
                                 if (attachment.getPart().equals(parts.get(x).getName())) {
@@ -361,7 +361,7 @@ public class SoapUtils {
                     continue;
                 }
 
-                // check content
+                // check conten
                 if (wsdlOperation.getStyle().equals(WsdlOperation.STYLE_DOCUMENT)) {
                     // matches!
                     return wsdlOperation;

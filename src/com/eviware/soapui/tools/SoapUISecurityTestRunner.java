@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.tools;
@@ -260,7 +260,7 @@ public class SoapUISecurityTestRunner extends SoapUITestCaseRunner implements Se
      * Runs the SecurityTests in the specified TestCase
      *
      * @param testCase the testcase to run
-     * @param context
+     * @param contex
      */
 
     protected void runTestCase(WsdlTestCase testCase) {
@@ -279,7 +279,7 @@ public class SoapUISecurityTestRunner extends SoapUITestCaseRunner implements Se
     }
 
     /**
-     * @param securityTest
+     * @param securityTes
      */
     protected void runSecurityTest(SecurityTest securityTest) {
         securityTest.addSecurityTestRunListener(new SecurityTestRunListenerAdapter() {
@@ -374,12 +374,12 @@ public class SoapUISecurityTestRunner extends SoapUITestCaseRunner implements Se
                         + StringUtils.createFileName(currentStep.getName(), '_') + "-" + count.longValue() + "-"
                         + result.getStatus();
 
-                WsdlTestCaseRunner callingTestCaseRunner = (WsdlTestCaseRunner) runContext
+                WsdlTestCaseRunner callingTestCaseRunner = (WsdlTestCaseRunner) runContex
                         .getProperty("#CallingTestCaseRunner#");
 
                 if (callingTestCaseRunner != null) {
                     WsdlTestCase ctc = callingTestCaseRunner.getTestCase();
-                    WsdlRunTestCaseTestStep runTestCaseTestStep = (WsdlRunTestCaseTestStep) runContext
+                    WsdlRunTestCaseTestStep runTestCaseTestStep = (WsdlRunTestCaseTestStep) runContex
                             .getProperty("#CallingRunTestCaseStep#");
 
                     nameBase = StringUtils.createFileName(securityTestName, '_') + exportSeparator

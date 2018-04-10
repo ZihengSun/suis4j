@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.support.jnlp;
@@ -51,7 +51,7 @@ public class WebstartUtil {
             JarEntry file = (JarEntry) entries.nextElement();
             File f = new File(eviwareDir + File.separator + file.getName());
 
-            if (file.isDirectory()) { // if its a directory, skip it
+            if (file.isDirectory()) { // if its a directory, skip i
                 continue;
             }
             // System.out.println(f);
@@ -73,7 +73,7 @@ public class WebstartUtil {
         while (entries.hasMoreElements()) {
             JarEntry file = (JarEntry) entries.nextElement();
             File f = new File(eviwareDir + File.separator + file.getName());
-            if (file.isDirectory()) { // if its a directory, create it
+            if (file.isDirectory()) { // if its a directory, create i
                 f.mkdir();
                 // System.out.println(f);
             }

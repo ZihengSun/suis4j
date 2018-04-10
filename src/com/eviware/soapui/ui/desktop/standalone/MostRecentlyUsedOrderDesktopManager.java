@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.ui.desktop.standalone;
@@ -27,7 +27,7 @@ import java.util.Deque;
  * A DesktopManager managing the internal frames in Desktop using a Most-Recently-Used order when changing
  * the active internal frame. A Deque (a stack-like data structure) is used to keep track of frames.
  * <ul>
- * <li><code>activateFrame(JInternalFrame)</code> puts the frame at top of stack : if frame was already present
+ * <li><code>activateFrame(JInternalFrame)</code> puts the frame at top of stack : if frame was already presen
  * in stack, remove it then add it at top, otherwise, add it at top.</li>
  * <li><code>deactivateFrame(JInternalFrame)</code> is a noop on the stack, delegate to superclass.</li>
  * <li><code>closeFrame(JInternalFrame)</code> removes frame from the stack and selects the frame at top of stack.</li>

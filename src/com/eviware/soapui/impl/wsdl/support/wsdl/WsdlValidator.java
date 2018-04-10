@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.support.wsdl;
@@ -283,7 +283,7 @@ public class WsdlValidator {
         List<XmlObject> result = new ArrayList<XmlObject>();
 
         if (WsdlUtils.isRpc(wsdlContext.getDefinition(), bindingOperation)) {
-            // get root element
+            // get root elemen
             XmlObject[] paths = msgXml.selectPath("declare namespace env='"
                     + wsdlContext.getSoapVersion().getEnvelopeNamespace() + "';" + "declare namespace ns='"
                     + WsdlUtils.getTargetNamespace(wsdlContext.getDefinition()) + "';" + "$this/env:Envelope/env:Body/ns:"
@@ -532,7 +532,7 @@ public class WsdlValidator {
                                     List<XmlError> errors, boolean isResponse) throws Exception {
         Part part = null;
 
-        // start by finding body part
+        // start by finding body par
         for (int c = 0; c < parts.length; c++) {
             // content part?
             if ((isResponse && !WsdlUtils.isAttachmentOutputPart(parts[c], bindingOperation))
@@ -602,7 +602,7 @@ public class WsdlValidator {
     }
 
     private void validateMessageBody(List<XmlError> errors, SchemaType type, XmlObject msg) throws XmlException {
-        // need to create new body element of correct type from xml text
+        // need to create new body element of correct type from xml tex
         // since we want to retain line-numbers
         XmlOptions xmlOptions = new XmlOptions();
         xmlOptions.setLoadLineNumbers();
@@ -634,7 +634,7 @@ public class WsdlValidator {
         XmlObject obj = type.getTypeSystem().parse(xmlText, type, xmlOptions);
         obj = obj.changeType(type);
 
-        // create internal error list
+        // create internal error lis
         ArrayList<Object> list = new ArrayList<Object>();
 
         xmlOptions = new XmlOptions();
@@ -777,7 +777,7 @@ public class WsdlValidator {
             ns = WsdlUtils.getTargetNamespace(wsdlContext.getDefinition());
         }
 
-        // get root element
+        // get root elemen
         XmlObject[] paths = msgXml.selectPath("declare namespace env='"
                 + wsdlContext.getSoapVersion().getEnvelopeNamespace() + "';" + "declare namespace ns='" + ns + "';"
                 + "$this/env:Envelope/env:Body/ns:" + bindingOperation.getName() + (isResponse ? "Response" : ""));
@@ -790,7 +790,7 @@ public class WsdlValidator {
         Map faults = bindingOperation.getBindingFaults();
         Iterator<BindingFault> i = faults.values().iterator();
 
-        // create internal error list
+        // create internal error lis
         List<?> list = new ArrayList<Object>();
 
         XmlOptions xmlOptions = new XmlOptions();
@@ -867,7 +867,7 @@ public class WsdlValidator {
             }
         }
 
-        // if we get here, no matching fault was found.. this is not an error but
+        // if we get here, no matching fault was found.. this is not an error bu
         // should be warned..
         XmlObject[] paths = msgXml.selectPath("declare namespace env='"
                 + wsdlContext.getSoapVersion().getEnvelopeNamespace() + "'; declare namespace flt='"

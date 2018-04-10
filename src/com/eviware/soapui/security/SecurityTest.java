@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.security;
@@ -351,7 +351,7 @@ public class SecurityTest extends AbstractTestPropertyHolderWsdlModelItem<Securi
      * with the new result value
      *
      * @param testStep
-     * @param securityTestStepResult
+     * @param securityTestStepResul
      */
     public void putSecurityTestStepResult(TestStep testStep, SecurityTestStepResult securityTestStepResult) {
         securityTestStepResultMap.put(testStep, securityTestStepResult);
@@ -377,7 +377,7 @@ public class SecurityTest extends AbstractTestPropertyHolderWsdlModelItem<Securi
     /**
      * Sets the script to be used on startup
      *
-     * @param script
+     * @param scrip
      */
     public void setStartupScript(String script) {
         String oldScript = getStartupScript();
@@ -395,7 +395,7 @@ public class SecurityTest extends AbstractTestPropertyHolderWsdlModelItem<Securi
     }
 
     /**
-     * @return The current startup script
+     * @return The current startup scrip
      */
     public String getStartupScript() {
         return getConfig() != null ? (getConfig().isSetSetupScript() ? getConfig().getSetupScript().getStringValue()
@@ -403,9 +403,9 @@ public class SecurityTest extends AbstractTestPropertyHolderWsdlModelItem<Securi
     }
 
     /**
-     * Executes the startup Script
+     * Executes the startup Scrip
      *
-     * @param runContext
+     * @param runContex
      * @param runner
      * @return
      * @throws Exception
@@ -430,7 +430,7 @@ public class SecurityTest extends AbstractTestPropertyHolderWsdlModelItem<Securi
     /**
      * Sets the script to be used on teardown
      *
-     * @param script
+     * @param scrip
      */
     public void setTearDownScript(String script) {
         String oldScript = getTearDownScript();
@@ -448,7 +448,7 @@ public class SecurityTest extends AbstractTestPropertyHolderWsdlModelItem<Securi
     }
 
     /**
-     * @return The current teardown script
+     * @return The current teardown scrip
      */
     public String getTearDownScript() {
         return getConfig() != null ? (getConfig().isSetTearDownScript() ? getConfig().getTearDownScript()
@@ -456,9 +456,9 @@ public class SecurityTest extends AbstractTestPropertyHolderWsdlModelItem<Securi
     }
 
     /**
-     * Executes the teardown Script
+     * Executes the teardown Scrip
      *
-     * @param runContext
+     * @param runContex
      * @param runner
      * @return
      * @throws Exception
@@ -527,7 +527,7 @@ public class SecurityTest extends AbstractTestPropertyHolderWsdlModelItem<Securi
     }
 
     /**
-     * Moves specified SecurityScan of a TestStep in a list
+     * Moves specified SecurityScan of a TestStep in a lis
      *
      * @param testStep
      * @param securityScan
@@ -718,7 +718,7 @@ public class SecurityTest extends AbstractTestPropertyHolderWsdlModelItem<Securi
     }
 
     /**
-     * Creates array of all available security scan names (those that have not
+     * Creates array of all available security scan names (those that have no
      * been added to test step).
      *
      * @param testStep
@@ -750,7 +750,7 @@ public class SecurityTest extends AbstractTestPropertyHolderWsdlModelItem<Securi
             boolean targetHasScanOfSameType = false;
             for (SecurityScan oldScan : getTestStepSecurityScans(targetTestStep.getId())) {
                 if (oldScan.getType().equals(securityScanToClone.getType())) {
-                    // there already is a scan of particular type in target
+                    // there already is a scan of particular type in targe
                     // teststep
                     targetHasScanOfSameType = true;
                     if (overwrite) {

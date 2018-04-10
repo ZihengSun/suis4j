@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.model.testsuite;
@@ -29,7 +29,7 @@ public interface LoadTestRunListener extends SoapUIListener {
      * Called before a load-test is about to be run
      *
      * @param loadTestRunner
-     * @param context
+     * @param contex
      */
 
     public void beforeLoadTest(LoadTestRunner loadTestRunner, LoadTestRunContext context);
@@ -38,7 +38,7 @@ public interface LoadTestRunListener extends SoapUIListener {
      * Called after all initial loadtest threads have been started
      *
      * @param loadTestRunner
-     * @param context
+     * @param contex
      */
 
     public void loadTestStarted(LoadTestRunner loadTestRunner, LoadTestRunContext context);
@@ -47,9 +47,9 @@ public interface LoadTestRunListener extends SoapUIListener {
      * Called before the execution of a testcase
      *
      * @param loadTestRunner
-     * @param context
+     * @param contex
      * @param testRunner
-     * @param runContext
+     * @param runContex
      */
 
     public void beforeTestCase(LoadTestRunner loadTestRunner, LoadTestRunContext context, TestCaseRunner testRunner,
@@ -59,9 +59,9 @@ public interface LoadTestRunListener extends SoapUIListener {
      * Called before the execution of a teststep
      *
      * @param loadTestRunner
-     * @param context
+     * @param contex
      * @param testRunner
-     * @param runContext
+     * @param runContex
      * @param testStep
      */
 
@@ -72,10 +72,10 @@ public interface LoadTestRunListener extends SoapUIListener {
      * Called after the execution of a teststep
      *
      * @param loadTestRunner
-     * @param context
+     * @param contex
      * @param testRunner
-     * @param runContext
-     * @param testStepResult
+     * @param runContex
+     * @param testStepResul
      */
 
     public void afterTestStep(LoadTestRunner loadTestRunner, LoadTestRunContext context, TestCaseRunner testRunner,
@@ -85,9 +85,9 @@ public interface LoadTestRunListener extends SoapUIListener {
      * Called after the execution of a testcase
      *
      * @param loadTestRunner
-     * @param context
+     * @param contex
      * @param testRunner
-     * @param runContext
+     * @param runContex
      */
 
     public void afterTestCase(LoadTestRunner loadTestRunner, LoadTestRunContext context, TestCaseRunner testRunner,
@@ -97,7 +97,7 @@ public interface LoadTestRunListener extends SoapUIListener {
      * Called when a loadtest has been stopped for some reason
      *
      * @param loadTestRunner
-     * @param context
+     * @param contex
      */
 
     public void loadTestStopped(LoadTestRunner loadTestRunner, LoadTestRunContext context);
@@ -106,7 +106,7 @@ public interface LoadTestRunListener extends SoapUIListener {
      * Called after the execution of a loadtest when all threads have terminated
      *
      * @param loadTestRunner
-     * @param context
+     * @param contex
      */
     public void afterLoadTest(LoadTestRunner loadTestRunner, LoadTestRunContext context);
 }

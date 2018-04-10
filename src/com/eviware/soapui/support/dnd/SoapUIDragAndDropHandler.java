@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.support.dnd;
@@ -108,7 +108,7 @@ public class SoapUIDragAndDropHandler implements DragGestureListener, DragSource
         this.dragAndDropable = target;
         this.dropType = dropType;
 
-        // Also, make this JTree a drag target
+        // Also, make this JTree a drag targe
         DropTarget dropTarget = new DropTarget(target.getComponent(), new SoapUIDropTargetListener());
         dropTarget.setDefaultActions(DnDConstants.ACTION_COPY_OR_MOVE);
     }
@@ -158,7 +158,7 @@ public class SoapUIDragAndDropHandler implements DragGestureListener, DragSource
         dragAndDropable.selectModelItem(modelItem); // Select this path in the
         // tree
 
-        // Wrap the path being transferred into a Transferable object
+        // Wrap the path being transferred into a Transferable objec
         Transferable transferable = new ModelItemTransferable(modelItem);
 
         // We pass our drag image just in case it IS supported by the platform
@@ -195,7 +195,7 @@ public class SoapUIDragAndDropHandler implements DragGestureListener, DragSource
         private Rectangle2D _raCueLine = new Rectangle2D.Float();
         private Color _colorCueLine;
         private Timer _timerHover;
-        // private int _nLeftRight = 0; // Cumulative left/right mouse movement
+        // private int _nLeftRight = 0; // Cumulative left/right mouse movemen
         private String dropInfo;
 
         // Constructor...
@@ -267,9 +267,9 @@ public class SoapUIDragAndDropHandler implements DragGestureListener, DragSource
             // drag image
             if (!DragSource.isDragImageSupported() && _imgGhost != null && _ptOffset != null) {
                 dragAndDropable.getComponent().paintImmediately(_raGhost.getBounds()); // Rub
-                // out
+                // ou
                 // the
-                // last ghost
+                // last ghos
                 // image and cue line
                 // And remember where we are about to draw the new ghost image
                 _raGhost.setRect(pt.x - _ptOffset.x, pt.y - _ptOffset.y, _imgGhost.getWidth(), _imgGhost.getHeight());

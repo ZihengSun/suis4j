@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.teststeps.assertions.basic;
@@ -52,7 +52,7 @@ import org.w3c.dom.Node;
 import javax.swing.JTextArea;
 
 /**
- * Assertion that matches a specified XPath expression and its expected result
+ * Assertion that matches a specified XPath expression and its expected resul
  * against the associated WsdlTestRequests response message
  *
  * @author Ole.Matzura
@@ -86,7 +86,7 @@ public class XPathContainsAssertion extends AbstractXmlContainsAssertion {
             XmlObject xml = XmlUtils.createXmlObject(response, options);
             String expandedPath = PropertyExpander.expandProperties(context, path);
             XmlObject[] items = xml.selectPath(expandedPath);
-            AssertedXPathsContainer assertedXPathsContainer = (AssertedXPathsContainer) context
+            AssertedXPathsContainer assertedXPathsContainer = (AssertedXPathsContainer) contex
                     .getProperty(AssertedXPathsContainer.ASSERTEDXPATHSCONTAINER_PROPERTY);
 
             XmlObject contentObj = null;
@@ -101,9 +101,9 @@ public class XPathContainsAssertion extends AbstractXmlContainsAssertion {
                     // );
                     contentObj = XmlUtils.createXmlObject(expandedContent, options);
                 } catch (Exception e) {
-                    // this is ok.. it just means that the content to match is not
+                    // this is ok.. it just means that the content to match is no
                     // xml
-                    // but
+                    // bu
                     // (hopefully) just a string
                 }
             }
@@ -329,7 +329,7 @@ public class XPathContainsAssertion extends AbstractXmlContainsAssertion {
             return XmlUtils.seemsToBeXml(content);
         }
     }
-    
+
     protected  String getQueryType() {
     	return "XPath";
     }

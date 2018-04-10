@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.actions.iface.tools.gsoap;
@@ -44,20 +44,20 @@ import java.util.List;
 
 /*
  * http://www.cs.fsu.edu/~engelen/soap.html
- * 
+ *
  * Option Description -a generate indexed struct names for local elements with
  * anonymous types -c generate C source code -d use DOM to populate xs:any and
  * xsd:anyType elements -e don't qualify enum names This option is for backward
  * compatibility with gSOAP 2.4.1 and earlier. The option does not produce code
  * that conforms to WS-I Basic Profile 1.0a. -f generate flat C++ class
- * hierarchy for schema extensions -g generate global top-level element
+ * hierarchy for schema extensions -g generate global top-level elemen
  * declarations -h print help information -I path use path to find files -l
  * include license information in output -m use xsd.h module to import primitive
  * types -n name use name as the base namespace prefix name instead of ns -N
  * name use name as the base namespace prefix name for service namespaces -o
  * file output to file -p create polymorphic types with C++ inheritance
  * hierarchy with base xsd__anyType This is automatically performed when WSDL
- * contains polymorphic definitions -r host:port connect via proxy host and port
+ * contains polymorphic definitions -r host:port connect via proxy host and por
  * -s don't generate STL code (no std::string and no std::vector) -t file use
  * type map file instead of the default file typemap.dat -u don't generate
  * unions -v verbose output -w always wrap response parameters in a response

@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.panels.iface;
@@ -184,7 +184,7 @@ public class WsdlInterfaceDesktopPanel extends ModelItemDesktopPanel<WsdlInterfa
         metrics = new MetricsPanel();
         JXToolBar toolbar = UISupport.createSmallToolbar();
         toolbar.addGlue();
-        toolbar.addFixed(UISupport
+        toolbar.addFixed(UISuppor
                 .createToolbarButton(new ShowOnlineHelpAction(HelpUrls.INTERFACE_OVERVIEW_HELP_URL)));
         metrics.add(toolbar, BorderLayout.NORTH);
         MetricsSection section = metrics.addSection("WSDL Definition");
@@ -446,7 +446,7 @@ public class WsdlInterfaceDesktopPanel extends ModelItemDesktopPanel<WsdlInterfa
             XmlUtils.serializePretty(XmlUtils.createXmlObject(content), writer);
             String xmlString = writer.toString();
 
-            // reparse so line numbers are correct
+            // reparse so line numbers are correc
             // XmlObject xmlObject = XmlObject.Factory.parse( xmlString, new
             // XmlOptions().setLoadLineNumbers() );
             XmlObject xmlObject = XmlUtils.createXmlObject(xmlString, new XmlOptions().setLoadLineNumbers());

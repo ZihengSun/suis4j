@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.submit.filters;
@@ -78,7 +78,7 @@ public class HttpRequestFilter extends AbstractRequestFilter {
         StringBuilder query = new StringBuilder();
         String encoding = System.getProperty("soapui.request.encoding", StringUtils.unquote(request.getEncoding()));
 
-        StringToStringMap responseProperties = (StringToStringMap) context
+        StringToStringMap responseProperties = (StringToStringMap) contex
                 .getProperty(BaseHttpRequestTransport.RESPONSE_PROPERTIES);
 
         MimeMultipart formMp = ("multipart/form-data".equals(request.getMediaType())
@@ -164,7 +164,7 @@ public class HttpRequestFilter extends AbstractRequestFilter {
                     break;
                 case TEMPLATE:
                     try {
-                        value = getEncodedValue(value, encoding, param.isDisableUrlEncoding(), request
+                        value = getEncodedValue(value, encoding, param.isDisableUrlEncoding(), reques
                                 .getSettings().getBoolean(HttpSettings.ENCODED_URLS));
                         path = path.replaceAll("\\{" + param.getName() + "\\}", value == null ? "" : value);
                     } catch (UnsupportedEncodingException e) {
@@ -173,7 +173,7 @@ public class HttpRequestFilter extends AbstractRequestFilter {
                     break;
                 case MATRIX:
                     try {
-                        value = getEncodedValue(value, encoding, param.isDisableUrlEncoding(), request
+                        value = getEncodedValue(value, encoding, param.isDisableUrlEncoding(), reques
                                 .getSettings().getBoolean(HttpSettings.ENCODED_URLS));
                     } catch (UnsupportedEncodingException e) {
                         SoapUI.logError(e);
@@ -219,7 +219,7 @@ public class HttpRequestFilter extends AbstractRequestFilter {
                 java.net.URI newUri = URIUtils.createURI(oldUri.getScheme(), oldUri.getHost(), oldUri.getPort(),
                         pathToSet, oldUri.getQuery(), oldUri.getFragment());
                 httpMethod.setURI(newUri);
-                context.setProperty(BaseHttpRequestTransport.REQUEST_URI, new URI(newUri.toString(), request
+                context.setProperty(BaseHttpRequestTransport.REQUEST_URI, new URI(newUri.toString(), reques
                         .getSettings().getBoolean(HttpSettings.ENCODED_URLS)));
             } catch (Exception e) {
                 SoapUI.logError(e);
@@ -304,7 +304,7 @@ public class HttpRequestFilter extends AbstractRequestFilter {
                         byte[] content = encoding == null ? requestContent.getBytes() : requestContent.getBytes(encoding);
                         ((HttpEntityEnclosingRequest) httpMethod).setEntity(new ByteArrayEntity(content));
                     } catch (UnsupportedEncodingException e) {
-                        ((HttpEntityEnclosingRequest) httpMethod).setEntity(new ByteArrayEntity(requestContent
+                        ((HttpEntityEnclosingRequest) httpMethod).setEntity(new ByteArrayEntity(requestConten
                                 .getBytes()));
                     }
                 } else if (attachments.size() > 0) {
@@ -401,7 +401,7 @@ public class HttpRequestFilter extends AbstractRequestFilter {
             return "";
         }
 
-        // get default encoding if there is no encoding set
+        // get default encoding if there is no encoding se
         if (!StringUtils.hasContent(encoding)) {
             encoding = System.getProperty("file.encoding");
         }

@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.rest.support.handlers;
@@ -87,15 +87,15 @@ public class JsonXmlSerializer {
     private static final Log log = LogFactory.getLog(JsonXmlSerializer.class);
 
     /**
-     * the name for an JSONArray Element
+     * the name for an JSONArray Elemen
      */
     private String arrayName;
     /**
-     * the name for an JSONArray's element Element
+     * the name for an JSONArray's element Elemen
      */
     private String elementName;
     /**
-     * list of properties to be expanded from child to parent
+     * list of properties to be expanded from child to paren
      */
     private String[] expandableProperties;
     private boolean forceTopLevelObject;
@@ -104,11 +104,11 @@ public class JsonXmlSerializer {
      */
     private boolean namespaceLenient;
     /**
-     * Map of namespaces per element
+     * Map of namespaces per elemen
      */
     private Map namespacesPerElement = new TreeMap();
     /**
-     * the name for an JSONObject Element
+     * the name for an JSONObject Elemen
      */
     private String objectName;
     /**
@@ -116,11 +116,11 @@ public class JsonXmlSerializer {
      */
     private boolean removeNamespacePrefixFromElements;
     /**
-     * the name for the root Element
+     * the name for the root Elemen
      */
     private String rootName;
     /**
-     * Map of namespaces for root element
+     * Map of namespaces for root elemen
      */
     private Map rootNamespace = new TreeMap();
     /**
@@ -190,7 +190,7 @@ public class JsonXmlSerializer {
      *
      * @param prefix      namespace prefix
      * @param uri         namespace uri
-     * @param elementName name of target element
+     * @param elementName name of target elemen
      */
     public void addNamespace(String prefix, String uri, String elementName) {
         if (StringUtils.isBlank(uri)) {
@@ -224,7 +224,7 @@ public class JsonXmlSerializer {
      * If the elementName param is null or blank, the declarations will be
      * removed from the root element.
      *
-     * @param elementName name of target element
+     * @param elementName name of target elemen
      */
     public void clearNamespaces(String elementName) {
         if (StringUtils.isBlank(elementName)) {
@@ -438,7 +438,7 @@ public class JsonXmlSerializer {
      * the root element.
      *
      * @param prefix      namespace prefix
-     * @param elementName name of target element
+     * @param elementName name of target elemen
      */
     public void removeNamespace(String prefix, String elementName) {
         if (prefix == null) {
@@ -497,7 +497,7 @@ public class JsonXmlSerializer {
      *
      * @param prefix      namespace prefix
      * @param uri         namespace uri
-     * @param elementName name of target element
+     * @param elementName name of target elemen
      */
     public void setNamespace(String prefix, String uri, String elementName) {
         if (StringUtils.isBlank(uri)) {
@@ -781,11 +781,11 @@ public class JsonXmlSerializer {
         } else if (element.getAttributeCount() == 0) {
             isArray = checkChildElements(element, isTopLevel);
         } else if (element.getAttributeCount() == 1
-                && (element.getAttribute(addJsonPrefix("class")) != null || element
+                && (element.getAttribute(addJsonPrefix("class")) != null || elemen
                 .getAttribute(addJsonPrefix("type")) != null)) {
             isArray = checkChildElements(element, isTopLevel);
         } else if (element.getAttributeCount() == 2
-                && (element.getAttribute(addJsonPrefix("class")) != null && element
+                && (element.getAttribute(addJsonPrefix("class")) != null && elemen
                 .getAttribute(addJsonPrefix("type")) != null)) {
             isArray = checkChildElements(element, isTopLevel);
         }
@@ -830,11 +830,11 @@ public class JsonXmlSerializer {
             } else if (element.getAttribute(addJsonPrefix("null")) != null) {
                 return true;
             } else if (element.getAttributeCount() == 1
-                    && (element.getAttribute(addJsonPrefix("class")) != null || element
+                    && (element.getAttribute(addJsonPrefix("class")) != null || elemen
                     .getAttribute(addJsonPrefix("type")) != null)) {
                 return true;
             } else if (element.getAttributeCount() == 2
-                    && (element.getAttribute(addJsonPrefix("class")) != null && element
+                    && (element.getAttribute(addJsonPrefix("class")) != null && elemen
                     .getAttribute(addJsonPrefix("type")) != null)) {
                 return true;
             }
@@ -1087,7 +1087,7 @@ public class JsonXmlSerializer {
             }
         }
 
-        // process attributes first
+        // process attributes firs
         int attrCount = element.getAttributeCount();
         for (int i = 0; i < attrCount; i++) {
             Attribute attr = element.getAttribute(i);
@@ -1174,7 +1174,7 @@ public class JsonXmlSerializer {
             if (type.compareToIgnoreCase(JSONTypes.BOOLEAN) == 0) {
                 jsonArray.element(Boolean.valueOf(element.getValue()));
             } else if (type.compareToIgnoreCase(JSONTypes.NUMBER) == 0) {
-                // try integer first
+                // try integer firs
                 try {
                     jsonArray.element(Integer.valueOf(element.getValue()));
                 } catch (NumberFormatException e) {
@@ -1249,7 +1249,7 @@ public class JsonXmlSerializer {
             if (type.compareToIgnoreCase(JSONTypes.BOOLEAN) == 0) {
                 setOrAccumulate(jsonObject, key, Boolean.valueOf(element.getValue()));
             } else if (type.compareToIgnoreCase(JSONTypes.NUMBER) == 0) {
-                // try integer first
+                // try integer firs
                 try {
                     setOrAccumulate(jsonObject, key, Integer.valueOf(element.getValue()));
                 } catch (NumberFormatException e) {

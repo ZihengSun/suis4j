@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.panels.teststeps.support;
@@ -54,7 +54,7 @@ public class NamedParameterStatement {
     }
 
     /**
-     * Parses a query with named parameters. The parameter-index mappings are put
+     * Parses a query with named parameters. The parameter-index mappings are pu
      * into the map, and the parsed query is returned. DO NOT CALL FROM CLIENT
      * CODE. This method is non-private so JUnit code can test it.
      *
@@ -131,7 +131,7 @@ public class NamedParameterStatement {
      *
      * @param name parameter name
      * @return parameter indexes
-     * @throws IllegalArgumentException if the parameter does not exist
+     * @throws IllegalArgumentException if the parameter does not exis
      */
     private int[] getIndexes(String name) {
         int[] indexes = (int[]) indexMap.get(name);
@@ -147,7 +147,7 @@ public class NamedParameterStatement {
      * @param name  parameter name
      * @param value parameter value
      * @throws SQLException             if an error occurred
-     * @throws IllegalArgumentException if the parameter does not exist
+     * @throws IllegalArgumentException if the parameter does not exis
      * @see PreparedStatement#setObject(int, java.lang.Object)
      */
     public void setObject(String name, Object value) throws SQLException {
@@ -163,7 +163,7 @@ public class NamedParameterStatement {
      * @param name  parameter name
      * @param value parameter value
      * @throws SQLException             if an error occurred
-     * @throws IllegalArgumentException if the parameter does not exist
+     * @throws IllegalArgumentException if the parameter does not exis
      * @see PreparedStatement#setString(int, java.lang.String)
      */
     public void setString(String name, String value) throws SQLException {
@@ -179,7 +179,7 @@ public class NamedParameterStatement {
      * @param name  parameter name
      * @param value parameter value
      * @throws SQLException             if an error occurred
-     * @throws IllegalArgumentException if the parameter does not exist
+     * @throws IllegalArgumentException if the parameter does not exis
      * @see PreparedStatement#setInt(int, int)
      */
     public void setInt(String name, int value) throws SQLException {
@@ -195,7 +195,7 @@ public class NamedParameterStatement {
      * @param name  parameter name
      * @param value parameter value
      * @throws SQLException             if an error occurred
-     * @throws IllegalArgumentException if the parameter does not exist
+     * @throws IllegalArgumentException if the parameter does not exis
      * @see PreparedStatement#setInt(int, int)
      */
     public void setLong(String name, long value) throws SQLException {
@@ -211,7 +211,7 @@ public class NamedParameterStatement {
      * @param name  parameter name
      * @param value parameter value
      * @throws SQLException             if an error occurred
-     * @throws IllegalArgumentException if the parameter does not exist
+     * @throws IllegalArgumentException if the parameter does not exis
      * @see PreparedStatement#setTimestamp(int, java.sql.Timestamp)
      */
     public void setTimestamp(String name, Timestamp value) throws SQLException {
@@ -224,7 +224,7 @@ public class NamedParameterStatement {
     /**
      * Returns the underlying statement.
      *
-     * @return the statement
+     * @return the statemen
      */
     public PreparedStatement getStatement() {
         return statement;
@@ -289,7 +289,7 @@ public class NamedParameterStatement {
      * <p/>
      * See {@link Statement#executeBatch()} for details.
      *
-     * @return update counts for each statement
+     * @return update counts for each statemen
      * @throws SQLException if something went wrong
      */
     public int[] executeBatch() throws SQLException {

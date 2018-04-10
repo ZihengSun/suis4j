@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.monitor;
@@ -42,7 +42,7 @@ public class SlowLinkSimulator {
     private int totalBytes;
 
     /**
-     * construct
+     * construc
      *
      * @param delayBytes bytes per delay; set to 0 for no delay
      * @param delayTime  delay time per delay in milliseconds
@@ -72,7 +72,7 @@ public class SlowLinkSimulator {
     }
 
     /**
-     * log #of bytes pumped. Will pause when necessary. This method is not
+     * log #of bytes pumped. Will pause when necessary. This method is no
      * synchronized
      *
      * @param bytes
@@ -94,7 +94,7 @@ public class SlowLinkSimulator {
             // move byte counter down to the remainder of bytes
             currentBytes = currentBytes % delayBytes;
 
-            // now wait
+            // now wai
             try {
                 Thread.sleep(delay);
             } catch (InterruptedException e) {
@@ -104,7 +104,7 @@ public class SlowLinkSimulator {
     }
 
     /**
-     * get the current byte count
+     * get the current byte coun
      *
      * @return integer
      */
@@ -113,7 +113,7 @@ public class SlowLinkSimulator {
     }
 
     /**
-     * set the current byte count
+     * set the current byte coun
      *
      * @param currentBytes
      */

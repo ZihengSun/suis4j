@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.panels.teststeps;
@@ -27,7 +27,7 @@ import com.eviware.soapui.support.types.StringList;
 import javax.swing.JPanel;
 
 /**
- * PanelBuilder for WsdlTestRequest
+ * PanelBuilder for WsdlTestReques
  *
  * @author Ole.Matzura
  */
@@ -53,7 +53,7 @@ public class WsdlTestRequestPanelBuilder extends EmptyPanelBuilder<WsdlTestReque
         table.addProperty("Description", "description", true);
         table.addProperty("Message Size", "contentLength", false);
         table.addProperty("Encoding", "encoding", new String[]{null, "UTF-8", "iso-8859-1"});
-        table.addProperty("Endpoint", "endpoint", request.getInterface() == null ? new String[0] : request
+        table.addProperty("Endpoint", "endpoint", request.getInterface() == null ? new String[0] : reques
                 .getInterface().getEndpoints());
         table.addProperty("Timeout", "timeout", true);
         table.addProperty("Bind Address", "bindAddress", true);

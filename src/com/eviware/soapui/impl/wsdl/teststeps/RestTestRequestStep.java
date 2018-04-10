@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.teststeps;
@@ -148,7 +148,7 @@ public class RestTestRequestStep extends WsdlTestStepWithProperties implements R
                 if (XmlUtils.seemsToBeXml(requestContent)) {
 
                     try {
-                        // first the DOM of the current request
+                        // first the DOM of the current reques
                         Document dom = XmlUtils.parseXml(requestContent);
 
                         // get matching representations
@@ -185,7 +185,7 @@ public class RestTestRequestStep extends WsdlTestStepWithProperties implements R
 
             public SchemaType getSchemaType() {
                 try {
-                    // first the DOM of the current request
+                    // first the DOM of the current reques
                     Document dom = XmlUtils.parseXml(getTestRequest().getResponseContentAsXml());
 
                     // get matching representations
@@ -655,7 +655,7 @@ public class RestTestRequestStep extends WsdlTestStepWithProperties implements R
 	/*
      * @SuppressWarnings("unchecked") public void resolve(ResolveContext<?>
 	 * context) { super.resolve(context);
-	 * 
+	 *
 	 * if (getResource() == null) { if (context.hasThisModelItem(this,
 	 * "Missing REST Resource in Project", getRequestStepConfig() .getService() +
 	 * "/" + getRequestStepConfig().getResourcePath())) return;
@@ -663,22 +663,22 @@ public class RestTestRequestStep extends WsdlTestStepWithProperties implements R
 	 * getRequestStepConfig().getService() + "/" +
 	 * getRequestStepConfig().getResourcePath()) .addResolvers(new
 	 * RemoveTestStepResolver(this), new ImportInterfaceResolver(this) {
-	 * 
+	 *
 	 * @Override protected boolean update() { RestResource restResource =
 	 * findRestResource(); if (restResource == null) return false;
-	 * 
+	 *
 	 * setResource(restResource); initRestTestRequest(); setDisabled(false);
 	 * return true; }
-	 * 
+	 *
 	 * }, new ChangeOperationResolver(this, "Resource") {
-	 * 
+	 *
 	 * @Override public boolean update() { RestResource restResource =
 	 * (RestResource) getSelectedOperation(); if (restResource == null) return
 	 * false;
-	 * 
+	 *
 	 * setResource(restResource); initRestTestRequest(); setDisabled(false);
 	 * return true; }
-	 * 
+	 *
 	 * protected Interface[] getInterfaces( WsdlProject project) {
 	 * List<RestService> interfaces = ModelSupport .getChildren(project,
 	 * RestService.class); return interfaces .toArray(new Interface[interfaces

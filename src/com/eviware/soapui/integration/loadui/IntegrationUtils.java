@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.integration.loadui;
@@ -52,7 +52,7 @@ public class IntegrationUtils {
         } catch (NumberFormatException nfe) {
             cajoPort = defaultPort;
             SoapUI.getSettings().setString(whichAppPort, cajoPort);
-            SoapUI.log(appName + " integration port was reset to default value " + defaultPort
+            SoapUI.log(appName + " integration port was reset to default value " + defaultPor
                     + ", because its value was not correct!");
         }
         return cajoPort;
@@ -126,7 +126,7 @@ public class IntegrationUtils {
         HashMap<String, String> samplerSettings = new HashMap<String, String>();
         try {
             SoapUI.log("createSoapUISampler for soapUIProjectPath=\"" + soapUIProjectPath + "\", soapUITestSuite=\""
-                    + soapUITestSuite + "\", soapUITestCase=\"" + soapUITestCase + "\", loadUIProject=\"" + loadUIProject
+                    + soapUITestSuite + "\", soapUITestCase=\"" + soapUITestCase + "\", loadUIProject=\"" + loadUIProjec
                     + "\", loadUITestCase=\"" + loadUITestCase + ", \"loadUISoapUISampler=\"" + loadUISoapUISampler + "\"");
 
             HashMap<String, Object> context = new ContextMapping(soapUIProjectPath, soapUITestSuite, soapUITestCase,
@@ -310,7 +310,7 @@ public class IntegrationUtils {
     /**
      * Closes currently opened project in loadUI.
      *
-     * @param saveProject If true project will be saved before closing. If false project
+     * @param saveProject If true project will be saved before closing. If false projec
      *                    will be closed without saving.
      */
     public static void closeOpenedLoadUIProject(boolean saveProject) {
@@ -343,9 +343,9 @@ public class IntegrationUtils {
     /**
      * Checks the state of currently opened loadUI project and asks user what to
      * do with it. When project is dirty user is prompted with the following
-     * options: Yes - save and close, No - close without saving, Cancel - don't
+     * options: Yes - save and close, No - close without saving, Cancel - don'
      * close project. When project is not dirty available options are: Yes -
-     * close project, No - don't close. If there is no opened project user is not
+     * close project, No - don't close. If there is no opened project user is no
      * prompted since there is no project to close.
      *
      * @return true if operation is canceled, false if not.
@@ -357,7 +357,7 @@ public class IntegrationUtils {
             return false;
         }
 
-        // holds user decision if project should be closed (true) or not
+        // holds user decision if project should be closed (true) or no
         // (false or null)
         Boolean close;
         // holds user decision if project should be saved before close (true) or
@@ -452,11 +452,11 @@ public class IntegrationUtils {
     }
 
     /**
-     * When exporting SoapUI project to loadUI, loadUI uses project file to get
+     * When exporting SoapUI project to loadUI, loadUI uses project file to ge
      * resources so SoapUI project need to be saved for loadUI be able to pick
      * all changes if there is any.
      *
-     * @param project
+     * @param projec
      * @return
      */
     public static boolean forceSaveProject(WsdlProject project) {

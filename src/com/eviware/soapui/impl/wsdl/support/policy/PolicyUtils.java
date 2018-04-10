@@ -1,17 +1,17 @@
 /*
- * SoapUI, Copyright (C) 2004-2016 SmartBear Software 
+ * SoapUI, Copyright (C) 2004-2016 SmartBear Software
  *
- * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequent 
- * versions of the EUPL (the "Licence"); 
- * You may not use this work except in compliance with the Licence. 
- * You may obtain a copy of the Licence at: 
- * 
- * http://ec.europa.eu/idabc/eupl 
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the Licence is 
- * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
- * express or implied. See the Licence for the specific language governing permissions and limitations 
- * under the Licence. 
+ * Licensed under the EUPL, Version 1.1 or - as soon as they will be approved by the European Commission - subsequen
+ * versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ * http://ec.europa.eu/idabc/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is
+ * distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the Licence for the specific language governing permissions and limitations
+ * under the Licence.
  */
 
 package com.eviware.soapui.impl.wsdl.support.policy;
@@ -65,7 +65,7 @@ public class PolicyUtils {
                 for (XmlObject obj : paths) {
                     String xx = obj.xmlText(new XmlOptions().setSaveOuter());
                     PolicyDocument policyDocument = PolicyDocument.Factory.parse(xx);
-                    org.xmlsoap.schemas.ws.x2004.x09.policy.Policy polc = (org.xmlsoap.schemas.ws.x2004.x09.policy.Policy) policyDocument
+                    org.xmlsoap.schemas.ws.x2004.x09.policy.Policy polc = (org.xmlsoap.schemas.ws.x2004.x09.policy.Policy) policyDocumen
                             .getPolicy();
                     policies.add(polc);
                     // List<Addressing> addressingList = polc.getAddressingList();
@@ -115,7 +115,7 @@ public class PolicyUtils {
 
 	/*
      * Functions currently not used, initially intended for policy to be
-	 * normalized first
+	 * normalized firs
 	 */
     // public static Policy normalize(Policy policy) {
     // 1.Start with the Element Information Item E (as defined in the XML
@@ -125,8 +125,8 @@ public class PolicyUtils {
     // in the recursive case, the [local name] property of E is "Policy",
     // "ExactlyOne", or "All".
     //
-    // 2.Expand Element Information Items (as defined in the XML Information Set
-    // [XML Information Set]) in the [children] property of E that
+    // 2.Expand Element Information Items (as defined in the XML Information Se
+    // [XML Information Set]) in the [children] property of E tha
     // are policy references per Section 4.3.5 Policy Inclusion.
     //
     // 3.Convert each Element Information Item C in the [children] property of E
@@ -144,7 +144,7 @@ public class PolicyUtils {
     // per Sections 4.3.1 Optional Policy Assertions and 4.3.2
     // Policy Assertion Nesting.
     //
-    // 4.Apply the policy operator indicated by E to the normalized Element
+    // 4.Apply the policy operator indicated by E to the normalized Elemen
     // Information Items in its [children] property and co1.nstruct a
     // normal form per Section 4.3.3 Policy Operators and 4.1 Normal Form Policy
     // Expression.
@@ -154,7 +154,7 @@ public class PolicyUtils {
     // }
 	/*
 	 * Functions currently not used, initially intended for policy to be
-	 * normalized first
+	 * normalized firs
 	 */
     // public static Element normalize(Element policy)
     // {
