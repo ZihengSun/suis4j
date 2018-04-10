@@ -39,11 +39,11 @@ import net.opengis.wfs.v_2_0.WFSCapabilitiesType;
  *
  */
 public class WFSUtils {
-	
+
 	private static Logger theLogger = Logger.getLogger(WFSUtils.class);
-	
+
 	public static final String supported_version = "2.0";
-	
+
 	/**
 	 * Parse WFS capabilities documen
 	 * created by Ziheng Sun on 4/29/2016
@@ -51,27 +51,27 @@ public class WFSUtils {
 	 * @return
 	 */
 	public static WFSCapabilitiesType parseCapabilities(String capa){
-		
+
 		WFSCapabilitiesType wct = null;
-		
+
 		try {
-		
+
 			JAXBContext jaxbContext = null;
-			
+
 			wct = JAXB.unmarshal(new StringReader(capa), WFSCapabilitiesType.class);
-		
+
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
-		
+
 			throw new RuntimeException(e.getLocalizedMessage());
-		
+
 		}
-		
+
 		return wct;
-		
+
 	}
-	
+
 	/**
 	 * Get Feature List of WFS
 	 * @param wc
@@ -87,53 +87,53 @@ public class WFSUtils {
 	 * @return
 	 */
 	public static DescribeFeatureTypeType createADescribeFeatureTypeRequest(String type){
-		
+
 		ObjectFactory of = new ObjectFactory();
-		
+
 		DescribeFeatureTypeType gft = of.createDescribeFeatureTypeType();
-		
+
 		List qnames = new ArrayList();
-		
+
 		qnames.add(new QName(type.split(":")[0], type.split(":")[1]));
-		
+
 		gft.setTypeName(qnames);
-		
+
 		return gft;
-		
+
 	}
-	
+
 	public static String turnDescribeFeatureTypeTypeToXML(DescribeFeatureTypeType dftt){
-		
+
 		String theXML = null;
-		
+
 		try{
-			
+
 			// serialise to xml
-			
+
 			StringWriter writer = new StringWriter();
-			
+
 			JAXBContext context = JAXBContext.newInstance(DescribeFeatureTypeType.class);
-			
+
 			Marshaller m = context.createMarshaller();
-			
+
 			QName qName = new QName("http://www.opengis.net/wfs/2.0", "DescribeFeatureType");
-		
+
 			JAXBElement<DescribeFeatureTypeType> root = new JAXBElement<>(qName, DescribeFeatureTypeType.class, dftt);
-			
+
 		    m.marshal(root, writer);
-			
+
 			// output string to console
 			theXML = writer.toString();
 //			System.out.println(theXML);
-			
+
 		}catch(Exception e){
-			
+
 			e.printStackTrace();
-			
+
 		}
-		
+
 		return theXML;
-		
+
 	}
 	/**
 	 * Parse describefeaturetype response
@@ -141,46 +141,46 @@ public class WFSUtils {
 	 * @return
 	 */
 	public static FeatureTypeListType parseDescribeFeatureTypeResponse(String xml){
-		
-		
+
+
 		return null;
 	}
-	
+
 	public static URL getEndpoint(WFSCapabilitiesType wct) throws MalformedURLException {
-		
+
 		List<Operation> opers = wct.getOperationsMetadata().getOperation();
-		
+
 		String exeurl = null;
-		
+
 		for(int i=0; i<opers.size(); i++){
-			
+
 			Operation oper = opers.get(i);
-			
+
 			if("GetFeature".equals(oper.getName())){
-				
+
 				exeurl = oper.getDCP().get(0).getHTTP().getGetOrPost().get(0).getValue().getHref();
-				
+
 			}
-			
+
 		}
-		
+
 		return new URL(exeurl);
-	}	
-	
+	}
+
 	/**
 	 * Create a GetFeature request Objec
 	 * @param queries
 	 */
 //	public static GetFeatureType createAGetFeatureRequest(List<String> queries, String count) {
-//		
+//
 //		ObjectFactory of = new ObjectFactory();
-//		
+//
 //		GetFeatureType gft = of.createGetFeatureType();
-//		
+//
 //		gft.setAbstractQueryExpression(turnQueryXMLToObj(queries));
-//		
+//
 //		return gft;
-//		
+//
 //	}
 
 	/**
@@ -190,124 +190,124 @@ public class WFSUtils {
 	 * @throws Exception
 	 */
 //	public static Vector<GeoFeature> getWFSFeatures20(String wfsurl, BBOX box) throws Exception {
-//		
+//
 //		theLogger.info("BBox " + box.crs + box.maxx + ":" + box.minx);
-//		
+//
 //		Vector<GeoFeature> featureVec = new Vector<GeoFeature>();
 //		wfsurl = wfsurl.trim();
-//		
+//
 //		if(wfsurl.endsWith("?")||wfsurl.endsWith("&"))
-//    		wfsurl += "service=WFS&version=2.0.0&request=GetCapabilities";    		
+//    		wfsurl += "service=WFS&version=2.0.0&request=GetCapabilities";
 //    	else
 //    		wfsurl += "?service=WFS&version=2.0.0&request=GetCapabilities";
-//		
+//
 //		String wfsstr = wfsurl;
-//		
+//
 //		theLogger.info("WFS URL: " + wfsurl);
-//    	
+//
 ////		Map connectionParameters = new HashMap();
-//		
+//
 ////		connectionParameters.put("WFSDataStoreFactory:GET_CAPABILITIES_URL", wfsurl);
-//		
+//
 //		//updated by Z.S. on 8/11/2016
-////		DataStore dstore = DataStoreFinder.getDataStore(connectionParameters);		
+////		DataStore dstore = DataStoreFinder.getDataStore(connectionParameters);
 ////		DataStore dstore = (new WFSDataStoreFactory()).createDataStore(connectionParameters);
-//		
-////		String typeNames[] = dstore.getTypeNames();		
-//		
+//
+////		String typeNames[] = dstore.getTypeNames();
+//
 ////		if(typeNames == null)
-//		
+//
 ////			return null;
-//		
+//
 //		String reqcrs[] = box.crs.split(":");
-//		
+//
 //		CoordinateReferenceSystem reqepsg = ReferencingFactoryFinder.getCRSAuthorityFactory(reqcrs[0], null).createCoordinateReferenceSystem(reqcrs[1]);
-//		
+//
 //		BoundingBox reqbound;
 //		//updated by Z.S. on 8/12/2016
 //		if(box.crs.equalsIgnoreCase("EPSG:4326"))
 //			reqbound = new ReferencedEnvelope(box.miny, box.maxy, box.minx, box.maxx, reqepsg);
 //		else
 //			reqbound = new ReferencedEnvelope(box.minx, box.maxx, box.miny, box.maxy, reqepsg);
-//		
+//
 //		System.out.println("out bbox is " +box.toString());
-//		
+//
 //		System.out.println("Required bbox is " +reqbound);
-//		
+//
 //		System.out.println("Interscted WFS Layers are listed as");
-//		
+//
 //		WFSCapabilitiesType wct = WFSUtils.parseCapabilities(wfsstr);
-//		
+//
 //		FeatureTypeListType ftlt = wct.getFeatureTypeList();
-//		
-//		for(int i=0; i<ftlt.getFeatureType().size(); i++){			
+//
+//		for(int i=0; i<ftlt.getFeatureType().size(); i++){
 //			QName qn = ftlt.getFeatureType().get(i).getName();
-//		
+//
 //			System.out.println("===============================\n" + qn.getPrefix()+ ":" + qn.getLocalPart());
-//			
+//
 //			//FeatureSource<SimpleFeatureType, SimpleFeature> fsource = dstore.getFeatureSource(tname);
-//			
-//			//ReferencedEnvelope databounds = fsource.getBounds();					
-//			
-//			//BoundingBox datatarnsbounds = databounds.toBounds(reqepsg);												
-//			
-//			//if(datatarnsbounds != null) {	
-//				
+//
+//			//ReferencedEnvelope databounds = fsource.getBounds();
+//
+//			//BoundingBox datatarnsbounds = databounds.toBounds(reqepsg);
+//
+//			//if(datatarnsbounds != null) {
+//
 //				//System.out.println( "src Bounds:"+ databounds);
-//			
+//
 //				//System.out.println( "src Trans Bounds:"+ datatarnsbounds);
-//				
+//
 //				//System.out.println( "req Bounds:"+ reqbound);
-//				
+//
 //				//if(!datatarnsbounds.intersects(reqbound)){
 ////				if(!(datatarnsbounds.intersects(reqbound)||datatarnsbounds.contains(reqbound)||reqbound.contains(datatarnsbounds))) {
-//				
+//
 //					//System.out.println("Not intersected " + tname);
-//					
+//
 //					//continue;
-//					
-//				
-//				
-//				GeoFeature feature = new GeoFeature();			
-//				
+//
+//
+//
+//				GeoFeature feature = new GeoFeature();
+//
 //				feature.setName(qn.getPrefix()+ ":" + qn.getLocalPart());
-//				
+//
 //				feature.setTitle(ftlt.getFeatureType().get(i).getTitle().get(0).getValue());
-//				
+//
 //				//feature.setDescription(tname);
-//				
+//
 //				//feature.setWfsUrl(wfsstr);
-//				
+//
 //				BBOX fbox;
-//				
+//
 //				if(box.crs.equalsIgnoreCase("EPSG:4326"))
-//				
+//
 //					fbox = new BBOX(box.crs, reqbound.getMinY(), reqbound.getMinX(), reqbound.getMaxY(), reqbound.getMaxX());
-//				
+//
 //				else
-//				
+//
 //					fbox = new BBOX(box.crs, reqbound.getMinX(), reqbound.getMinY(), reqbound.getMaxX(), reqbound.getMaxY());
-//				
+//
 //				System.out.println(ftlt.getFeatureType().get(i).getName().toString() + "--" +fbox.toString());
-//				
-//				feature.addBBOX(fbox);			
-//				
+//
+//				feature.addBBOX(fbox);
+//
 //				featureVec.add(feature);
-//				
+//
 //			}
-//			
-//		
+//
+//
 //		if(featureVec.size() > 0)
-//			
+//
 //			return featureVec;
-//		
+//
 //		else
-//			
+//
 //			return null;
-//		
-//	
-//		
-//		
+//
+//
+//
+//
 //	}
 //	/**
 //	 * @param wfsurl
@@ -323,104 +323,104 @@ public class WFSUtils {
 //    		wfsurl += "service=WFS&version=1.0.0&request=GetCapabilities";
 //    	else
 //    		wfsurl += "?service=WFS&version=1.0.0&request=GetCapabilities";
-//		
+//
 //    	System.out.println("WFS URL: " + wfsurl);
-//    	
+//
 //		Map connectionParameters = new HashMap();
-//		
+//
 //		connectionParameters.put("WFSDataStoreFactory:GET_CAPABILITIES_URL", wfsurl);
-//		
+//
 //		//updated by Z.S. on 8/11/2016
-////		DataStore dstore = DataStoreFinder.getDataStore(connectionParameters);		
+////		DataStore dstore = DataStoreFinder.getDataStore(connectionParameters);
 //		DataStore dstore = (new WFSDataStoreFactory()).createDataStore(connectionParameters);
-//		
-//		String typeNames[] = dstore.getTypeNames();		
-//		
+//
+//		String typeNames[] = dstore.getTypeNames();
+//
 //		if(typeNames == null)
-//		
+//
 //			return null;
-//		
+//
 //		String reqcrs[] = box.crs.split(":");
-//		
+//
 //		CoordinateReferenceSystem reqepsg = ReferencingFactoryFinder.getCRSAuthorityFactory(reqcrs[0], null).createCoordinateReferenceSystem(reqcrs[1]);
-//		
+//
 //		BoundingBox reqbound;
 //		//updated by Z.S. on 8/12/2016
 //		if(box.crs.equalsIgnoreCase("EPSG:4326"))
 //			reqbound = new ReferencedEnvelope(box.miny, box.maxy, box.minx, box.maxx, reqepsg);
 //		else
 //			reqbound = new ReferencedEnvelope(box.minx, box.maxx, box.miny, box.maxy, reqepsg);
-//		
+//
 //		System.out.println("out bbox is " +box.toString());
-//		
+//
 //		System.out.println("Required bbox is " +reqbound);
-//		
+//
 //		System.out.println("Interscted WFS Layers are listed as");
-//		
-//		for(String tname: typeNames) {			
-//		
+//
+//		for(String tname: typeNames) {
+//
 //			System.out.println("===============================\n" + tname);
-//			
+//
 //			FeatureSource<SimpleFeatureType, SimpleFeature> fsource = dstore.getFeatureSource(tname);
-//			
-//			ReferencedEnvelope databounds = fsource.getBounds();					
-//			
-//			BoundingBox datatarnsbounds = databounds.toBounds(reqepsg);												
-//			
-//			if(datatarnsbounds != null) {	
-//				
+//
+//			ReferencedEnvelope databounds = fsource.getBounds();
+//
+//			BoundingBox datatarnsbounds = databounds.toBounds(reqepsg);
+//
+//			if(datatarnsbounds != null) {
+//
 //				System.out.println( "src Bounds:"+ databounds);
-//			
+//
 //				System.out.println( "src Trans Bounds:"+ datatarnsbounds);
-//				
+//
 //				System.out.println( "req Bounds:"+ reqbound);
-//				
+//
 //				if(!datatarnsbounds.intersects(reqbound)){
 ////				if(!(datatarnsbounds.intersects(reqbound)||datatarnsbounds.contains(reqbound)||reqbound.contains(datatarnsbounds))) {
-//				
+//
 //					System.out.println("Not intersected " + tname);
-//					
+//
 //					continue;
-//					
+//
 //				}
-//				
-//				GeoFeature feature = new GeoFeature();			
-//				
+//
+//				GeoFeature feature = new GeoFeature();
+//
 //				feature.setName(tname);
-//				
+//
 //				feature.setTitle(tname);
-//				
+//
 //				feature.setDescription(tname);
-//				
+//
 //				feature.setWfsUrl(wfsstr);
-//				
+//
 //				BBOX fbox;
-//				
+//
 //				if(box.crs.equalsIgnoreCase("EPSG:4326"))
-//				
+//
 //					fbox = new BBOX(box.crs, datatarnsbounds.getMinY(), datatarnsbounds.getMinX(), datatarnsbounds.getMaxY(), datatarnsbounds.getMaxX());
-//				
+//
 //				else
-//				
+//
 //					fbox = new BBOX(box.crs, datatarnsbounds.getMinX(), datatarnsbounds.getMinY(), datatarnsbounds.getMaxX(), datatarnsbounds.getMaxY());
-//				
+//
 //				System.out.println(tname + "--" +fbox.toString());
-//				
-//				feature.addBBOX(fbox);			
-//				
+//
+//				feature.addBBOX(fbox);
+//
 //				featureVec.add(feature);
-//				
+//
 //			}
-//			
-//		}		
+//
+//		}
 //		if(featureVec.size() > 0)
-//			
+//
 //			return featureVec;
-//		
+//
 //		else
-//			
+//
 //			return null;
-//		
+//
 //	}
 //
 //	/**
@@ -430,194 +430,194 @@ public class WFSUtils {
 //	 * @throws Exception
 //	 */
 //	public static Vector<GeoFeature> getWFSFeatures20_SOAP(String wfsurl, BBOX box) throws Exception {
-//		
-//		Vector<GeoFeature> featureVec = new Vector<GeoFeature>(); 	
-//		
+//
+//		Vector<GeoFeature> featureVec = new Vector<GeoFeature>();
+//
 //		String wfsstr = wfsurl;
-//		
+//
 //    	System.out.println("WFS URL: " + wfsurl);
-//    	
-//    	String reqcrs[] = box.crs.split(":");		
-//		
-//		CoordinateReferenceSystem reqepsg = ReferencingFactoryFinder.getCRSAuthorityFactory(reqcrs[0], null).createCoordinateReferenceSystem(reqcrs[1]);		
+//
+//    	String reqcrs[] = box.crs.split(":");
+//
+//		CoordinateReferenceSystem reqepsg = ReferencingFactoryFinder.getCRSAuthorityFactory(reqcrs[0], null).createCoordinateReferenceSystem(reqcrs[1]);
 //		BoundingBox reqbound;
 //		//updated by Z.S. on 8/12/2016
 //		if(box.crs.equalsIgnoreCase("EPSG:4326")) {
 //			reqbound = new ReferencedEnvelope(box.miny, box.maxy, box.minx, box.maxx, reqepsg);
-//		}			
+//		}
 //		else {
 //			reqbound = new ReferencedEnvelope(box.minx, box.maxx, box.miny, box.maxy, reqepsg);
 //		}
-//			
-//		
-//		System.out.println("out bbox is " +box.toString());		
-//		System.out.println("Required bbox is " +reqbound);		
+//
+//
+//		System.out.println("out bbox is " +box.toString());
+//		System.out.println("Required bbox is " +reqbound);
 //		System.out.println("Interscted WFS Layers are listed as");
-//		
+//
 //		WFSCapabilitiesType wct = WFSUtils.parseCapabilities_SOAP(wfsstr);
-//		
+//
 //		FeatureTypeListType ftlt = wct.getFeatureTypeList();
-//		
-//		
-//		for(int i=0; i<ftlt.getFeatureType().size(); i++){			
-//			
+//
+//
+//		for(int i=0; i<ftlt.getFeatureType().size(); i++){
+//
 //			QName qn = ftlt.getFeatureType().get(i).getName();
-//			
+//
 //			GeoFeature feature = new GeoFeature();
-//			
+//
 //			if(qn!=null){
-//				
+//
 //				System.out.println("===============================\n" + qn.getPrefix()+ ":" + qn.getLocalPart());
-//				
-//				feature.setName(qn.getPrefix()+ ":" + qn.getLocalPart());				
-//				
+//
+//				feature.setName(qn.getPrefix()+ ":" + qn.getLocalPart());
+//
 //			}
 //			feature.setTitle(ftlt.getFeatureType().get(i).getTitle().get(0).getValue());
-//				
-//			//feature.setDescription(tname);				
+//
+//			//feature.setDescription(tname);
 //			//feature.setWfsUrl(wfsstr);
-//				
-//			BBOX fbox;				
+//
+//			BBOX fbox;
 //			if(box.crs.equalsIgnoreCase("EPSG:4326")) {
 //				fbox = new BBOX(box.crs, reqbound.getMinY(), reqbound.getMinX(), reqbound.getMaxY(), reqbound.getMaxX());
-//			}	
+//			}
 //			else {
 //				fbox = new BBOX(box.crs, reqbound.getMinX(), reqbound.getMinY(), reqbound.getMaxX(), reqbound.getMaxY());
 //			}
-//				
-////			System.out.println(ftlt.getFeatureType().get(i).getName().toString() + "--" +fbox.toString());			
-//			feature.addBBOX(fbox);							
-//			featureVec.add(feature);				
-//		}			
-//		
+//
+////			System.out.println(ftlt.getFeatureType().get(i).getName().toString() + "--" +fbox.toString());
+//			feature.addBBOX(fbox);
+//			featureVec.add(feature);
+//		}
+//
 //		if(featureVec.size() > 0) {
 //			return featureVec;
-//		}		
+//		}
 //		else {
 //			return null;
-//		}		
+//		}
 //	}
-//	
+//
 //	public static Vector<GeoFeature> getWFSFeatures20_SOAP_Security(String wfsurl, BBOX box) throws Exception {
-//		
-//		Vector<GeoFeature> featureVec = new Vector<GeoFeature>(); 	
-//		
+//
+//		Vector<GeoFeature> featureVec = new Vector<GeoFeature>();
+//
 //		String wfsstr = wfsurl;
-//		
+//
 //    	System.out.println("WFS URL: " + wfsurl);
-//    	
-//    	String reqcrs[] = box.crs.split(":");		
-//		
-//		CoordinateReferenceSystem reqepsg = ReferencingFactoryFinder.getCRSAuthorityFactory(reqcrs[0], null).createCoordinateReferenceSystem(reqcrs[1]);		
+//
+//    	String reqcrs[] = box.crs.split(":");
+//
+//		CoordinateReferenceSystem reqepsg = ReferencingFactoryFinder.getCRSAuthorityFactory(reqcrs[0], null).createCoordinateReferenceSystem(reqcrs[1]);
 //		BoundingBox reqbound;
 //		//updated by Z.S. on 8/12/2016
 //		if(box.crs.equalsIgnoreCase("EPSG:4326")) {
 //			reqbound = new ReferencedEnvelope(box.miny, box.maxy, box.minx, box.maxx, reqepsg);
-//		}			
+//		}
 //		else {
 //			reqbound = new ReferencedEnvelope(box.minx, box.maxx, box.miny, box.maxy, reqepsg);
 //		}
-//			
-//		
-//		System.out.println("out bbox is " +box.toString());		
-//		System.out.println("Required bbox is " +reqbound);		
+//
+//
+//		System.out.println("out bbox is " +box.toString());
+//		System.out.println("Required bbox is " +reqbound);
 //		System.out.println("Interscted WFS Layers are listed as");
-//		
+//
 //		WFSCapabilitiesType wct = WFSUtils.parseCapabilities_SOAP_Security(wfsstr);
-//		
+//
 //		FeatureTypeListType ftlt = wct.getFeatureTypeList();
-//		
-//		
-//		for(int i=0; i<ftlt.getFeatureType().size(); i++){			
-//			
+//
+//
+//		for(int i=0; i<ftlt.getFeatureType().size(); i++){
+//
 //			QName qn = ftlt.getFeatureType().get(i).getName();
-//			
+//
 //			GeoFeature feature = new GeoFeature();
-//			
+//
 //			if(qn!=null){
-//				
+//
 //				System.out.println("===============================\n" + qn.getPrefix() + qn.getLocalPart().replace("cw-","cw:"));
-//				
-//				feature.setName(qn.getPrefix()+ qn.getLocalPart().replace("cw-","cw:"));				
-//				
+//
+//				feature.setName(qn.getPrefix()+ qn.getLocalPart().replace("cw-","cw:"));
+//
 //			}
 //			feature.setTitle(ftlt.getFeatureType().get(i).getTitle().get(0).getValue());
-//				
-//			//feature.setDescription(tname);				
+//
+//			//feature.setDescription(tname);
 //			//feature.setWfsUrl(wfsstr);
-//				
-//			BBOX fbox;				
+//
+//			BBOX fbox;
 //			if(box.crs.equalsIgnoreCase("EPSG:4326")) {
 //				fbox = new BBOX(box.crs, reqbound.getMinY(), reqbound.getMinX(), reqbound.getMaxY(), reqbound.getMaxX());
-//			}	
+//			}
 //			else {
 //				fbox = new BBOX(box.crs, reqbound.getMinX(), reqbound.getMinY(), reqbound.getMaxX(), reqbound.getMaxY());
 //			}
-//				
-////			System.out.println(ftlt.getFeatureType().get(i).getName().toString() + "--" +fbox.toString());			
-//			feature.addBBOX(fbox);							
-//			featureVec.add(feature);				
-//		}			
-//		
+//
+////			System.out.println(ftlt.getFeatureType().get(i).getName().toString() + "--" +fbox.toString());
+//			feature.addBBOX(fbox);
+//			featureVec.add(feature);
+//		}
+//
 //		if(featureVec.size() > 0) {
 //			return featureVec;
-//		}		
+//		}
 //		else {
 //			return null;
-//		}			
+//		}
 //	}
-	
+
 //    public static String cacheGML(String gmlurl){
-//    	
+//
 //    	String fileurl = null;
-//    	
+//
 //    	try {
-//			
+//
 //			String filename = UUID.randomUUID().toString() + ".gml";
-//			
+//
 //			String filepath = BaseTool.get_tempfilepath() + filename;
-//			
+//
 //			fileurl = BaseTool.get_tempfileurl() + filename;
-//			
+//
 //			theLogger.info(filepath);
-//			
+//
 //			BaseTool.downloadFromUrl2(new URL(gmlurl),  filepath);
-//			
+//
 //		} catch (Exception e) {
 //
 //			e.printStackTrace();
-//			
+//
 //		}
 //
 //		return fileurl;
-//		
+//
 //    }
-	
-	
+
+
 	public static void main(String[] args) {
-		
+
 		/**
 		 *
 		 * test conventional WFS 2.0
 		 *
 		 */
-		
+
 ////		String wfsurl = "http://ws.csiss.gmu.edu:8080/geoserver/wfs";
-//		
+//
 //		String wfsurl = "http://cube.csiss.gmu.edu/geoserver/topp/ows";
-//		
+//
 //		//String wfscapaurl = "http://cube.csiss.gmu.edu/geoserver/topp/ows?service=wfs&request=getcapabilities&version=2.0.0";
-//		
+//
 //		String wfscapaurl = "http://59.120.223.164:443/geoserver/ows?service=wfs&version=2.0.0&request=GetCapabilities";
-//		
+//
 //		WFSCapabilitiesType wct = WFSUtils.parseCapabilities(wfscapaurl);
-//		
+//
 //		FeatureTypeListType ftlt = wct.getFeatureTypeList();
-//		
+//
 //		System.out.println("Feature type nubmer : " + ftlt.getFeatureType().size());
-//	//	BBOX box = new BBOX("EPSG:4326", -77.527282, 38.934311, -76.887893, 39.353648);	
+//	//	BBOX box = new BBOX("EPSG:4326", -77.527282, 38.934311, -76.887893, 39.353648);
 ////		BBOX box = new BBOX("EPSG:32618", 280940.92757638777, 4312524.259656975, 337335.10634472733, 4357722.154561454);
-////		try {		
+////		try {
 ////			Vector<GeoFeature> gfVec2 = getWFSFeatures(wfsurl, box);
 ////			System.out.println("--------------------------------");
 ////			System.out.println("gfVec2.size()=" + gfVec2.size());
@@ -627,26 +627,26 @@ public class WFSUtils {
 ////		} catch(Exception e) {
 ////			e.printStackTrace();
 ////		}
-		
+
 		/**
 		 *
 		 *  Test SOAP WFS 2.0
 		 *
 		 */
 //	//	String wfsurl = "http://ws.csiss.gmu.edu:8080/geoserver/wfs";
-//		
+//
 //		String wfsurl = "http://polar.geodacenter.org/services/ows/wfs/soap/1.2";
-//		
+//
 //		//String wfscapaurl = "http://cube.csiss.gmu.edu/geoserver/topp/ows?service=wfs&request=getcapabilities&version=2.0.0";
-//		
+//
 //		//String wfscapaurl = "http://59.120.223.164:443/geoserver/ows?service=wfs&version=2.0.0&request=GetCapabilities";
-//		
+//
 ////		BBOX bb = new BBOX("EPSG:4326", -122.5754909, 37.3862364, -121.861508, 38.0220317);
-////		
+////
 ////		try {
-////			
+////
 ////			Vector<GeoFeature> featurevec = WFSUtils.getWFSFeatures20_SOAP(wfsurl, bb);
-////			
+////
 ////
 //////			/**
 //////			 *
@@ -654,20 +654,20 @@ public class WFSUtils {
 //////			 *
 //////			 */
 //////			WFSUtils.getWFSFeatures20("http://localhost:8080/capa.xml", bb);
-////			
+////
 ////		} catch (Exception e) {
 ////
 ////			e.printStackTrace();
-////			
-////		}						
-//		
+////
+////		}
+//
 //		//test cache feature
-//		
+//
 //		WFSUtils.cacheFeatureSOAP("landuse", wfsurl);
-//		
-		
+//
+
 		//WFSUtils.parseCapabilities_SOAP_Security("https://tb12.secure-dimensions.com/soap/services");
-		
+
 //		WFSUtils.cacheFeatureSOAPSecurity("cw:Elev_Contour", "https://tb12.secure-dimensions.com/soap/services");
 	}
 

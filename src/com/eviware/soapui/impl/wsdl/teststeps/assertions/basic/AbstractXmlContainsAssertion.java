@@ -76,7 +76,7 @@ XPathReferenceContainer{
         allowWildcards = reader.readBoolean("allowWildcards", false);
         ignoreNamespaceDifferences = reader.readBoolean("ignoreNamspaceDifferences", false);
         ignoreComments = reader.readBoolean("ignoreComments", false);
-		
+
 	}
 
 	   public String getExpectedContent() {
@@ -93,7 +93,7 @@ XPathReferenceContainer{
 	            setConfiguration(createConfiguration());
 	        }
 	    }
-	
+
 	    /**
 	     * @deprecated
 	     */
@@ -138,7 +138,7 @@ XPathReferenceContainer{
 	        this.ignoreComments = ignoreComments;
 	        setConfiguration(createConfiguration());
 	    }
-	
+
 	    public XmlObject createConfiguration() {
 	        XmlObjectConfigurationBuilder builder = new XmlObjectConfigurationBuilder();
 	        addConfigurationValues(builder);
@@ -169,11 +169,11 @@ XPathReferenceContainer{
 
 	        return configurationDialog.configure();
 	    }
-	
+
 	    protected AbstractXmlContainsAssertion getAssertion() {
 	        return this;
 	    }
-	
+
 	    @Override
 	    protected String internalAssertResponse(MessageExchange messageExchange, SubmitContext context)
 	            throws AssertionException {
@@ -183,9 +183,9 @@ XPathReferenceContainer{
 	            return assertContent(messageExchange.getResponseContentAsXml(), context, "Response");
 	        }
 	    }
-	
+
 	    public abstract String assertContent(String response, SubmitContext context, String type) throws AssertionException;
-	
+
 	    protected String internalAssertProperty(TestPropertyHolder source, String propertyName,
                 MessageExchange messageExchange, SubmitContext context) throws AssertionException {
 			if (!XmlUtils.seemsToBeXml(source.getPropertyValue(propertyName))) {
@@ -194,7 +194,7 @@ XPathReferenceContainer{
 			}
 			return assertContent(source.getPropertyValue(propertyName), context, propertyName);
 		}
-	
+
 	    @Override
 	    protected String internalAssertRequest(MessageExchange messageExchange, SubmitContext context)
 	            throws AssertionException {
@@ -204,7 +204,7 @@ XPathReferenceContainer{
 	            return assertContent(messageExchange.getRequestContent(), context, "Request");
 	        }
 	    }
-	
+
 	    @Override
 	    public PropertyExpansion[] getPropertyExpansions() {
 	        List<PropertyExpansion> result = new ArrayList<PropertyExpansion>();
@@ -215,7 +215,7 @@ XPathReferenceContainer{
 
 	        return result.toArray(new PropertyExpansion[result.size()]);
 	    }
-	
+
 	    public String getPathAreaTitle() {
 	        return "Specify " + getQueryType() + " expression and expected result";
 	    }
@@ -249,19 +249,19 @@ XPathReferenceContainer{
 	    public boolean canAssertXmlContent() {
 	        return true;
 	    }
-	
+
 	    protected void addMatchEditorActions(JXToolBar toolbar) {
 	        configurationDialog.addMatchEditorActions(toolbar);
 	    }
-	
+
 	    protected void addPathEditorActions(JXToolBar toolbar) {
 	        configurationDialog.addDeclareNamespaceButton(toolbar);
 	    }
-	
+
 	    public abstract void selectFromCurrent();
-	
+
 	    protected abstract String getQueryType();
-	
+
 	    public XPathReference[] getXPathReferences() {
 	        List<XPathReference> result = new ArrayList<XPathReference>();
 
@@ -275,10 +275,10 @@ XPathReferenceContainer{
 
 	        return result.toArray(new XPathReference[result.size()]);
 	    }
-	
+
 	    protected final class InternalDifferenceListener implements DifferenceListener {
 	        private StringList nodesToRemove = new StringList();
-	
+
 	        public int differenceFound(Difference diff) {
 	            if (allowWildcards
 	                    && (diff.getId() == DifferenceEngine.TEXT_VALUE.getId()

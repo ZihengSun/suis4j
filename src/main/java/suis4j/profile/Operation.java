@@ -11,17 +11,17 @@ import suis4j.driver.ServiceType;
 *@time Dec 8, 2017 1:35:08 PM
 */
 public class Operation {
-	
+
 	Message input, output;
-	
+
 	String name, description;
-	
+
 	String driverid;
-	
+
 	protected Operation(){
-		
+
 	}
-	
+
 	public String getDriverid() {
 		return driverid;
 	}
@@ -35,7 +35,7 @@ public class Operation {
 
 
 	public Message getInput() {
-		
+
 		return input;
 	}
 
@@ -66,87 +66,87 @@ public class Operation {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public static class Builder {
 
 		Operation o;
-		
+
 		public Builder(){
-			
+
 			o = new Operation();
-			
+
 		}
-		
+
 		public Builder parse(String descfile, ServiceType type){
-			
+
 			suis4j.driver.AbstractDriver.Builder builder = null;
-			
+
 			switch(type){
-				
+
 				case OGC: builder = new suis4j.driver.OGCDriver.Builder(); break;
-				
+
 				case SOAP: builder = new suis4j.driver.SOAPDriver.Builder(); break;
-				
+
 				case REST: builder = new suis4j.driver.RESTDriver.Builder(); break;
-				
+
 			}
-			
+
 			AbstractDriver driver = builder.parse(descfile).build();
-			
+
 			DriverManager.add(driver);
-			
+
 //			o = driver.disgest();
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Builder name(String n){
-			
+
 			o.setName(n);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Builder description(String desc){
-			
+
 			o.setDescription(desc);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Builder input(Message msg){
-			
+
 			o.setInput(msg);;
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Builder output(Message msg){
-			
+
 			o.setOutput(msg);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Builder driver(String did){
-			
+
 			o.setDriverid(did);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Operation build(){
-			
+
 			return o;
-			
+
 		}
-		
+
 	}
-	
+
 }

@@ -8,5 +8,5 @@ package suis4j.server;
 public class SUISServer {
 
 	//waiting to be implemented
-	
+
 }

@@ -35,12 +35,12 @@ public class ClassUtils {
 
     private static void addImplementedSuperInterfaces(Class clazz, ArrayList<Class<?>> result) {
 		addImplementedInterfaces(clazz, result);
-		
+
 		Class<?> superclass = clazz.getSuperclass();
-		
+
 		if (superclass != null) {
 			addImplementedSuperInterfaces(superclass, result);
-		}		
+		}
 	}
 
 	private static void addImplementedInterfacesFromSuperClass(Class<?> clazz, ArrayList<Class<?>> result) {

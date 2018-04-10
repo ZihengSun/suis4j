@@ -5,38 +5,38 @@ package suis4j.profile;
 *@time Dec 8, 2017 1:33:59 PM
 */
 public class Parameter {
-	
+
 	private String name,
-				
+
 				namespace,
 				/**
 				 * Parameter description is optional but strongly recommended.
 				 * It is very important to let users understand what the parameter is used for and how it is used.
 				 */
 				description;
-	
+
 	/**
 	 * The following two attributes are optional. Default value is 1. Unlimited is -1.
 	 */
 	private int min_occurs = 1, max_occurs = 1;
-	
+
 	private DataType type;
-	
+
 	private Object value;
-	
+
 	protected Parameter(){
-		
-		
+
+
 	}
-	
+
 	public Object getValue() {
 		return value;
 	}
-	
+
 	public void setValue(Object value) {
 		this.value = value;
 	}
-	
+
 	public String getNamespace() {
 		return namespace;
 	}
@@ -68,7 +68,7 @@ public class Parameter {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public int getMin_occurs() {
 		return min_occurs;
 	}
@@ -90,75 +90,75 @@ public class Parameter {
 	public static class Builder {
 
 		Parameter p;
-		
+
 		public Builder(){
-			
+
 			p = new Parameter();
-			
+
 		}
-		
+
 		public Parameter.Builder name(String n){
-			
+
 			p.setName(n);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Parameter.Builder namespace(String space){
-			
+
 			p.setNamespace(space);
-			
+
 			return this;
-			
+
 		}
-		
-		public Parameter.Builder description(String desc){		
-			
+
+		public Parameter.Builder description(String desc){
+
 			p.setDescription(desc);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Parameter.Builder type(DataType t){
-			
+
 			p.setType(t);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Parameter.Builder maxoccurs(int occurs){
-			
+
 			p.setMax_occurs(occurs);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Parameter.Builder minoccurs(int occurs){
-			
+
 			p.setMin_occurs(occurs);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Parameter.Builder value(Object content){
-			
+
 			p.setValue(content);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Parameter build(){
-			
+
 			return p;
-			
+
 		}
-		
+
 	}
-	
+
 }

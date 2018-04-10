@@ -7,5 +7,5 @@ package suis4j.driver;
 public enum ServiceType {
 
 	OGC, REST, SOAP
-	
+
 }

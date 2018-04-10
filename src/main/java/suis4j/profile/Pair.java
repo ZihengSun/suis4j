@@ -10,11 +10,11 @@ import suis4j.driver.AbstractDriver;
 public class Pair {
 
 	Operation o;
-	
+
 	AbstractDriver d;
-	
+
 	protected Pair(){
-		
+
 	}
 
 	public Operation getO() {
@@ -32,39 +32,39 @@ public class Pair {
 	public void setD(AbstractDriver d) {
 		this.d = d;
 	}
-	
+
 	public class Builder {
-		
+
 		Pair p;
-		
+
 		public Builder(){
-			
+
 			p = new Pair();
-			
+
 		}
-		
+
 		public Builder operation(Operation o){
-			
+
 			p.setO(o);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Builder driver(AbstractDriver d){
-			
+
 			p.setD(d);
-			
+
 			return this;
-			
+
 		}
-		
+
 		public Pair build(){
-			
+
 			return p;
-			
+
 		}
-		
+
 	}
-	
+
 }
