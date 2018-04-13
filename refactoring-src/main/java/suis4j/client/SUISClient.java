@@ -198,7 +198,7 @@ public class SUISClient {
 
 		public SUISClient build(){
 
-			log.info("The client object is created..");
+			log.info("The client object is created.");
 
 			return c;
 

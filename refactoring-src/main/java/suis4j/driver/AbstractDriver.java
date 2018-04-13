@@ -8,9 +8,9 @@ import suis4j.profile.Message;
 import suis4j.profile.Operation;
 
 /**
-*Class AbstractDriver.java
-*define all the common functions of a driver in SUIS architecture
-*A driver should include the binding information from a profile to a specific server,
+* Class AbstractDriver.java
+* define all the common functions of a driver in SUIS architecture
+* A driver should include the binding information from a profile to a specific server,
 * and the functions to decode/encode SUIS messages and transform them to/from
 * the messages compliant to services.
 *@author Ziheng Sun
@@ -138,7 +138,7 @@ public abstract class AbstractDriver {
 	abstract public PayLoad receive();
 
 	/**
-	 * Decode the response from actual web service into SUIS message objec
+	 * Decode the response from actual web service into SUIS message object
 	 * @param resp
 	 * @return
 	 */
