@@ -7,11 +7,12 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 
-public class MessageTreeIteratorTest
+public class SchemaTest
 {
 
 	@Test
-	public void testMTIterator()
+	public void testSchema()
 	{
+		Schema s = new Schema();
 	}
 }
