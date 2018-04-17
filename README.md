@@ -41,10 +41,10 @@ The `SUIS4J` repository includes a comprehensive test suite and a prototype appl
 import org.suis4j.Client;
 
 // Create a Client. See ServiceType.java for a list of supported services
-Client restClient = new suis4j.Client(suis4j.ServiceType.REST_WADL)
+Client restClient = new suis4j.Client(suis4j.ServiceType.REST_WADL);
 
 // Initialize service schema for service from remote file
-restClient.bindURL("https://service.iris.edu/irisws/timeseries/1/application.wadl")
+restClient.bindURL("https://service.iris.edu/irisws/timeseries/1/application.wadl");
 
 ```
 
@@ -52,11 +52,11 @@ restClient.bindURL("https://service.iris.edu/irisws/timeseries/1/application.wad
 
 ```
 // All operations
-List<Operation> operations = client.getOperations()
-List<String> operationName = client.getOperationNames()
+List<Operation> operations = client.getOperations();
+List<String> operationName = client.getOperationNames();
 
 // Select operation
-Operation operation = restClient.getOperation('subset_image')
+Operation operation = restClient.getOperation('subset_image');
 
 // List operation request parameters
 List <String> requestFields = operation.getRequestSchema().getFieldNames();
@@ -67,18 +67,18 @@ List <String> requestFields = operation.getRequestSchema().getFieldNames();
 ### Create a basic request message
 
 ```
-Operation operation = restClient.getOperation('subset_image')
-Message request = operation.getRequestMessage()
+Operation operation = restClient.getOperation('subset_image');
+Message request = operation.getRequestMessage();
 request.build()
 	.set("imageurl", "http://example.org/large_image.jpeg")
-	.set("response_format", "jpeg")
+	.set("response_format", "jpeg");
 
 ```
 
 ### Call service and read basic response
 ```
 restClient.call(operation);
-Message response = operation.getResponseMessage()
+Message response = operation.getResponseMessage();
 
 response.query().get("return_imageurl");
 ```
@@ -87,13 +87,13 @@ response.query().get("return_imageurl");
 
 ### Connect to multiple services
 ```
-Client restClient = new suis4j.Client(suis4j.ServiceType.REST_WADL)
-Client soapClient = new suis4j.Client(suis4j.ServiceType.SOAP)
-Client wcs2Client = new suis4j.Client(suis4j.ServiceType.OGC_WCS_2)
+Client restClient = new suis4j.Client(suis4j.ServiceType.REST_WADL);
+Client soapClient = new suis4j.Client(suis4j.ServiceType.SOAP);
+Client wcs2Client = new suis4j.Client(suis4j.ServiceType.OGC_WCS_2);
 
-restClient.bindURL("https://service.iris.edu/irisws/timeseries/1/application.wadl")
-soapClient.bindURL("http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_Buffer_OGR?wsdl")
-wcs2Client.bindURL("http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r")
+restClient.bindURL("https://service.iris.edu/irisws/timeseries/1/application.wadl");
+soapClient.bindURL("http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_Buffer_OGR?wsdl");
+wcs2Client.bindURL("http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r");
 ```
 
 ### Build request with complex nested request message
@@ -116,15 +116,15 @@ request.build().
 ### Build request from XML, JSON and Java HashMap 
 
 ```
-request.build().fromJSON(text)
-request.build().fromXML(text)
-request.build().fromMap(javaHashMap)
+request.build().fromJSON(text);
+request.build().fromXML(text);
+request.build().fromMap(javaHashMap);
 ```
 
 
 ### Override request parameter using dot notation
 ```
-request.build().set("boundingbox.top", 	 "0")
+request.build().set("boundingbox.top", 	 "0");
 ```
 
 
@@ -137,51 +137,51 @@ request.build().
 
 ### Query response nested elements and XML attributes
 ```
-Message response = operation.getResponseMessage()
+Message response = operation.getResponseMessage();
 
-response.query().get("returnurl")
-response.query().element("boundingbox").get("top")
-response.query().element("boundingbox").attribute("coordinate_system")
+response.query().get("returnurl");
+response.query().element("boundingbox").get("top");
+response.query().element("boundingbox").attribute("coordinate_system");
 ```
 
 
 ### Query multiple response fields 
 ```
-List <String> supportedFormats = response.query().getAll('supported_format')
+List <String> supportedFormats = response.query().getAll('supported_format');
 ```
 
 ### Convert response into XML, JSON, Java HashMap
 ```
-response.query().toJSON()
-response.query().toXML()
-response.query().toMap()
+response.query().toJSON();
+response.query().toXML();
+response.query().toMap();
 ```
 
 
 ### Convert part of response to JSON
 ```
-response.query().element("boundingbox").toJSON()
+response.query().element("boundingbox").toJSON();
 // {"top": 10, "left": 10, "bottom": 100, "right": 100}
 ```
 
 
 ### Query response using XPATH
 ```
-String value = response.query().xpath("//boundingbox/top")
-NodeList nodes = (NodeList) response.query().xpathNodeset("//boundingbox/top")
+String value = response.query().xpath("//boundingbox/top");
+NodeList nodes = (NodeList) response.query().xpathNodeset("//boundingbox/top");
 ```
 
 ### Schema queries
 ```
 // Get all top-level fields
-List<String> fieldNames = request.getSchema().getFieldNames()
+List<String> fieldNames = request.getSchema().getFieldNames();
 
 // Check if a field has sub-fields
-request.getSchema().hasSubfields(fieldName)
-request.getSchema().getFieldNames(fieldName)
+request.getSchema().hasSubfields(fieldName);
+request.getSchema().getFieldNames(fieldName);
 
 // Convert request schema to XSD
-request.getSchema().toXSD()
+request.getSchema().toXSD();
 ```
 
 
