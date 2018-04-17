@@ -6,183 +6,184 @@ SUIS (Simple Universal Interface for Services) Java Library
 
 # Introduction
 
-The disparate interfaces of web-based spatial information and analysis services cause very high barriers of entry. Simple Universal Interface for Services (__SUIS4J__) simplifies the use of heterogeneous web services in Earth science applications.
+The disparate interfaces of web-based spatial information and analysis services present high barriers of entry. Simple Universal Interface for Services (__SUIS4J__) simplifies the use of heterogeneous web services in Earth science applications.
 
 __SUIS4J__ allow users to access geospatial web services without bogging down in technical details such as protocols, styles, bindings, schemas and addressing mechanisms. SUIS is a service-oriented framework that maps disparate interfaces onto a simple, user-friendly API.
 
-__SUIS4J__ supports __SOAP__, __OGC__ and __REST__ spatial web services -- it does not replace existing interfaces but supplements them with a unified proxy.
+__SUIS4J__ supports __SOAP__, __OGC__ and __REST__ spatial web services -- it does not replace existing interfaces but supplements them with a unified proxy API.
+
+__SUIS4J__ seemlessly supports __Java__, __XML__ and __JSON__ representations of spatial web service data structures - permitting simple integration of existing application and technologies
 
 The `SUIS4J` repository includes a comprehensive test suite and a prototype application that demonstrates SUIS4J capabilities for building geoprocessing workflows.
 
 
 
-# Basic Steps
+# Service Call Overview
 
-1) Create the `SUIS Request` message
+1) Create `SUIS Client` and bind to service endpoint
 
-2) Encode the `SUIS Request` into a `Service Request` payload
+2) Initialize a generic `Request Message` payload
 
-3) Send the `Service Request` payload to the service endpoint
+3) Call remote service endpoint
 
-4) Receive the `Service Response` payload from the service endpoint
+4) Receive a generic `Response Message` payload
 
-5) Decode the `Service Response` payload into a `SUIS Response` message
-
-6) Use the `SUIS Response` in application workflow logic
+6) Use the `Response Message` in user application code
 
 
-# Code Examples
+# Examples
 
+## Basic Usage
 
-## RESTful service
-
-```
-SUISClient sc = new SUISClient.Builder()
-	.initialize("https://service.iris.edu/irisws/timeseries/1/application.wadl", ServiceType.REST)
-	.build();
-
-sc.listOperations();
-
-Operation o = sc.operation("http://service.iris.edu/timeseries/1/version");
-
-sc.listInputParams(o);
-
-sc.listOutputParams(o);
-
-o.getInput()
-	.value("network", "IU")
-	.value("station", "ANMO")
-	.value("location", "00")
-	.value("channel", "BHZ")
-	.value("starttime", "2001-12-09T12:00:00")
-	.value("endtime", "2001-12-09T12:20:00")
-	.value("output", "plot");
-
-Message outm = sc.call(o);
-
-sc.listOutputValues(outm);
-```
-
-## SOAP service
+### Create and bind a service
 
 ```
-SUISClient sc = new SUISClient.Builder()
-	.initialize("http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_Buffer_OGR?wsdl", ServiceType.SOAP)
-	.build();
+import org.suis4j.Client;
 
-sc.listOperations();
+// Create a Client. See ServiceType.java for a list of supported services
+Client restClient = new suis4j.Client(suis4j.ServiceType.REST_WADL)
 
-Operation o = sc.operation("buffer");
-
-sc.listInputParams(o);
-
-sc.listOutputParams(o);
-
-o.getInput()
-	.value("sourceURL", "http://www3.csiss.gmu.edu/data/building.zip")
-	.value("buffer", 100);
-
-Message outm = sc.call(o);
-
-sc.listOutputValues(outm);
-```
-
-## WPS 1.0.0
-
-```
-SUISClient sc = new SUISClient.Builder()
-	.initialize("http://geoprocessing.demo.52north.org/latest-wps/WebProcessingService?Request=GetCapabilities&Service=WPS&version=1.0.0", ServiceType.OGC)
-	.build();
-
-sc.listOperations();
-
-Operation o = sc.operation("org.n52.wps.server.algorithm.SimpleBufferAlgorithm");
-
-sc.listInputParams(o);
-
-sc.listOutputParams(o);
-
-o.getInput().value("data", "http://geoprocessing.demo.52north.org:8080/geoserver/wfs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=topp:tasmania_roads&SRS=EPSG:4326&OUTPUTFORMAT=GML3")
-	.value("width", 0.05);
-
-Message outm = sc.call(o);
-
-sc.listOutputValues(outm);
+// Initialize service schema for service from remote file
+restClient.bindURL("https://service.iris.edu/irisws/timeseries/1/application.wadl")
 
 ```
 
-## WCS 2.0.0
+### List service operations and operation parameters
 
 ```
-SUISClient sc = new SUISClient.Builder()
-	.initialize("http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r?service=WCS&version=2.0.0&request=GetCapabilities", ServiceType.OGC)
-	.build();
+// All operations
+List<Operation> operations = client.getOperations()
+List<String> operationName = client.getOperationNames()
 
-sc.listOperations();
+// Select operation
+Operation operation = restClient.getOperation('subset_image')
 
-Operation o = sc.operation("GetCoverage");
-
-sc.listInputParams(o);
-
-sc.listOutputParams(o);
-
-o.getInput().value("coverageId", "GEOTIFF:\"/home/zsun/testfiles/data/bay_dem.tif\":Band")
-	.value("format", "image/geotiff");
-
-Message outm = sc.call(o);
-
-sc.listOutputValues(outm);
+// List operation request parameters
+List <String> requestFields = operation.getRequestSchema().getFieldNames();
 
 ```
 
-## WMS 1.3.0
+
+### Create a basic request message
 
 ```
-SUISClient sc = new SUISClient.Builder()
-	.initialize("http://cube.csiss.gmu.edu/geoserver/topp/ows?service=WMS&request=GetCapabilities&version=1.3.0", ServiceType.OGC)
-	.build();
-
-sc.listOperations();
-
-Operation o = sc.operation("GetMap");
-
-sc.listInputParams(o);
-
-sc.listOutputParams(o);
-
-o.getInput().value("layers", "topp:states")
-	.value("bbox", "-124.73142200000001,24.955967,-66.969849,49.371735")
-	.value("width", 768)
-	.value("height", 330)
-	.value("crs", "EPSG:4326")
-	.value("format", "image/jpeg");
-
-Message outm = sc.call(o);
-
-sc.listOutputValues(outm);
-```
-
-## WFS 2.0.0
+Operation operation = restClient.getOperation('subset_image')
+Message request = operation.getRequestMessage()
+request.build()
+	.set("imageurl", "http://example.org/large_image.jpeg")
+	.set("response_format", "jpeg")
 
 ```
-SUISClient sc = new SUISClient.Builder()
-	.initialize("http://cube.csiss.gmu.edu/geoserver/topp/ows?service=WFS&request=GetCapabilities&version=2.0.0", ServiceType.OGC)
-	.build();
 
-sc.listOperations();
-
-Operation o = sc.operation("GetFeature");
-
-sc.listInputParams(o);
-
-sc.listOutputParams(o);
-
-o.getInput().value("query", "typeNames=topp:tasmania_roads");
-
-Message outm = sc.call(o);
-
-sc.listOutputValues(outm);
+### Call service and read basic response
 ```
+restClient.call(operation);
+Message response = operation.getResponseMessage()
+
+response.query().get("return_imageurl");
+```
+
+## Advanced Usage
+
+### Connect to multiple services
+```
+Client restClient = new suis4j.Client(suis4j.ServiceType.REST_WADL)
+Client soapClient = new suis4j.Client(suis4j.ServiceType.SOAP)
+Client wcs2Client = new suis4j.Client(suis4j.ServiceType.OGC_WCS_2)
+
+restClient.bindURL("https://service.iris.edu/irisws/timeseries/1/application.wadl")
+soapClient.bindURL("http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_Buffer_OGR?wsdl")
+wcs2Client.bindURL("http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r")
+```
+
+### Build request with complex nested request message
+```
+request.build().
+	.set("imageurl", "http://example.org/large_image.jpeg")
+	.element("boundingbox") // begin 'boundingbox'
+		.attribute("coordinate_system", "WGS84")
+		.set("top", "10")
+		.set("left", "10")
+		.set("bottom", "100")
+		.element("right")
+			.text("100")
+		.end() // complete <right>
+	.end() // complete <boundingbox>
+	.set("response_format", "jpeg")
+	.set("jpeg_quality", "80");
+```
+
+### Build request from XML, JSON and Java HashMap 
+
+```
+request.build().fromJSON(text)
+request.build().fromXML(text)
+request.build().fromMap(javaHashMap)
+```
+
+
+### Override request parameter using dot notation
+```
+request.build().set("boundingbox.top", 	 "0")
+```
+
+
+### Build request from combined Java and XML parameters
+```
+request.build().
+	.set("imageurl", "http://example.org/large_image.jpeg")
+	.element("boundingbox").fromXML(bbXMLText);
+```
+
+### Query response nested elements and XML attributes
+```
+Message response = operation.getResponseMessage()
+
+response.query().get("returnurl")
+response.query().element("boundingbox").get("top")
+response.query().element("boundingbox").attribute("coordinate_system")
+```
+
+
+### Query multiple response fields 
+```
+List <String> supportedFormats = response.query().getAll('supported_format')
+```
+
+### Convert response into XML, JSON, Java HashMap
+```
+response.query().toJSON()
+response.query().toXML()
+response.query().toMap()
+```
+
+
+### Convert part of response to JSON
+```
+response.query().element("boundingbox").toJSON()
+// {"top": 10, "left": 10, "bottom": 100, "right": 100}
+```
+
+
+### Query response using XPATH
+```
+String value = response.query().xpath("//boundingbox/top")
+NodeList nodes = (NodeList) response.query().xpathNodeset("//boundingbox/top")
+```
+
+### Schema queries
+```
+// Get all top-level fields
+List<String> fieldNames = request.getSchema().getFieldNames()
+
+// Check if a field has sub-fields
+request.getSchema().hasSubfields(fieldName)
+request.getSchema().getFieldNames(fieldName)
+
+// Convert request schema to XSD
+request.getSchema().toXSD()
+```
+
 
 # Deployment
 
