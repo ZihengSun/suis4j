@@ -96,7 +96,7 @@ soapClient.bindURL("http://www3.csiss.gmu.edu/GeoprocessingWS/services/Vector_Bu
 wcs2Client.bindURL("http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r");
 ```
 
-### Build request with complex nested request message
+### Build requests with nested request message parameters (and XML attributes)
 ```
 request.build()
 	.set("imageurl", "http://example.org/large_image.jpeg")
@@ -113,7 +113,7 @@ request.build()
 	.set("jpeg_quality", "80");
 ```
 
-### Build request from XML, JSON and Java HashMap 
+### Build request sfrom XML, JSON and Java HashMap 
 
 ```
 request.build().fromJSON(text);
@@ -122,13 +122,13 @@ request.build().fromMap(javaHashMap);
 ```
 
 
-### Override request parameter using dot notation
+### Override request parameters using dot notation
 ```
 request.build().set("boundingbox.top", 	 "0");
 ```
 
 
-### Build request from combined Java and XML parameters
+### Build requests from combined Java and XML parameters
 ```
 request.build()
 	.set("imageurl", "http://example.org/large_image.jpeg")
@@ -145,7 +145,7 @@ response.query().element("boundingbox").getAttribute("coordinate_system");
 ```
 
 
-### Query multiple response fields 
+### Query recurrent response parameters  
 ```
 List <String> supportedFormats = response.query().getAll('supported_format');
 ```
@@ -158,14 +158,14 @@ response.query().toMap();
 ```
 
 
-### Convert part of response to JSON
+### Convert a subset of response message to JSON
 ```
 response.query().element("boundingbox").toJSON();
 // {"top": 10, "left": 10, "bottom": 100, "right": 100}
 ```
 
 
-### Query response using XPATH
+### Query response message using XPATH
 ```
 String value = response.query().xpath("//boundingbox/top");
 NodeList nodes = (NodeList) response.query().xpathNodeset("//boundingbox/top");
@@ -198,6 +198,7 @@ Import the suis4j library into your eclipse project classpath, or use Maven.
 # Author
 
 * **Ziheng Sun** - *Initial work* - [contact](https://zihengsun.com)
+* **Juozas Gaigalas** - *API refactoring and test suite* - [contact](juozasgaigalas@gmail.com)
 
 ## License
 
@@ -205,6 +206,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+* Hat tips to everyone who's code was used
