@@ -53,7 +53,7 @@ restClient.bindURL("https://service.iris.edu/irisws/timeseries/1/application.wad
 ```
 // All operations
 List<Operation> operations = client.getOperations();
-List<String> operationName = client.getOperationNames();
+List<String> operationNames = client.getOperationNames();
 
 // Select operation
 Operation operation = restClient.getOperation('subset_image');
@@ -98,7 +98,7 @@ wcs2Client.bindURL("http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r");
 
 ### Build request with complex nested request message
 ```
-request.build().
+request.build()
 	.set("imageurl", "http://example.org/large_image.jpeg")
 	.element("boundingbox") // begin 'boundingbox'
 		.attribute("coordinate_system", "WGS84")
@@ -130,7 +130,7 @@ request.build().set("boundingbox.top", 	 "0");
 
 ### Build request from combined Java and XML parameters
 ```
-request.build().
+request.build()
 	.set("imageurl", "http://example.org/large_image.jpeg")
 	.element("boundingbox").fromXML(bbXMLText);
 ```
@@ -141,7 +141,7 @@ Message response = operation.getResponseMessage();
 
 response.query().get("returnurl");
 response.query().element("boundingbox").get("top");
-response.query().element("boundingbox").attribute("coordinate_system");
+response.query().element("boundingbox").getAttribute("coordinate_system");
 ```
 
 
