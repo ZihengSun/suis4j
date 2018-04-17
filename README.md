@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/juozasg/suis4j.svg?branch=refactoring)](https://travis-ci.org/juozasg/suis4j)
+
 # suis4j
 
 SUIS (Simple Universal Interface for Services) Java Library
