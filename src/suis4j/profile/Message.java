@@ -85,6 +85,14 @@ public class Message {
 		
 	}
 	
+	public Object value(String parameter){
+		
+		Parameter p = this.get(parameter);
+		
+		return p.getValue();
+		
+	}
+	
 	public Message value(String parameter, String value){
 		
 		Parameter p = this.get(parameter);

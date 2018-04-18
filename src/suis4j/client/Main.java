@@ -11,6 +11,63 @@ import suis4j.profile.Operation;
 */
 public class Main {
 	
+	public void testDroughtWorkflow(){
+		
+		try{
+			
+			System.out.println("Start the workflow of agricultural drought.");
+			
+			//step 1: get the drought raster from GADMFS
+			
+			SUISClient sc = new SUISClient.Builder()
+					.initialize("http://129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&LAYERS=drought.2017.289&MAP=/media/gisiv01/mapfiles/drought/16days/2017/drought.2017.289.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCapabilities", ServiceType.OGC).build();
+			
+			sc.listOperations();
+			
+			Operation o = sc.operation("GetCoverage");
+			
+			sc.listInputParams(o);
+			
+			sc.listOutputParams(o);
+			
+			o.getInput().value("FORMAT", "image/tiff")
+				.value("identifier","drought.2017.289")
+				.value("BBOX", "-2266796.2857142,1968672,-2173050,2062418.2857143")
+				.value("WIDTH", 256)
+				.value("HEIGHT", 256)
+				.value("CRS", "EPSG:4326");
+			
+			Message outm = sc.call(o);
+			
+			sc.listOutputValues(outm);
+			
+//			129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&LAYERS=drought.2017.289&MAP=/media/gisiv01/mapfiles/drought/16days/2017/drought.2017.289.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCoverage&identifier=drought.2017.289&BBOX=-124.79,42.11,-113.83,82.11&WIDTH=500&HEIGHT=500&FORMAT=image/tiff
+			
+			//step 2: get the precipitation from NWS
+			
+			
+			
+			//step 3: interpolate the precipitation
+			
+			
+			
+			//step 4: reproject the precipitation to the drought projection
+			
+			
+			//step 5: spatial correlation analysis between the drought and precipitation
+			
+			
+			
+			System.out.println("End of the workflow.");
+			
+		}catch(Exception e){
+			
+			e.printStackTrace();
+			
+		}
+		
+	}
+	
 	public void testSUIS4J(){
 		
 		try{
@@ -89,6 +146,10 @@ public class Main {
 			o.getInput().value("crs", "EPSG:4326");
 			o.getInput().value("format", "image/jpeg");
 			
+			o.getInput().value("persons", "[{'name':'a', 'sex':'f'}]");
+			
+			//for OGC CSW test
+			
 			Message outm = sc.call(o);
 			
 			sc.listOutputValues(outm);
@@ -109,7 +170,9 @@ public class Main {
 		
 		Main m = new Main();
 		
-		m.testSUIS4J();
+//		m.testSUIS4J();
+		
+		m.testDroughtWorkflow();
 		
 	}
 	
