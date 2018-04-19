@@ -19,6 +19,20 @@ import net.opengis.gml.v_3_2_1.DomainSetType;
 import net.opengis.gmlcov.v_1_0.Metadata;
 import net.opengis.ows.v_2_0.Operation;
 import net.opengis.swecommon.v_2_0.DataRecordPropertyType;
+import net.opengis.wcs.v_1_0_0.CoverageDescription;
+import net.opengis.wcs.v_1_0_0.CoverageOfferingBriefType;
+import net.opengis.wcs.v_1_0_0.DCPTypeType;
+import net.opengis.wcs.v_1_0_0.DCPTypeType.HTTP.Get;
+import net.opengis.wcs.v_1_0_0.DCPTypeType.HTTP.Post;
+import net.opengis.wcs.v_1_0_0.DescribeCoverage;
+import net.opengis.wcs.v_1_0_0.GetCapabilities;
+import net.opengis.wcs.v_1_0_0.GetCoverage;
+import net.opengis.wcs.v_1_0_0.LonLatEnvelopeType;
+import net.opengis.wcs.v_1_0_0.RangeSet;
+import net.opengis.wcs.v_1_0_0.SupportedCRSsType;
+import net.opengis.wcs.v_1_0_0.SupportedFormatsType;
+import net.opengis.wcs.v_1_0_0.SupportedInterpolationsType;
+import net.opengis.wcs.v_1_0_0.WCSCapabilitiesType;
 import net.opengis.wcs.v_2_0.CapabilitiesType;
 import net.opengis.wcs.v_2_0.ContentsType;
 import net.opengis.wcs.v_2_0.CoverageDescriptionsType;
@@ -40,6 +54,13 @@ public class WCSUtils {
 	
 	private static Logger theLogger = Logger.getLogger(WCSUtils.class);
 	
+	public static net.opengis.wcs.v_1_0_0.WCSCapabilitiesType parse100Capabilities(String url) throws Exception{
+		
+		String capabilitydoc = HttpUtils.doGet(url);
+		
+		return parse100CapabilitiesStr(capabilitydoc);
+	}
+	
 	/**
 	 * Parse capabilities document
 	 * @param url
@@ -51,6 +72,27 @@ public class WCSUtils {
 		String capabilitydoc = HttpUtils.doGet(url);
 		
 		return parseCapabilitiesStr(capabilitydoc);
+		
+	}
+	
+	public static WCSCapabilitiesType parse100CapabilitiesStr(String content){
+		
+		WCSCapabilitiesType ca =  null;
+		try {
+			
+			JAXBContext jaxbContext = null;
+			
+			ca = JAXB.unmarshal(new StringReader(content), WCSCapabilitiesType.class);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+			throw new RuntimeException("Fail to parse the capabilities document." + e.getLocalizedMessage());
+			
+		}
+		
+		return ca;
 		
 	}
 	
@@ -101,6 +143,179 @@ public class WCSUtils {
 		
 		return theXML;
 		
+	}
+	
+	public static String turn100DomainSetTypeToXML(net.opengis.wcs.v_1_0_0.DomainSetType domainSet) {
+
+		String theXML = null;
+		try{
+			// serialise to xml
+			StringWriter writer = new StringWriter();
+			JAXBContext context = JAXBContext.newInstance(net.opengis.wcs.v_1_0_0.DomainSetType.class);
+			Marshaller m = context.createMarshaller();
+			QName qName = new QName("http://www.opengis.net/wcs/1.0.0", "DomainSetType");
+		    JAXBElement<net.opengis.wcs.v_1_0_0.DomainSetType> root = new JAXBElement<>(qName, net.opengis.wcs.v_1_0_0.DomainSetType.class, domainSet);
+			m.marshal(root, writer);
+			
+			// output string to console
+			theXML = writer.toString();
+//			System.out.println(theXML);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return theXML;
+	}
+	
+	public static String turn100SupportedCRSs(SupportedCRSsType supportedCRSs) {
+		String theXML = null;
+		try{
+			// serialise to xml
+			StringWriter writer = new StringWriter();
+			JAXBContext context = JAXBContext.newInstance(net.opengis.wcs.v_1_0_0.SupportedCRSsType.class);
+			Marshaller m = context.createMarshaller();
+			QName qName = new QName("http://www.opengis.net/wcs/1.0.0", "SupportedCRSs");
+		    JAXBElement<net.opengis.wcs.v_1_0_0.SupportedCRSsType> root = new JAXBElement<>(qName, net.opengis.wcs.v_1_0_0.SupportedCRSsType.class, supportedCRSs);
+			m.marshal(root, writer);
+			
+			// output string to console
+			theXML = writer.toString();
+//			System.out.println(theXML);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return theXML;
+	}
+	
+
+	public static String turn100SupportedInterpolations(SupportedInterpolationsType supportedInterpolations) {
+		String theXML = null;
+		try{
+			// serialise to xml
+			StringWriter writer = new StringWriter();
+			JAXBContext context = JAXBContext.newInstance(net.opengis.wcs.v_1_0_0.SupportedInterpolationsType.class);
+			Marshaller m = context.createMarshaller();
+			QName qName = new QName("http://www.opengis.net/wcs/1.0.0", "SupportedInterpolations");
+		    JAXBElement<net.opengis.wcs.v_1_0_0.SupportedInterpolationsType> root = new JAXBElement<>(qName, net.opengis.wcs.v_1_0_0.SupportedInterpolationsType.class, supportedInterpolations);
+			m.marshal(root, writer);
+			
+			// output string to console
+			theXML = writer.toString();
+//			System.out.println(theXML);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return theXML;
+	}
+	
+	public static Object turn100LonLatEnvelope(LonLatEnvelopeType lonLatEnvelope) {
+		String theXML = null;
+		try{
+			// serialise to xml
+			StringWriter writer = new StringWriter();
+			JAXBContext context = JAXBContext.newInstance(net.opengis.wcs.v_1_0_0.LonLatEnvelopeType.class);
+			Marshaller m = context.createMarshaller();
+			QName qName = new QName("http://www.opengis.net/wcs/1.0.0", "RangeSet");
+		    JAXBElement<net.opengis.wcs.v_1_0_0.LonLatEnvelopeType> root = new JAXBElement<>(qName, net.opengis.wcs.v_1_0_0.LonLatEnvelopeType.class, lonLatEnvelope);
+			m.marshal(root, writer);
+			
+			// output string to console
+			theXML = writer.toString();
+//			System.out.println(theXML);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return theXML;
+	}
+	
+	public static Object turn100SupportedFormats(SupportedFormatsType supportedFormats) {
+		String theXML = null;
+		try{
+			// serialise to xml
+			StringWriter writer = new StringWriter();
+			JAXBContext context = JAXBContext.newInstance(net.opengis.wcs.v_1_0_0.SupportedFormatsType.class);
+			Marshaller m = context.createMarshaller();
+			QName qName = new QName("http://www.opengis.net/wcs/1.0.0", "SupportedFormats");
+		    JAXBElement<net.opengis.wcs.v_1_0_0.SupportedFormatsType> root = new JAXBElement<>(qName, net.opengis.wcs.v_1_0_0.SupportedFormatsType.class, supportedFormats);
+			m.marshal(root, writer);
+			
+			// output string to console
+			theXML = writer.toString();
+//			System.out.println(theXML);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return theXML;
+	}
+	
+	public static Object turn100RangeSetTypeToXML(RangeSet rangeSet) {
+		String theXML = null;
+		try{
+			// serialise to xml
+			StringWriter writer = new StringWriter();
+			JAXBContext context = JAXBContext.newInstance(net.opengis.wcs.v_1_0_0.RangeSet.class);
+			Marshaller m = context.createMarshaller();
+			QName qName = new QName("http://www.opengis.net/wcs/1.0.0", "RangeSet");
+		    JAXBElement<net.opengis.wcs.v_1_0_0.RangeSet> root = new JAXBElement<>(qName, net.opengis.wcs.v_1_0_0.RangeSet.class, rangeSet);
+			m.marshal(root, writer);
+			
+			// output string to console
+			theXML = writer.toString();
+//			System.out.println(theXML);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return theXML;
+	}
+
+	
+	public static String turn100DescribeCoverageTypeToXML(DescribeCoverage createA100DescribeCoverageRequest) {
+
+		String theXML = null;
+		try{
+			// serialise to xml
+			StringWriter writer = new StringWriter();
+			JAXBContext context = JAXBContext.newInstance(DescribeCoverage.class);
+			Marshaller m = context.createMarshaller();
+			QName qName = new QName("http://www.opengis.net/wcs/1.0.0", "DescribeCoverage");
+		    JAXBElement<DescribeCoverage> root = new JAXBElement<>(qName, DescribeCoverage.class, createA100DescribeCoverageRequest);
+			m.marshal(root, writer);
+			
+			// output string to console
+			theXML = writer.toString();
+//			System.out.println(theXML);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return theXML;
+	}
+	
+	public static String turn100GetCapabilitiesTypeToXML(GetCapabilities createA100GetCapabilitiesRequest) {
+		
+		String theXML = null;
+		try{
+			// serialise to xml
+			StringWriter writer = new StringWriter();
+			JAXBContext context = JAXBContext.newInstance(GetCapabilities.class);
+			Marshaller m = context.createMarshaller();
+			QName qName = new QName("http://www.opengis.net/wcs/1.0.0", "GetCapabilities");
+		    JAXBElement<GetCapabilities> root = new JAXBElement<>(qName, GetCapabilities.class, createA100GetCapabilitiesRequest);
+			m.marshal(root, writer);
+			
+			// output string to console
+			theXML = writer.toString();
+//			System.out.println(theXML);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return theXML;
 	}
 	/**
 	 * Turn coverage description to XML
@@ -155,6 +370,29 @@ public class WCSUtils {
 		return cdt;
 		
 	}
+	
+	public static net.opengis.wcs.v_1_0_0.CoverageDescription parse100CoverageDescriptions(String returnxml) {
+		
+		CoverageDescription cdt = null;
+		
+		try{
+			
+			JAXBContext jaxbContext = null;
+			
+			cdt = JAXB.unmarshal(new StringReader(returnxml), CoverageDescription.class);
+			
+		}catch(Exception e){
+			
+			e.printStackTrace();
+			
+			throw new RuntimeException("Fail to parse the coverage descriptions. " + e.getLocalizedMessage());
+			
+		}
+		
+		return cdt;
+		
+	}
+
 	
 	public static String turnServiceParametersToXML(ServiceParametersType spt){
 
@@ -331,6 +569,16 @@ public class WCSUtils {
 		
 	}
 	
+
+	public static GetCapabilities createA100GetCapabilitiesRequest() {
+
+		net.opengis.wcs.v_1_0_0.ObjectFactory of = new net.opengis.wcs.v_1_0_0.ObjectFactory();
+		
+		GetCapabilities gct = of.createGetCapabilities(); 
+		
+		return gct;
+	}
+	
 	/**
 	 * Create a getcoverage request
 	 * @param coverageid
@@ -345,6 +593,44 @@ public class WCSUtils {
 		return gct;
 	}
 	
+	public static String createA100GetCoverageRequest(String coverageid, String format, String version,
+			String crs, String response_crs, String bbox, String time, String parameter, String width, String height, String depth, 
+			String resx, String resy, String resz, String interpolation, String exceptions) {
+		
+		StringBuffer kvps = new StringBuffer();
+		
+		kvps.append("coverage=").append(coverageid)
+			.append("&format=").append(format)
+			.append("&crs=").append(crs);
+		
+		if(!"".equals(response_crs))
+			kvps.append("&response_crs=").append(response_crs);
+		
+		kvps.append("&bbox=").append(bbox);
+		
+		if(!"".equals(time))kvps.append("&time=").append(time);
+		
+		if(!"".equals(parameter))kvps.append("&parameter=").append(parameter);
+		
+		kvps.append("&width=").append(width);
+		
+		kvps.append("&height=").append(height);
+			
+		if(!"".equals(depth))	kvps.append("&depth=").append(depth);
+		
+		if(!"".equals(resx)) kvps.append("&resx=").append(resx);
+		
+		if(!"".equals(resy)) kvps.append("&resy=").append(resy);
+		
+		if(!"".equals(resz)) kvps.append("&resz=").append(resz);
+		
+		if(!"".equals(interpolation)) kvps.append("&interpolation=").append(interpolation);
+		
+		if(!"".equals(exceptions)) kvps.append("&exceptions=").append(exceptions);
+			
+		return kvps.toString();
+	}
+	
 	
 	/**
 	 * Create a describe coverage request
@@ -352,14 +638,40 @@ public class WCSUtils {
 	 * @return
 	 */
 	public static DescribeCoverageType createADescribeCoverageRequest(String coverageid, String version){
+		
 		ObjectFactory of = new ObjectFactory();
+		
 		DescribeCoverageType dct = of.createDescribeCoverageType();
+		
 		dct.setVersion(version);
+		
 		List cids = new ArrayList();
+		
 		cids.add(coverageid);
+		
 		dct.setCoverageId(cids);
+		
 		return dct;
+		
 	}
+	
+	public static DescribeCoverage createA100DescribeCoverageRequest(String valueAsString, String version) {
+		
+		net.opengis.wcs.v_1_0_0.ObjectFactory of = new net.opengis.wcs.v_1_0_0.ObjectFactory();
+		
+		DescribeCoverage dct = of.createDescribeCoverage();
+		
+		List cids = new ArrayList();
+		
+		cids.add(valueAsString);
+		
+		dct.setCoverage(cids);
+		
+		return dct;
+		
+	}
+
+
 	/**
 	 * get coverage description
 	 * @param endurl
@@ -411,6 +723,27 @@ public class WCSUtils {
 		
 	}
 	
+	public static URL get100Endpoint(WCSCapabilitiesType ct) throws MalformedURLException {
+		
+		String exeurl = null;
+		
+		Object o = ct.getCapability().getRequest().getGetCoverage()
+				.getDCPType().get(0).getHTTP().getGetOrPost().get(0);
+		
+		if(o instanceof Get){
+			
+			exeurl = ((Get)o).getOnlineResource().getHref();
+			
+		}else if(o instanceof Post){
+			
+			exeurl = ((Post)o).getOnlineResource().getHref();
+			
+		}
+		
+		return new URL(exeurl);
+		
+	}
+	
 	/**
 	 * Get the list of coverage
 	 * @param ca
@@ -437,6 +770,23 @@ public class WCSUtils {
 		
 	}
 	
+	public static String get100CoverageListString(WCSCapabilitiesType ca){
+		
+		List<CoverageOfferingBriefType> coverages = ca.getContentMetadata().getCoverageOfferingBrief();
+		
+		StringBuffer capalist = new StringBuffer();
+		
+		for(int i=0;i<coverages.size();i++){
+		
+			CoverageOfferingBriefType cst = coverages.get(i);
+			
+			capalist.append(cst.getWcsName()).append("\n");
+			
+		}
+		
+		return capalist.toString();
+		
+	}
 	
 	
 	/**
@@ -457,11 +807,11 @@ public class WCSUtils {
 		return cids;
 	}
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 //		String wcsurl = "http://cube.csiss.gmu.edu/cgi-bin/gbwcs-dem.cgi?service=wcs&request=getcapabilities&version=1.0.0";
-		String wcsurl = "http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r?service=wcs&request=getcapabilities&version=2.0.0";
+//		String wcsurl = "http://ows9.csiss.gmu.edu/cgi-bin/WCS20-r?service=wcs&request=getcapabilities&version=2.0.0";
 //		String wcsurl = "https://tb12.cubewerx.com/a045/cubeserv?DATASTORE=Satellite_Soil_Moisture&SERVICE=WCS&REQUEST=GetCapabilities";
-		
+		String wcsurl = "http://129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&LAYERS=drought.2017.289&MAP=/media/gisiv01/mapfiles/drought/16days/2017/drought.2017.289.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCapabilities"; //1.0.0
 //		String wcsurl = "http://www3.csiss.gmu.edu/axis2swa/services/GMU_SOAP_WCS_Service.GMU_SOAP_WCS_ServiceHttpSoap12Endpoint/";
 //		theLogger.info(wcsurl);
 		/**
@@ -471,6 +821,11 @@ public class WCSUtils {
 ////		CapabilitiesType cat = WCSUtils.parseCapabilities_SOAP(wcsurl);
 //		theLogger.info("There are total "+cat.getContents().getCoverageSummary().size() + " coverages in this WCS.");
 		
+		WCSCapabilitiesType wct = WCSUtils.parse100Capabilities(wcsurl);
+		
+		theLogger.info(WCSUtils.get100Endpoint(wct));
+		
+		WCSUtils.get100CoverageListString(wct);
 		
 		/**
 		 * test describe coverage
@@ -493,6 +848,24 @@ public class WCSUtils {
 		
 		
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	
 }

@@ -2,6 +2,7 @@ package suis4j.driver;
 
 import java.net.*;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.dom4j.Document;
@@ -11,6 +12,9 @@ import java.io.*;
 
 public class HttpUtils
 {
+	
+	public static String TEMPORARY_PATH = System.getProperty("java.io.tmpdir") + File.separator;
+	
 	/**
 	 * Parse file from URL
 	 * @param url
@@ -49,6 +53,22 @@ public class HttpUtils
 	        		URLDecoder.decode(pair.substring(idx + 1), "UTF-8").toLowerCase()); //everything is lowcased
 	    }
 	    return query_pairs;
+	}
+	
+	
+	public static String turnListToString(List arrays){
+		
+		StringBuffer str = new StringBuffer();
+		
+		for(String s: (List<String>)arrays){
+			
+			str.append(s).append(",");
+			
+		}
+		
+		return str.toString();
+		
+		
 	}
 	
 	

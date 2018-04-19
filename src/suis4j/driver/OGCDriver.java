@@ -24,7 +24,7 @@ public class OGCDriver extends AbstractDriver {
 	
 	Object capa;
 	
-	static String TEMPORARY_PATH = System.getProperty("java.io.tmpdir") + File.separator;
+	String dataurl = null; //this variable is used to store the GetMap, GetCoverage, GetFeature URL link for service chaining
 	
 	Map<String, Object> processdescriptions; //operation name to process description
 	
@@ -88,9 +88,11 @@ public class OGCDriver extends AbstractDriver {
 				
 				url += "service="+category+"&version=" + version + "&request="+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
 				
-				HttpUtils.doGETFile(url, TEMPORARY_PATH + filename);
+				this.dataurl = url;
 				
-				resp = "file:" + TEMPORARY_PATH + filename;
+				HttpUtils.doGETFile(url, HttpUtils.TEMPORARY_PATH + filename);
+				
+				resp = "file:" + HttpUtils.TEMPORARY_PATH + filename;
 				
 			}else if("GetCoverage".equals(this.getCurrent_operation())){
 				
@@ -98,10 +100,46 @@ public class OGCDriver extends AbstractDriver {
 				
 				String filename = "coverage-" + UUID.randomUUID().toString();
 				
-				//doPostFile
-				HttpUtils.doPostFile(this.getAccess_endpoint().toString(), String.valueOf(req.getContent()), TEMPORARY_PATH + filename);
+				if(this.version.equals("2.0.0")){
+					
+					//doPostFile
+					HttpUtils.doPostFile(this.getAccess_endpoint().toString(), String.valueOf(req.getContent()), HttpUtils.TEMPORARY_PATH + filename);
+					
+				}else if(this.version.equals("1.0.0")){
+					
+					//doGetFile
+					
+					String url = null;
+					
+					if(this.getAccess_endpoint().toString().endsWith("?")){
+						
+						url = this.getAccess_endpoint().toString();
+						
+					}else if(this.getAccess_endpoint().toString().contains("?")){
+						
+						url = this.getAccess_endpoint().toString() + "&";
+						
+					}else {
+						
+						url = this.getAccess_endpoint().toString() + "?";
+						
+					}
+					
+					url += "service="+category+"&version=" + version + "&request="
+					
+							+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+					
+					this.dataurl = url;
+					
+					HttpUtils.doGETFile(url, HttpUtils.TEMPORARY_PATH + filename);
+					
+				}else{
+					
+					throw new RuntimeException("The version is not supported");
+					
+				}
 				
-				resp = "file:" + TEMPORARY_PATH + filename;
+				resp = "file:" + HttpUtils.TEMPORARY_PATH + filename;
 				
 			}else if("GetCapabilities".equals(this.getCurrent_operation())){
 				
@@ -176,7 +214,7 @@ public class OGCDriver extends AbstractDriver {
 	
 	public static class Builder extends AbstractDriver.Builder{
 
-		OGCDriver driver = new OGCDriver();
+		OGCDriver driver = null;
 		
 		@Override
 		public Builder parse(String descfile) {
@@ -198,6 +236,10 @@ public class OGCDriver extends AbstractDriver {
 					if("2.0.0".equals(querykvp.get("version"))){
 						
 						driver = new WCS200Driver();
+						
+					}else if("1.0.0".equals(querykvp.get("version"))){
+						
+						driver = new WCS100Driver();
 						
 					}
 					
@@ -224,6 +266,12 @@ public class OGCDriver extends AbstractDriver {
 						driver = new WPS100Driver();
 						
 					}
+					
+				}
+				
+				if(driver==null){
+					
+					throw new RuntimeException("Fail to pull a suitable driver for this service. ");
 					
 				}
 				

@@ -1,5 +1,9 @@
 package suis4j.client;
 
+import java.net.URL;
+import java.util.UUID;
+
+import suis4j.driver.HttpUtils;
 import suis4j.driver.ServiceType;
 import suis4j.profile.Message;
 import suis4j.profile.Operation;
@@ -20,30 +24,39 @@ public class Main {
 			//step 1: get the drought raster from GADMFS
 			
 			SUISClient sc = new SUISClient.Builder()
-					.initialize("http://129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&LAYERS=drought.2017.289&MAP=/media/gisiv01/mapfiles/drought/16days/2017/drought.2017.289.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCapabilities", ServiceType.OGC).build();
-			
-			sc.listOperations();
+					.initialize("http://129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&MAP=/media/gisiv01/mapfiles/drought/16days/2017/drought.2017.113.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCapabilities", ServiceType.OGC).build();
 			
 			Operation o = sc.operation("GetCoverage");
 			
 			sc.listInputParams(o);
 			
-			sc.listOutputParams(o);
+			o.getInput().value("format", "image/tiff")
+				.value("coverage","drought.2017.113")
+				//download california
+				.value("bbox", "-2433781.86,1105894.86,-1461164.14,2482793.43")
+				.value("width", 1000)
+				.value("height", 1416)
+				.value("crs", "epsg:102004");
 			
-			o.getInput().value("FORMAT", "image/tiff")
-				.value("identifier","drought.2017.289")
-				.value("BBOX", "-2266796.2857142,1968672,-2173050,2062418.2857143")
-				.value("WIDTH", 256)
-				.value("HEIGHT", 256)
-				.value("CRS", "EPSG:4326");
+			Message droughtraster = sc.call(o);
 			
-			Message outm = sc.call(o);
+			String vcifilepath = droughtraster.getValueAsString("coverage");
 			
-			sc.listOutputValues(outm);
+			String vciurl = droughtraster.getValueAsString("dataurl");
+			
+			
 			
 //			129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&LAYERS=drought.2017.289&MAP=/media/gisiv01/mapfiles/drought/16days/2017/drought.2017.289.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCoverage&identifier=drought.2017.289&BBOX=-124.79,42.11,-113.83,82.11&WIDTH=500&HEIGHT=500&FORMAT=image/tiff
 			
 			//step 2: get the precipitation from NWS
+			
+			String precipfilepath = HttpUtils.TEMPORARY_PATH + "precip-" + UUID.randomUUID().toString() + ".tiff";
+			
+			String precipurl = "https://water.weather.gov/precip/downloader.php?date=20180101&file_type=geotiff&range=year2date&format=tar";
+			
+//			sc.downloadURL(new URL(precipurl), precipfilepath);
+			
+			//step 3: get california boundary from WFS
 			
 			
 			
@@ -52,6 +65,7 @@ public class Main {
 			
 			
 			//step 4: reproject the precipitation to the drought projection
+			
 			
 			
 			//step 5: spatial correlation analysis between the drought and precipitation
@@ -104,7 +118,7 @@ public class Main {
 			
 			sc.listOperations();
 			
-			Operation o = sc.operation("GetMap");
+			Operation o = sc.operation("GetCoverage");
 			
 			sc.listInputParams(o);
 			
@@ -131,24 +145,24 @@ public class Main {
 //				.value("width", 0.05);
 			
 			//for OGC WCS test
-//			o.getInput().value("coverageId", "GEOTIFF:\"/home/zsun/testfiles/data/bay_dem.tif\":Band").value("format", "image/geotiff");
-//			o.getInput().value("coverageId", "atmosphere__METOP-B_GOME-2_L3_TROPOSPHERIC_O3_MIXINGRATIO_STD");
+			o.getInput().value("coverageId", "GEOTIFF:\"/home/zsun/testfiles/data/bay_dem.tif\":Band").value("format", "image/geotiff");
+			o.getInput().value("coverageId", "atmosphere__METOP-B_GOME-2_L3_TROPOSPHERIC_O3_MIXINGRATIO_STD");
 			
 			//for OGC WFS test
 //			o.getInput().value("query", "typeNames=topp:tasmania_roads");
 //			o.getInput().value("typeName", "topp:tasmania_roads");
 			
 			//for OGC WMS test
-			o.getInput().value("layers", "topp:states");
-			o.getInput().value("bbox", "-124.73142200000001,24.955967,-66.969849,49.371735");
-			o.getInput().value("width", 768);
-			o.getInput().value("height", 330);
-			o.getInput().value("crs", "EPSG:4326");
-			o.getInput().value("format", "image/jpeg");
-			
-			o.getInput().value("persons", "[{'name':'a', 'sex':'f'}]");
+//			o.getInput().value("layers", "topp:states");
+//			o.getInput().value("bbox", "-124.73142200000001,24.955967,-66.969849,49.371735");
+//			o.getInput().value("width", 768);
+//			o.getInput().value("height", 330);
+//			o.getInput().value("crs", "EPSG:4326");
+//			o.getInput().value("format", "image/jpeg");
 			
 			//for OGC CSW test
+			//missing
+			
 			
 			Message outm = sc.call(o);
 			

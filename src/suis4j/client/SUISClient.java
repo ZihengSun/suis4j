@@ -1,14 +1,13 @@
 package suis4j.client;
 
+import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import suis4j.driver.AbstractDriver;
 import suis4j.driver.DriverManager;
+import suis4j.driver.HttpUtils;
 import suis4j.driver.OGCDriver;
 import suis4j.driver.RESTDriver;
 import suis4j.driver.SOAPDriver;
@@ -28,6 +27,7 @@ public class SUISClient {
 	
 	AbstractDriver driver;
 	
+	
 	public AbstractDriver getDriver() {
 		return driver;
 	}
@@ -37,6 +37,30 @@ public class SUISClient {
 	}
 
 	protected SUISClient(){
+		
+	}
+	
+	/**
+	 * This function provide an entry for directly downloading from URL
+	 * It is used when users are aware of the URL and just want to get the file in the program. 
+	 * @param url
+	 * @param filepath
+	 */
+	public void downloadURL(URL url, String filepath){
+		
+		try {
+			
+			HttpUtils.doGETFile(url.toString(), filepath);
+			
+			log.info("File is downloaded: " + filepath);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+			throw new RuntimeException("Fail to download the file. ");
+			
+		}
 		
 	}
 	
@@ -170,7 +194,7 @@ public class SUISClient {
 		 */
 		public Builder initialize(String descfile, ServiceType type){
 			
-			log.debug("register new wsdl...");
+			log.debug("recognizing new service...");
 			
 			AbstractDriver.Builder builder = null;
 			

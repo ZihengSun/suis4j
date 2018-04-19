@@ -33,5 +33,6 @@
 	<classpathentry kind="lib" path="lib/gml-v_3_2_1-2.6.2-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/gmlcov-v_1_0-2.6.2-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/net.opengis.sweCommon-v_2_0-2.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/net.opengis.wcs-v_1_0_0-2.6.2-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
