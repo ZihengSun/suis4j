@@ -1,30 +1,68 @@
 package org.suis4j;
 
-import org.jdom2.Document;
-import org.jdom2.Element;
+import org.apache.commons.lang.StringUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Node;
+
+import java.util.*;
+
+import java.util.regex.*;
 
 
 public class Message
 {
-	private MessageTreeIterator rootIter;
+	// this is the root element of an XML doc that contains our message parameters tree
+	private MessageDataTree data;
 
 	public Message()
 	{
-		rootIter = new MessageTreeIterator(new Element("MessageRootElement"));
+		data = new MessageDataTree();
 	}
 
-	public MessageTreeIterator build()
+	// set value from string
+	public Message value(String key, String value)
 	{
-		return rootIter;
+		data.setValue(key, value);
+
+		return this;
 	}
 
-	public MessageTreeIterator query()
+	// get value string
+	public String value(String key)
 	{
-		return rootIter;
+		return data.getValue(key);
 	}
 
-	public Schema schema()
+	/** Example: values("img", ["jpeg", "png", "tiff"]
+		Creates structure
+			<img>
+	 			<format>jpeg</format>
+	 			<format>png</format>
+	 			<format>tiff</format>
+	 		</img>
+	**/
+	public Message values(String key, List<String> values)
 	{
-		return new Schema();
+		data.setValuesList(key, values);
+		return this;
+	}
+
+	// get a list of values
+	public List<String> values(String key)
+	{
+		return data.getValuesList(key);
+	}
+
+	// get a list of keys for nested keys
+	public List<String> keys(String key)
+	{
+		return data.keys(key);
+	}
+
+	public List<String>  keys()
+	{
+		return data.keys("");
 	}
 }

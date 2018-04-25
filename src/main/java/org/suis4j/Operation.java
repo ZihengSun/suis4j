@@ -6,12 +6,12 @@ public class Operation
 	{
 	}
 
-	public Message getRequestMessage()
+	public Message input()
 	{
 		return new Message();
 	}
 
-	public Message getResponseMessage()
+	public Message output()
 	{
 		return new Message();
 	}

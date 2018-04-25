@@ -14,7 +14,7 @@ public class OperationTest
 	public void testOperation()
 	{
 		Operation o = new Operation();
-		Message request = o.getRequestMessage();
-		Message response = o.getResponseMessage();
+		Message input = o.input();
+		Message output = o.output();
 	}
 }

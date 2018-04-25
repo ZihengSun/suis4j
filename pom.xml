@@ -3,7 +3,19 @@
 	<groupId>suis4j</groupId>
 	<artifactId>suis4j</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>suis4j</name>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>6</source>
+                    <target>6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <name>suis4j</name>
 	<packaging>jar</packaging>
 
 	<properties>
@@ -21,9 +33,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom2</artifactId>
-			<version>2.0.6</version>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
