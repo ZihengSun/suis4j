@@ -178,6 +178,10 @@ public class WMS130Driver extends OGCDriver{
 					.description("a map of the spatially referenced information layer requested, in the desired style, and having the specified coordiante reference system, bounding box, size, format and transparency")
 					.minoccurs(1).maxoccurs(1).build());
 			
+			outparams.add(new Parameter.Builder().name("dataurl")
+					.description("wms getmap url")
+					.minoccurs(0).maxoccurs(1).build());
+			
 			Operation getmapoper = new Operation.Builder()
 					.name("GetMap")
 					.input(new Message.Builder()

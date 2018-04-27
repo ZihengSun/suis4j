@@ -52,6 +52,129 @@ public class OGCDriver extends AbstractDriver {
 		return new PayLoad.Builder().content(content).build();
 		
 	}
+	
+	@Override
+	public void fakesend(PayLoad req){
+		
+		try {
+			
+			String resp = null;
+			
+			System.out.println(">> "+(String)req.getContent());
+			
+			if("GetFeature".equals(this.getCurrent_operation())
+					||"DescribeFeatureType".equals(this.getCurrent_operation())
+					||"GetMap".equals(this.getCurrent_operation())){
+				
+				//doGetFile
+				
+				String url = null;
+				
+				if(this.getAccess_endpoint().toString().endsWith("?")){
+					
+					url = this.getAccess_endpoint().toString();
+					
+				}else if(this.getAccess_endpoint().toString().contains("?")){
+					
+					url = this.getAccess_endpoint().toString() + "&";
+					
+				}else {
+					
+					url = this.getAccess_endpoint().toString() + "?";
+					
+				}
+				
+				url += "service="+category+"&version=" + version + "&request="+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+				
+				this.dataurl = url;
+				
+			}else if("GetCoverage".equals(this.getCurrent_operation())){
+				
+				if(this.version.equals("2.0.0")){
+				
+					super.fakesend(req);
+					
+				}else if(this.version.equals("1.0.0")){
+					
+					//doGetFile
+					
+					String url = null;
+					
+					if(this.getAccess_endpoint().toString().endsWith("?")){
+						
+						url = this.getAccess_endpoint().toString();
+						
+					}else if(this.getAccess_endpoint().toString().contains("?")){
+						
+						url = this.getAccess_endpoint().toString() + "&";
+						
+					}else {
+						
+						url = this.getAccess_endpoint().toString() + "?";
+						
+					}
+					
+					url += "service="+category+"&version=" + version + "&request="
+					
+							+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+					
+					this.dataurl = url;
+					
+				}else{
+					
+					throw new RuntimeException("The version is not supported");
+					
+				}
+				
+			}else if("GetMap".equals(this.getCurrent_operation())){
+				
+				//doGetFile
+				
+				String url = null;
+				
+				if(this.getAccess_endpoint().toString().endsWith("?")){
+					
+					url = this.getAccess_endpoint().toString();
+					
+				}else if(this.getAccess_endpoint().toString().contains("?")){
+					
+					url = this.getAccess_endpoint().toString() + "&";
+					
+				}else {
+					
+					url = this.getAccess_endpoint().toString() + "?";
+					
+				}
+				
+				url += "service="+category+"&version=" + version + "&request="
+				
+						+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+				
+				this.dataurl = url;
+				
+			}else if("GetCapabilities".equals(this.getCurrent_operation())){
+				
+				resp = this.getOperation(this.getCurrent_operation()).getOutput().getValueAsString("capabilities");
+				
+			}else{
+				
+				super.fakesend(req);
+				
+			}
+			
+			System.out.println(">> " + resp);
+			
+			response = new PayLoad.Builder().content(resp).build();
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+			response = new PayLoad.Builder().content(e.getLocalizedMessage()).build();
+			
+		}
+		
+	}
 
 	@Override
 	public void send(PayLoad req) {
@@ -139,6 +262,38 @@ public class OGCDriver extends AbstractDriver {
 					
 				}
 				
+				resp = "file:" + HttpUtils.TEMPORARY_PATH + filename;
+				
+			}else if("GetMap".equals(this.getCurrent_operation())){
+				
+				String filename = "map-" + UUID.randomUUID().toString();
+				
+				//doGetFile
+				
+				String url = null;
+				
+				if(this.getAccess_endpoint().toString().endsWith("?")){
+					
+					url = this.getAccess_endpoint().toString();
+					
+				}else if(this.getAccess_endpoint().toString().contains("?")){
+					
+					url = this.getAccess_endpoint().toString() + "&";
+					
+				}else {
+					
+					url = this.getAccess_endpoint().toString() + "?";
+					
+				}
+				
+				url += "service="+category+"&version=" + version + "&request="
+				
+						+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+				
+				this.dataurl = url;
+				
+				HttpUtils.doGETFile(url, HttpUtils.TEMPORARY_PATH + filename);
+					
 				resp = "file:" + HttpUtils.TEMPORARY_PATH + filename;
 				
 			}else if("GetCapabilities".equals(this.getCurrent_operation())){

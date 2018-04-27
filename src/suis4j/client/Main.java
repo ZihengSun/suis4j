@@ -1,8 +1,6 @@
 package suis4j.client;
 
-import java.net.URL;
 import java.util.UUID;
-
 import suis4j.driver.HttpUtils;
 import suis4j.driver.ServiceType;
 import suis4j.profile.Message;
@@ -15,20 +13,68 @@ import suis4j.profile.Operation;
 */
 public class Main {
 	
+	
+	public void polygonClip(){
+		
+		try{
+			
+			SUISClient sc = new SUISClient.Builder().initialize("http://cube.csiss.gmu.edu/axis/services/Raster_PolygonClip?wsdl", ServiceType.SOAP).build();
+			
+//			sc.uploadFile("E://TESTDATA/drought/drought.2017.289.california.3857.tif", 
+//					new URL("http://cube.csiss.gmu.edu/CyberConnector/FileUploadServlet"));
+			
+			Operation o = sc.operation("polygon_clip");
+			
+			sc.listInputParams(o);
+			sc.listOutputParams(o);
+			
+			o.getInput().value("sourceURL","http://cube.csiss.gmu.edu/GEOPORTAL_DATA_CACHE/data/testdrought.tif")
+				.value("polygonURL", "http://cube.csiss.gmu.edu/GEOPORTAL_DATA_CACHE/data/california.gml");
+			
+			sc.call(o);
+			
+			String returnURL = o.getOutput().getValueAsString("returnURL");
+			
+			System.out.println("returned file URL is : " + returnURL);
+			
+		}catch(Exception e){
+			
+			e.printStackTrace();
+			
+		}
+		
+	}
+	
 	public void testDroughtWorkflow(){
 		
 		try{
 			
 			System.out.println("Start the workflow of agricultural drought.");
 			
+			long startTime = System.currentTimeMillis();
+			
 			//step 1: get the drought raster from GADMFS
 			
 			SUISClient sc = new SUISClient.Builder()
 					.initialize("http://129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&MAP=/media/gisiv01/mapfiles/drought/16days/2017/drought.2017.113.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCapabilities", ServiceType.OGC).build();
 			
+			long step1cost = System.currentTimeMillis();
+			
+			System.out.println("step 1 takes " + (step1cost - startTime) + " ms");
+			
+			sc.listOperations();
+			
 			Operation o = sc.operation("GetCoverage");
 			
+			long step2cost = System.currentTimeMillis();
+			
+			System.out.println("step 2 takes " + (step2cost - step1cost) + " ms");
+			
 			sc.listInputParams(o);
+			
+			long step3cost = System.currentTimeMillis();
+			
+			System.out.println("step 3 takes " + (step3cost-step2cost) + " ms");
 			
 			o.getInput().value("format", "image/tiff")
 				.value("coverage","drought.2017.113")
@@ -38,13 +84,29 @@ public class Main {
 				.value("height", 1416)
 				.value("crs", "epsg:102004");
 			
+			long step4cost = System.currentTimeMillis();
+			
+			System.out.println("step 4 takes " + (step4cost - step3cost) + " ms");
+			
 			Message droughtraster = sc.call(o);
 			
-			String vcifilepath = droughtraster.getValueAsString("coverage");
+			long step5cost = System.currentTimeMillis();
 			
-			String vciurl = droughtraster.getValueAsString("dataurl");
+			System.out.println("step 5 takes " + (step5cost - step4cost) + " ms");
 			
+			String vcifilepath = o.getOutput().getValueAsString("coverage");
 			
+			String vciurl = o.getOutput().getValueAsString("dataurl");
+			
+			long endTime = System.currentTimeMillis();
+			
+			double seconds = (endTime - startTime) ;
+			
+			System.out.println("step 6 takes " + (endTime-step5cost) +" ms");
+			
+			System.out.println("VCI file path : " + vcifilepath);
+			
+			System.out.println("this service call costs " + seconds + " seconds");
 			
 //			129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&LAYERS=drought.2017.289&MAP=/media/gisiv01/mapfiles/drought/16days/2017/drought.2017.289.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCoverage&identifier=drought.2017.289&BBOX=-124.79,42.11,-113.83,82.11&WIDTH=500&HEIGHT=500&FORMAT=image/tiff
 			
@@ -56,19 +118,28 @@ public class Main {
 			
 //			sc.downloadURL(new URL(precipurl), precipfilepath);
 			
+			
+			
 			//step 3: get california boundary from WFS
 			
 			
 			
-			//step 3: interpolate the precipitation
-			
-			
+//			//step 4: reproject the drought and precipitation into EPSG:3857
+//			
+//			sc = new SUISClient.Builder()
+//					.initialize("http://geoprocessing.demo.52north.org/latest-wps/WebProcessingService?Request=GetCapabilities&Service=WPS&version=1.0.0", ServiceType.OGC).build();
+//			
+//			o = sc.operation("r.proj");
+//			
+//			sc.listInputParams(o);
+//			sc.listOutputParams(o);
 			
 			//step 4: reproject the precipitation to the drought projection
 			
 			
 			
-			//step 5: spatial correlation analysis between the drought and precipitation
+			//step 5: calculate new index of the drought and precipitation
+			// drought index = vci*0.5 + precip*0.5
 			
 			
 			
@@ -186,7 +257,15 @@ public class Main {
 		
 //		m.testSUIS4J();
 		
-		m.testDroughtWorkflow();
+//		for(int i=0;i<50;i++){
+		
+			m.testDroughtWorkflow();
+			
+//		}
+		
+//		m.polygonClip();
+		
+		System.exit(0);
 		
 	}
 	

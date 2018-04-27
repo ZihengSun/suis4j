@@ -19,7 +19,8 @@ public class Operation {
 	String driverid;
 	
 	protected Operation(){
-		
+		input = new Message.Builder().build();
+		output = new Message.Builder().build();
 	}
 	
 	public String getDriverid() {

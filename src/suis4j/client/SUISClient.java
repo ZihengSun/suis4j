@@ -40,6 +40,53 @@ public class SUISClient {
 		
 	}
 	
+	public String doHTTPPost(String request, String url){
+		
+		String resp = null;
+		
+		try {
+			
+			resp = HttpUtils.doPost(url, request);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+		return resp;
+		
+	}
+	
+	public String doHTTPGet(String url){
+		
+		String resp = null;
+		
+		try {
+			
+			resp = HttpUtils.doGet(url);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+		return resp;
+		
+	}
+	
+	/**
+	 * This function enables users to upload a file and get a URL for it
+	 * @param filepath
+	 * @param url
+	 */
+	public void uploadFile(String filepath, URL url){
+		
+		
+		
+	}
+	
 	/**
 	 * This function provide an entry for directly downloading from URL
 	 * It is used when users are aware of the URL and just want to get the file in the program. 
@@ -132,6 +179,22 @@ public class SUISClient {
 			System.out.println("parameter - " + p.getName());
 			
 		}
+		
+	}
+	
+	public Message fakecall(Operation o){
+
+		log.info("Call the web service..");
+		
+		String driverid = o.getDriverid();
+		
+		AbstractDriver ad = DriverManager.get(driverid);
+		
+		ad.setCurrentOperation(o.getName());
+		
+		ad.fakesend(ad.encodeReq(o.getInput()));
+		
+		return ad.decodeResp(ad.receive());
 		
 	}
 	

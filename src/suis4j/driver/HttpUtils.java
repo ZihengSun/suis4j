@@ -261,6 +261,8 @@ public class HttpUtils
 	 */
 	public static void doGETFile(String url, String filepath)throws Exception{
 
+		long start = System.currentTimeMillis();
+		
 		URL u = new URL(url);
 		
 		// Open the connection and prepare to POST
@@ -317,6 +319,12 @@ public class HttpUtils
 		in.close();
 		
 		os.close();
+		
+		long end = System.currentTimeMillis();
+		
+		double downloadcost = end - start;
+		
+		System.out.println("data transfer time cost: " + downloadcost + " ms");
 		
 	}
 	
