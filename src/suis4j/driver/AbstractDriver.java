@@ -132,6 +132,16 @@ public abstract class AbstractDriver {
 	abstract public void send(PayLoad req);
 	
 	/**
+	 * Fake send a request and get a fake response
+	 * @param req
+	 */
+	public void fakesend(PayLoad req){
+		
+		throw new RuntimeException("Fakesend is not supported in this driver.");
+		
+	}
+	
+	/**
 	 * Receive the response from actual web service
 	 * @return
 	 */

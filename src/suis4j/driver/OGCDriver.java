@@ -1,28 +1,15 @@
 package suis4j.driver;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-import net.opengis.wcs.v_2_0.CapabilitiesType;
-import net.opengis.wcs.v_2_0.CoverageDescriptionsType;
-import net.opengis.wps.v_1_0_0.Execute;
-import net.opengis.wps.v_1_0_0.ExecuteResponse;
-import net.opengis.wps.v_1_0_0.InputDescriptionType;
-import net.opengis.wps.v_1_0_0.OutputDataType;
-import net.opengis.wps.v_1_0_0.OutputDescriptionType;
-import net.opengis.wps.v_1_0_0.ProcessBriefType;
-import net.opengis.wps.v_1_0_0.ProcessDescriptionType;
-import net.opengis.wps.v_1_0_0.ProcessDescriptions;
-import net.opengis.wps.v_1_0_0.WPSCapabilitiesType;
-import suis4j.profile.DataType;
 import suis4j.profile.Message;
 import suis4j.profile.Operation;
-import suis4j.profile.Parameter;
 
 /**
 *Class OGCWPS2SUNIS.java
@@ -36,6 +23,8 @@ public class OGCDriver extends AbstractDriver {
 	String version = "1.0.0";
 	
 	Object capa;
+	
+	String dataurl = null; //this variable is used to store the GetMap, GetCoverage, GetFeature URL link for service chaining
 	
 	Map<String, Object> processdescriptions; //operation name to process description
 	
@@ -60,47 +49,130 @@ public class OGCDriver extends AbstractDriver {
 		
 		Object content = null;
 		
-		if("wps".equals(category)){
+		return new PayLoad.Builder().content(content).build();
+		
+	}
+	
+	@Override
+	public void fakesend(PayLoad req){
+		
+		try {
 			
-			if(version.equals("1.0.0")){
-				
-				WPSCapabilitiesType wpscapa = (WPSCapabilitiesType) capa;
-				
-				ProcessDescriptionType pdt = (ProcessDescriptionType)processdescriptions.get(this.getCurrent_operation());
-				
-				Execute exe = WPSUtils.getExecuteRequest(wpscapa, pdt, msg.toKVPs());
-				
-				content = WPSUtils.turnExecuteReqToXML(exe); //turn the Execute object to xml
-				
-			}else if(version.equals("2.0")||version.equals("2.0.0")){
-				
-				
-				
-			}
+			String resp = null;
 			
-		}else if("wcs".equals(category)){
+			System.out.println(">> "+(String)req.getContent());
 			
-			if(version.equals("2.0.0")){
+			if("GetFeature".equals(this.getCurrent_operation())
+					||"DescribeFeatureType".equals(this.getCurrent_operation())
+					||"GetMap".equals(this.getCurrent_operation())){
 				
-				if("DescribeCoverage".equals(this.getCurrent_operation())){
-
-					content = WCSUtils.turnDescribeCoverageTypeToXML(
-							WCSUtils.createADescribeCoverageRequest(
-									msg.getValueAsString("coverageId")));
+				//doGetFile
+				
+				String url = null;
+				
+				if(this.getAccess_endpoint().toString().endsWith("?")){
 					
-				}else if("GetCoverage".equals(this.getCurrent_operation())){
+					url = this.getAccess_endpoint().toString();
 					
-					content = WCSUtils.createAGetCoverageRequest(msg.getValueAsString("coverageId")).toString();
+				}else if(this.getAccess_endpoint().toString().contains("?")){
+					
+					url = this.getAccess_endpoint().toString() + "&";
+					
+				}else {
+					
+					url = this.getAccess_endpoint().toString() + "?";
 					
 				}
 				
+				url += "service="+category+"&version=" + version + "&request="+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+				
+				this.dataurl = url;
+				
+			}else if("GetCoverage".equals(this.getCurrent_operation())){
+				
+				if(this.version.equals("2.0.0")){
+				
+					super.fakesend(req);
+					
+				}else if(this.version.equals("1.0.0")){
+					
+					//doGetFile
+					
+					String url = null;
+					
+					if(this.getAccess_endpoint().toString().endsWith("?")){
+						
+						url = this.getAccess_endpoint().toString();
+						
+					}else if(this.getAccess_endpoint().toString().contains("?")){
+						
+						url = this.getAccess_endpoint().toString() + "&";
+						
+					}else {
+						
+						url = this.getAccess_endpoint().toString() + "?";
+						
+					}
+					
+					url += "service="+category+"&version=" + version + "&request="
+					
+							+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+					
+					this.dataurl = url;
+					
+				}else{
+					
+					throw new RuntimeException("The version is not supported");
+					
+				}
+				
+			}else if("GetMap".equals(this.getCurrent_operation())){
+				
+				//doGetFile
+				
+				String url = null;
+				
+				if(this.getAccess_endpoint().toString().endsWith("?")){
+					
+					url = this.getAccess_endpoint().toString();
+					
+				}else if(this.getAccess_endpoint().toString().contains("?")){
+					
+					url = this.getAccess_endpoint().toString() + "&";
+					
+				}else {
+					
+					url = this.getAccess_endpoint().toString() + "?";
+					
+				}
+				
+				url += "service="+category+"&version=" + version + "&request="
+				
+						+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+				
+				this.dataurl = url;
+				
+			}else if("GetCapabilities".equals(this.getCurrent_operation())){
+				
+				resp = this.getOperation(this.getCurrent_operation()).getOutput().getValueAsString("capabilities");
+				
+			}else{
+				
+				super.fakesend(req);
+				
 			}
 			
+			System.out.println(">> " + resp);
+			
+			response = new PayLoad.Builder().content(resp).build();
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+			response = new PayLoad.Builder().content(e.getLocalizedMessage()).build();
+			
 		}
-		
-		return new PayLoad.Builder()
-				.content(content)
-				.build();
 		
 	}
 
@@ -109,23 +181,142 @@ public class OGCDriver extends AbstractDriver {
 		
 		try {
 			
+			String resp = null;
+			
 			System.out.println(">> "+(String)req.getContent());
 			
-			String resp = HttpUtils.doPost(this.getAccess_endpoint().toString(), (String)req.getContent());
+			if("GetFeature".equals(this.getCurrent_operation())
+					||"DescribeFeatureType".equals(this.getCurrent_operation())
+					||"GetMap".equals(this.getCurrent_operation())){
+				
+				String filename = "temp-" + UUID.randomUUID().toString();
+				
+				//doGetFile
+				
+				String url = null;
+				
+				if(this.getAccess_endpoint().toString().endsWith("?")){
+					
+					url = this.getAccess_endpoint().toString();
+					
+				}else if(this.getAccess_endpoint().toString().contains("?")){
+					
+					url = this.getAccess_endpoint().toString() + "&";
+					
+				}else {
+					
+					url = this.getAccess_endpoint().toString() + "?";
+					
+				}
+				
+				url += "service="+category+"&version=" + version + "&request="+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+				
+				this.dataurl = url;
+				
+				HttpUtils.doGETFile(url, HttpUtils.TEMPORARY_PATH + filename);
+				
+				resp = "file:" + HttpUtils.TEMPORARY_PATH + filename;
+				
+			}else if("GetCoverage".equals(this.getCurrent_operation())){
+				
+				//download the file and save to a temporary file path
+				
+				String filename = "coverage-" + UUID.randomUUID().toString();
+				
+				if(this.version.equals("2.0.0")){
+					
+					//doPostFile
+					HttpUtils.doPostFile(this.getAccess_endpoint().toString(), String.valueOf(req.getContent()), HttpUtils.TEMPORARY_PATH + filename);
+					
+				}else if(this.version.equals("1.0.0")){
+					
+					//doGetFile
+					
+					String url = null;
+					
+					if(this.getAccess_endpoint().toString().endsWith("?")){
+						
+						url = this.getAccess_endpoint().toString();
+						
+					}else if(this.getAccess_endpoint().toString().contains("?")){
+						
+						url = this.getAccess_endpoint().toString() + "&";
+						
+					}else {
+						
+						url = this.getAccess_endpoint().toString() + "?";
+						
+					}
+					
+					url += "service="+category+"&version=" + version + "&request="
+					
+							+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+					
+					this.dataurl = url;
+					
+					HttpUtils.doGETFile(url, HttpUtils.TEMPORARY_PATH + filename);
+					
+				}else{
+					
+					throw new RuntimeException("The version is not supported");
+					
+				}
+				
+				resp = "file:" + HttpUtils.TEMPORARY_PATH + filename;
+				
+			}else if("GetMap".equals(this.getCurrent_operation())){
+				
+				String filename = "map-" + UUID.randomUUID().toString();
+				
+				//doGetFile
+				
+				String url = null;
+				
+				if(this.getAccess_endpoint().toString().endsWith("?")){
+					
+					url = this.getAccess_endpoint().toString();
+					
+				}else if(this.getAccess_endpoint().toString().contains("?")){
+					
+					url = this.getAccess_endpoint().toString() + "&";
+					
+				}else {
+					
+					url = this.getAccess_endpoint().toString() + "?";
+					
+				}
+				
+				url += "service="+category+"&version=" + version + "&request="
+				
+						+ this.getCurrent_operation() +"&" + String.valueOf(req.getContent());
+				
+				this.dataurl = url;
+				
+				HttpUtils.doGETFile(url, HttpUtils.TEMPORARY_PATH + filename);
+					
+				resp = "file:" + HttpUtils.TEMPORARY_PATH + filename;
+				
+			}else if("GetCapabilities".equals(this.getCurrent_operation())){
+				
+				//do nothing
+				
+				resp = this.getOperation(this.getCurrent_operation()).getOutput().getValueAsString("capabilities");
+				
+			}else{
+				
+				resp = HttpUtils.doPost(this.getAccess_endpoint().toString(), (String)req.getContent());
+				
+			}
 			
 			System.out.println(">> " + resp);
 			
-			response = new PayLoad.Builder()
-					.content(resp)
-					.build();
+			response = new PayLoad.Builder().content(resp).build();
 			
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 			
-			response = new PayLoad.Builder()
-					.content(e.getLocalizedMessage())
-					.build();
+			response = new PayLoad.Builder().content(e.getLocalizedMessage()).build();
 			
 		}
 		
@@ -141,114 +332,9 @@ public class OGCDriver extends AbstractDriver {
 	@Override
 	public Message decodeResp(PayLoad resp) {
 		
-		List<Parameter> params = new ArrayList();
+		Operation oper = this.getOperation(this.getCurrent_operation());
 		
-		Message respmsg = new Message.Builder().build();
-		
-		try{
-			
-			if("wps".equals(category)){
-				
-				if("1.0.0".equals(version)){
-					
-					ExecuteResponse er = WPSUtils.parseExecuteResp((String)resp.getContent());
-					
-					if(er.getStatus().getProcessSucceeded()!=null){
-						
-						List<OutputDataType> odtlist = er.getProcessOutputs().getOutput();
-						
-						for(OutputDataType odt : odtlist){
-							
-							Parameter p = new Parameter.Builder()
-									.name(odt.getIdentifier().getValue())
-									.build();
-							
-							if(odt.getReference()!=null){
-								
-								p.setValue(odt.getReference().getHref());
-								
-							}else{
-								
-								if(odt.getData().getLiteralData()!=null){
-									
-									p.setValue(odt.getData().getLiteralData().getValue());
-									
-								}else if(odt.getData().getComplexData()!=null){
-									
-									odt.getData().getComplexData().getMimeType();
-									
-									odt.getData().getComplexData().getContent();
-									
-								}else if(odt.getData().getBoundingBoxData()!=null){
-									
-									p.setValue(odt.getData().getBoundingBoxData().toString());
-									
-								}
-								
-							}
-							
-							params.add(p);
-							
-						}
-						
-						respmsg.setParameter_list(params);
-						
-					}else{
-						
-						respmsg.setError((String)resp.getContent());
-						
-					}
-						
-				}
-				
-			}else if("wcs".equals(category)){
-				
-				if("2.0.0".equals(version)){
-					
-					if("GetCoverageList".equals(this.getCurrent_operation())){
-						
-						//list all the supported coverages
-						
-						
-						
-					}else if("DescribeCoverage".equals(this.getCurrent_operation())){						
-						
-						CoverageDescriptionsType cdt = WCSUtils.parseCoverageDescriptions(String.valueOf(resp.getContent()));
-						
-						params.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
-						
-						params.add(new Parameter.Builder().name("coverage-Function").minoccurs(0).maxoccurs(1).build());
-						
-						params.add(new Parameter.Builder().name("metadata").minoccurs(0).maxoccurs(-1).build());
-						
-						params.add(new Parameter.Builder().name("domainSet").minoccurs(1).maxoccurs(1).build());
-						
-						params.add(new Parameter.Builder().name("rangeType").minoccurs(1).maxoccurs(1).build());
-						
-						params.add(new Parameter.Builder().name("service-Parameters").minoccurs(1).maxoccurs(1).build());
-						
-						
-					}else if("GetCoverage".equals(this.getCurrent_operation())){
-						
-						//save the coverage to a temporary file and give the file path back
-						
-						
-						
-					}
-					
-					
-					
-					
-					
-				}
-				
-			}
-			
-		}catch(Exception e){
-			
-			respmsg.setError((String)resp.getContent());
-			
-		}
+		Message respmsg = oper.getOutput();
 		
 		return respmsg;
 		
@@ -263,271 +349,19 @@ public class OGCDriver extends AbstractDriver {
 	@Override
 	public Object encodeSUIS(Message msg) {
 		
-		
-		
+		//nothing
 		return null;
-		
 	}
 	
-	/**
-	 * Initialize parameters
-	 * @param o
-	 * operation
-	 */
-	public void initParams(Operation o){
-		
-		if(o.getInput().getParameter_list()==null
-				||o.getOutput().getParameter_list()==null){
-			
-
-			//get the inputs and outputs
-			
-			ProcessDescriptions pds = WPSUtils.getProcessDescription(o.getName(), this.getAccess_endpoint().toString());
-			
-			ProcessDescriptionType pdt = pds.getProcessDescription().get(0); 
-			
-			processdescriptions.put(o.getName(), pdt);
-			
-			List<Parameter> paramlist = new ArrayList();
-			
-			if(pdt.getDataInputs()!=null){
-				
-				List<InputDescriptionType> idts = pdt.getDataInputs().getInput();
-		    	
-		    	for(int j=0; j<idts.size(); j++){
-		    		
-		    		InputDescriptionType idt = idts.get(j);
-		    		
-		    		int minn = idt.getMinOccurs()==null?1:idt.getMinOccurs().intValue();
-		    		
-		    		int maxn = idt.getMaxOccurs()==null?1:idt.getMaxOccurs().intValue();
-		    		
-		    		idt.getComplexData();
-		    		
-		    		idt.getLiteralData();
-		    		
-		    		String desc = idt.getAbstract()!=null?idt.getAbstract().getValue():"";
-		    		
-					Parameter param = new Parameter.Builder()
-							.name(idt.getIdentifier().getValue())
-							.description(desc)
-							.maxoccurs(maxn)
-							.minoccurs(minn)
-							.build();
-					
-					paramlist.add(param);
-		    		
-		    	}
-		    	
-			}
-			
-			Message inm = new Message.Builder()
-					.params(paramlist)
-					.build();
-			
-			paramlist = new ArrayList();
-			
-			if(pdt.getProcessOutputs()!=null){
-				
-				List<OutputDescriptionType> odts = pdt.getProcessOutputs().getOutput();
-				
-				for(OutputDescriptionType odt: odts){
-					
-					String desc = odt.getAbstract()!=null?odt.getAbstract().getValue():"";
-					
-					Parameter param = new Parameter.Builder()
-							.name(odt.getIdentifier().getValue())
-							.description(desc)
-							.minoccurs(1)
-							.maxoccurs(1)
-							.build();
-					
-					paramlist.add(param);
-					
-				}
-				
-			}
-			
-			Message outm = new Message.Builder()
-					.params(paramlist)
-					.build();
-			
-			o.setInput(inm);
-			
-			o.setOutput(outm);
-			
-		}
-		
+	@Override
+	public void initParams(Operation o) {
+		//nothing see WPS driver
 	}
 	
 	@Override
 	public List<Operation> digest() {
 		
-		operlist = new ArrayList();
-
-		try {
-			
-			if("wps".equals(category)){
-				
-				if(version==null||version.equals("1.0.0")){
-					
-					//add all the processes as operations
-					
-					WPSCapabilitiesType wct = WPSUtils.parseCapabilities(this.getDesc_endpoint().toString());
-					
-					capa = wct;
-					
-					this.setAccess_endpoint(new URL(WPSUtils.getExecuteEndpoint(wct)));
-					
-					List<ProcessBriefType> processes = wct.getProcessOfferings().getProcess();
-					
-					processdescriptions = new HashMap();
-					
-					for(int i=0;i<processes.size();i++){
-						
-						ProcessBriefType p = processes.get(i);
-						
-						String pname = p.getIdentifier().getValue();
-						
-						System.out.println("processing: " + pname);
-						
-						Operation o = new Operation.Builder()
-								.name(pname)
-								.build();
-						
-						operlist.add(o);
-						
-					}
-					
-				}else if(version.equals("2.0.0")||version.equals("2.0")){
-					
-					net.opengis.wps.v_2_0.WPSCapabilitiesType wct = WPSUtils.parseCapabilities20(this.getDesc_endpoint().toString());
-					
-					System.err.println("Not implemented yet.");
-					
-				}
-				
-			}else if("wcs".equals(category)){
-				
-				if(version==null||version.equals("2.0.0")){
-					
-					CapabilitiesType ct = WCSUtils.parseCapabilities(this.getDesc_endpoint().toString());
-					
-					capa = ct;
-					
-					this.setAccess_endpoint(WCSUtils.getEndpoint(ct));
-	
-					//list coverages
-					
-					List<Parameter> inparams = new ArrayList();
-					
-					List<Parameter> outparams = new ArrayList();
-					
-					Parameter p = new Parameter.Builder()
-							.name("coveragelist")
-							.description("the list of coverages that this WCS hosts")
-							.minoccurs(1)
-							.maxoccurs(1)
-							.type(DataType.STRING)
-							.value(WCSUtils.getCoverageListString(ct))
-							.build();
-					
-					outparams.add(p);
-					
-					Operation listcoverageoper = new Operation.Builder()
-							.name("GetCoverageList")
-							.output(new Message.Builder()
-									.params(outparams)
-									.build())
-							.build();
-					
-					operlist.add(listcoverageoper);
-					
-					//describe coverage
-					
-					inparams = new ArrayList();
-					
-					inparams.add(new Parameter.Builder()
-							.name("coverageId")
-							.description("coverage identifier")
-							.minoccurs(1)
-							.type(DataType.STRING)
-							.build());
-					
-					outparams = new ArrayList();
-					
-					outparams.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
-					
-					outparams.add(new Parameter.Builder().name("coverage-Function").minoccurs(0).maxoccurs(1).build());
-					
-					outparams.add(new Parameter.Builder().name("metadata").minoccurs(0).maxoccurs(-1).build());
-					
-					outparams.add(new Parameter.Builder().name("domainSet").minoccurs(1).maxoccurs(1).build());
-					
-					outparams.add(new Parameter.Builder().name("rangeType").minoccurs(1).maxoccurs(1).build());
-					
-					outparams.add(new Parameter.Builder().name("service-Parameters").minoccurs(1).maxoccurs(1).build());
-					
-					Operation describecoverageoper = new Operation.Builder()
-							.name("DescribeCoverage")
-							.input(new Message.Builder()
-									.params(inparams)
-									.build())
-							.output(new Message.Builder()
-									.params(outparams)
-									.build())
-							.build();
-					
-					operlist.add(describecoverageoper);
-					
-					//get coverage
-					
-					inparams = new ArrayList();
-					
-					inparams.add(new Parameter.Builder().name("coverageId").minoccurs(1).maxoccurs(1).build());
-					
-					inparams.add(new Parameter.Builder().name("dimension-Subset").minoccurs(0).maxoccurs(-1).build());
-					
-					outparams = new ArrayList();
-					
-					outparams.add(new Parameter.Builder().name("coverage").minoccurs(1).maxoccurs(1).type(DataType.FILE).build());
-					
-					Operation getcoverageoper = new Operation.Builder()
-							.name("GetCoverage")
-							.input(new Message.Builder()
-									.params(inparams)
-									.build())
-							.output(new Message.Builder()
-									.params(outparams)
-									.build())
-							.build();
-					
-					operlist.add(getcoverageoper);
-					
-				}
-				
-			}else if("wfs".equals(category)){
-				
-				
-			}else if("wms".equals(category)){
-				
-				
-			}else if("csw".equals(category)){
-				
-				
-			}else{
-				
-				throw new RuntimeException("The service category ["+category+"] is not supported yet.");
-				
-			}
-			
-			connect();
-
-		} catch (MalformedURLException e) {
-			
-			e.printStackTrace();
-			
-		}
+		connect();
 		
 		return this.getOperlist();
 	
@@ -535,7 +369,7 @@ public class OGCDriver extends AbstractDriver {
 	
 	public static class Builder extends AbstractDriver.Builder{
 
-		OGCDriver driver = new OGCDriver();
+		OGCDriver driver = null;
 		
 		@Override
 		public Builder parse(String descfile) {
@@ -546,9 +380,53 @@ public class OGCDriver extends AbstractDriver {
 				
 				Map<String, String> querykvp = HttpUtils.splitQuery(new URL(descfile));
 				
-				if(querykvp.get("service")==null){
+				if(querykvp.get("service")==null||querykvp.get("version")==null){
 					
-					throw new RuntimeException("The link doesn't specify the service category.");
+					throw new RuntimeException("The link doesn't specify the service category or version number.");
+					
+				}
+				
+				if("wcs".equals(querykvp.get("service"))){
+					
+					if("2.0.0".equals(querykvp.get("version"))){
+						
+						driver = new WCS200Driver();
+						
+					}else if("1.0.0".equals(querykvp.get("version"))){
+						
+						driver = new WCS100Driver();
+						
+					}
+					
+				}else if("wfs".equals(querykvp.get("service"))){
+					
+					if("2.0.0".equals(querykvp.get("version"))){
+						
+						driver = new WFS200Driver();
+						
+					}
+					
+				}else if("wms".equals(querykvp.get("service"))){
+					
+					if("1.3.0".equals(querykvp.get("version"))){
+						
+						driver = new WMS130Driver();
+						
+					}
+					
+				}else if("wps".equals(querykvp.get("service"))){
+					
+					if("1.0.0".equals(querykvp.get("version"))){
+						
+						driver = new WPS100Driver();
+						
+					}
+					
+				}
+				
+				if(driver==null){
+					
+					throw new RuntimeException("Fail to pull a suitable driver for this service. ");
 					
 				}
 				
@@ -597,5 +475,6 @@ public class OGCDriver extends AbstractDriver {
 		}
 		
 	}
+
 	
 }

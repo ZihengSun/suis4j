@@ -1,14 +1,13 @@
 package suis4j.client;
 
+import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
 import suis4j.driver.AbstractDriver;
 import suis4j.driver.DriverManager;
+import suis4j.driver.HttpUtils;
 import suis4j.driver.OGCDriver;
 import suis4j.driver.RESTDriver;
 import suis4j.driver.SOAPDriver;
@@ -28,6 +27,7 @@ public class SUISClient {
 	
 	AbstractDriver driver;
 	
+	
 	public AbstractDriver getDriver() {
 		return driver;
 	}
@@ -37,6 +37,77 @@ public class SUISClient {
 	}
 
 	protected SUISClient(){
+		
+	}
+	
+	public String doHTTPPost(String request, String url){
+		
+		String resp = null;
+		
+		try {
+			
+			resp = HttpUtils.doPost(url, request);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+		return resp;
+		
+	}
+	
+	public String doHTTPGet(String url){
+		
+		String resp = null;
+		
+		try {
+			
+			resp = HttpUtils.doGet(url);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+		}
+		
+		return resp;
+		
+	}
+	
+	/**
+	 * This function enables users to upload a file and get a URL for it
+	 * @param filepath
+	 * @param url
+	 */
+	public void uploadFile(String filepath, URL url){
+		
+		
+		
+	}
+	
+	/**
+	 * This function provide an entry for directly downloading from URL
+	 * It is used when users are aware of the URL and just want to get the file in the program. 
+	 * @param url
+	 * @param filepath
+	 */
+	public void downloadURL(URL url, String filepath){
+		
+		try {
+			
+			HttpUtils.doGETFile(url.toString(), filepath);
+			
+			log.info("File is downloaded: " + filepath);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			
+			throw new RuntimeException("Fail to download the file. ");
+			
+		}
 		
 	}
 	
@@ -79,7 +150,7 @@ public class SUISClient {
 	}
 	
 	
-	public void listInputs(Operation oper){
+	public void listInputParams(Operation oper){
 		
 		AbstractDriver ad = DriverManager.get(oper.getDriverid());
 		
@@ -95,7 +166,7 @@ public class SUISClient {
 		
 	}
 	
-	public void listOutputs(Operation oper){
+	public void listOutputParams(Operation oper){
 		
 		AbstractDriver ad = DriverManager.get(oper.getDriverid());
 		
@@ -108,6 +179,22 @@ public class SUISClient {
 			System.out.println("parameter - " + p.getName());
 			
 		}
+		
+	}
+	
+	public Message fakecall(Operation o){
+
+		log.info("Call the web service..");
+		
+		String driverid = o.getDriverid();
+		
+		AbstractDriver ad = DriverManager.get(driverid);
+		
+		ad.setCurrentOperation(o.getName());
+		
+		ad.fakesend(ad.encodeReq(o.getInput()));
+		
+		return ad.decodeResp(ad.receive());
 		
 	}
 	
@@ -127,7 +214,7 @@ public class SUISClient {
 		
 	}
 	
-	public void listOutput(Message m){
+	public void listOutputValues(Message m){
 		
 		m.listKVPs();
 		
@@ -170,7 +257,7 @@ public class SUISClient {
 		 */
 		public Builder initialize(String descfile, ServiceType type){
 			
-			log.debug("register new wsdl...");
+			log.debug("recognizing new service...");
 			
 			AbstractDriver.Builder builder = null;
 			

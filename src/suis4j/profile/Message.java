@@ -57,7 +57,15 @@ public class Message {
 		
 		Parameter p = this.get(parameter);
 		
-		return String.valueOf(p.getValue());
+		String val = "";
+		
+		if(p.getValue()!=null){
+			
+			val = String.valueOf(p.getValue());
+			
+		}
+		
+		return val;
 		
 	}
 	
@@ -82,6 +90,14 @@ public class Message {
 	public boolean getValueAsBoolean(String parameter){
 		
 		return "true".equals(getValueAsString(parameter).toLowerCase());
+		
+	}
+	
+	public Object value(String parameter){
+		
+		Parameter p = this.get(parameter);
+		
+		return p.getValue();
 		
 	}
 	

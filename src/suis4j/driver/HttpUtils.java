@@ -2,6 +2,7 @@ package suis4j.driver;
 
 import java.net.*;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.dom4j.Document;
@@ -11,6 +12,9 @@ import java.io.*;
 
 public class HttpUtils
 {
+	
+	public static String TEMPORARY_PATH = System.getProperty("java.io.tmpdir") + File.separator;
+	
 	/**
 	 * Parse file from URL
 	 * @param url
@@ -52,6 +56,100 @@ public class HttpUtils
 	}
 	
 	
+	public static String turnListToString(List arrays){
+		
+		StringBuffer str = new StringBuffer();
+		
+		for(String s: (List<String>)arrays){
+			
+			str.append(s).append(",");
+			
+		}
+		
+		return str.toString();
+		
+		
+	}
+	
+	
+	/**
+	 * Save the returned file from a post request
+	 * @param url
+	 * @param postContent
+	 * @return
+	 * @throws Exception
+	 */
+	public static void doPostFile(String url, String postContent, String filepath)throws Exception{
+
+		URL u = new URL(url);
+		
+		// Open the connection and prepare to POST
+		URLConnection uc = u.openConnection();
+		
+		HttpURLConnection huc = (HttpURLConnection)uc;
+
+		huc.setRequestProperty("User-Agent", "Apache-HttpClient/4.1.1");
+		
+		huc.setRequestMethod("POST");
+		
+		huc.setRequestProperty("Content-Type", "application/xml");
+		
+		huc.setDoOutput(true);
+		
+		huc.setDoInput(true);
+		
+		huc.setAllowUserInteraction(false);
+		
+		DataOutputStream dstream = new DataOutputStream(huc.getOutputStream());
+		
+		// POST it
+		dstream.writeBytes(postContent);
+		
+		dstream.close();
+		
+		// Read Response
+		InputStream in = null;
+		
+		BufferedReader r = null;
+		
+        if(huc.getResponseCode()==200){
+        	
+        	in = huc.getInputStream();
+        	
+        }else{
+        	
+        	in = huc.getErrorStream();
+        	
+        }
+        
+//        r = new BufferedReader(new InputStreamReader(in));
+//        
+//        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filepath)));
+//		
+//		String line;
+//		
+//		while ((line = r.readLine())!=null){
+//			
+////			buf.append(line);
+//			bw.write(line);
+//			
+//		}
+		
+		OutputStream os = new FileOutputStream(filepath);
+
+		byte[] b = new byte[2048];
+		int length;
+
+		while ((length = in.read(b)) != -1) {
+			os.write(b, 0, length);
+		}
+		
+		in.close();
+		
+		os.close();
+		
+	}
+	
 	public static String doPost(String url, String postContent) throws Exception {
 		
 		URL u = new URL(url);
@@ -65,7 +163,7 @@ public class HttpUtils
 		
 		huc.setRequestMethod("POST");
 		
-//		huc.setRequestProperty("content-type", "application/xml");
+		huc.setRequestProperty("Content-Type", "application/xml");
 		
 		huc.setDoOutput(true);
 		
@@ -154,6 +252,82 @@ public class HttpUtils
         return result;
 	}
 	
+	/**
+	 * Save the returned file from a post request
+	 * @param url
+	 * @param postContent
+	 * @return
+	 * @throws Exception
+	 */
+	public static void doGETFile(String url, String filepath)throws Exception{
+
+		long start = System.currentTimeMillis();
+		
+		URL u = new URL(url);
+		
+		// Open the connection and prepare to POST
+		URLConnection uc = u.openConnection();
+		
+		HttpURLConnection huc = (HttpURLConnection)uc;
+
+		huc.setRequestProperty("User-Agent", "Apache-HttpClient/4.1.1");
+		
+		huc.setRequestMethod("GET");
+		
+		huc.setDoOutput(true);
+		
+		huc.setDoInput(true);
+		
+		huc.setAllowUserInteraction(false);
+		
+		// Read Response
+		InputStream in = null;
+		
+		BufferedReader r = null;
+		
+        if(huc.getResponseCode()==200){
+        	
+        	in = huc.getInputStream();
+        	
+        }else{
+        	
+        	in = huc.getErrorStream();
+        	
+        }
+        
+//        r = new BufferedReader(new InputStreamReader(in));
+        
+        OutputStream os = new FileOutputStream(filepath);
+
+		byte[] b = new byte[2048];
+		int length;
+
+		while ((length = in.read(b)) != -1) {
+			os.write(b, 0, length);
+		}
+        
+//        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filepath)));
+//		
+////        ByteArrayOutputStream out = new ByteArrayOutputStream();
+//        byte[] buf = new byte[1024];
+//        int n = 0;
+//        while (-1!=(n=in.read(buf)))
+//        {
+//        	bw.write(buf, 0, n);
+//        }
+		
+		in.close();
+		
+		os.close();
+		
+		long end = System.currentTimeMillis();
+		
+		double downloadcost = end - start;
+		
+		System.out.println("data transfer time cost: " + downloadcost + " ms");
+		
+	}
+	
 	public static String doGet(String url) throws Exception
 	{
 		URL u = new URL(url);
@@ -204,4 +378,16 @@ public class HttpUtils
 
 		return buf.toString();
 	}
+	
+	public static void main(String[] args) throws Exception{
+		
+		String req = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><DescribeCoverage service=\"WCS\" version=\"2.0.0\" xmlns:ns2=\"http://www.opengis.net/ows/2.0\" xmlns=\"http://www.opengis.net/wcs/2.0\" xmlns:ns4=\"http://www.opengis.net/gml/3.2\" xmlns:ns3=\"http://www.w3.org/1999/xlink\" xmlns:ns5=\"http://www.opengis.net/gmlcov/1.0\" xmlns:ns6=\"http://www.opengis.net/swe/2.0\"><CoverageId>atmosphere__METOP-B_GOME-2_L3_TROPOSPHERIC_O3_MIXINGRATIO_STD</CoverageId></DescribeCoverage>";
+		
+		String resp = HttpUtils.doPost("https://geoservice.dlr.de/eoc/atmosphere/wcs", req);
+		
+		System.out.println(resp);
+		
+		
+	}
+	
 }

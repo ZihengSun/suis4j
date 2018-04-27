@@ -1,42 +1,30 @@
 package suis4j.driver;
 
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-
-
-import java.io.ByteArrayInputStream;
-import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.Vector;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
-import javax.xml.namespace.NamespaceContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.log4j.Logger;
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.Node;
-import org.dom4j.XPath;
-import org.dom4j.io.SAXReader;
 
-import net.opengis.wcs.v_2_0.CoverageDescriptionsType;
+import net.opengis.filter.v_2_0.AbstractQueryExpressionType;
+import net.opengis.ows.v_1_1_0.Operation;
+import net.opengis.wcs.v_2_0.GetCoverageType;
 import net.opengis.wfs.v_2_0.DescribeFeatureTypeType;
 import net.opengis.wfs.v_2_0.FeatureTypeListType;
 import net.opengis.wfs.v_2_0.FeatureTypeType;
+import net.opengis.wfs.v_2_0.GetFeatureType;
+import net.opengis.wfs.v_2_0.ObjectFactory;
 import net.opengis.wfs.v_2_0.WFSCapabilitiesType;
 
 /**
@@ -56,25 +44,32 @@ public class WFSUtils {
 	
 	public static final String supported_version = "2.0";
 	
-	private static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	
 	/**
 	 * Parse WFS capabilities document
 	 * created by Ziheng Sun on 4/29/2016
 	 * @param capability_doc_url
 	 * @return
 	 */
-	public static WFSCapabilitiesType parseCapabilities(String capability_doc_url){
+	public static WFSCapabilitiesType parseCapabilities(String capa){
+		
 		WFSCapabilitiesType wct = null;
+		
 		try {
-			String capa = HttpUtils.doGet(capability_doc_url);
+		
 			JAXBContext jaxbContext = null;
+			
 			wct = JAXB.unmarshal(new StringReader(capa), WFSCapabilitiesType.class);
+		
 		} catch (Exception e) {
+			
 			e.printStackTrace();
+		
 			throw new RuntimeException(e.getLocalizedMessage());
+		
 		}
+		
 		return wct;
+		
 	}
 	
 	/**
@@ -93,8 +88,52 @@ public class WFSUtils {
 	 */
 	public static DescribeFeatureTypeType createADescribeFeatureTypeRequest(String type){
 		
+		ObjectFactory of = new ObjectFactory();
 		
-		return null;
+		DescribeFeatureTypeType gft = of.createDescribeFeatureTypeType();
+		
+		List qnames = new ArrayList();
+		
+		qnames.add(new QName(type.split(":")[0], type.split(":")[1]));
+		
+		gft.setTypeName(qnames);
+		
+		return gft;
+		
+	}
+	
+	public static String turnDescribeFeatureTypeTypeToXML(DescribeFeatureTypeType dftt){
+		
+		String theXML = null;
+		
+		try{
+			
+			// serialise to xml
+			
+			StringWriter writer = new StringWriter();
+			
+			JAXBContext context = JAXBContext.newInstance(DescribeFeatureTypeType.class);
+			
+			Marshaller m = context.createMarshaller();
+			
+			QName qName = new QName("http://www.opengis.net/wfs/2.0", "DescribeFeatureType");
+		    
+			JAXBElement<DescribeFeatureTypeType> root = new JAXBElement<>(qName, DescribeFeatureTypeType.class, dftt);
+			
+		    m.marshal(root, writer);
+			
+			// output string to console
+			theXML = writer.toString();
+//			System.out.println(theXML);
+			
+		}catch(Exception e){
+			
+			e.printStackTrace();
+			
+		}
+		
+		return theXML;
+		
 	}
 	/**
 	 * Parse describefeaturetype response
@@ -107,6 +146,42 @@ public class WFSUtils {
 		return null;
 	}
 	
+	public static URL getEndpoint(WFSCapabilitiesType wct) throws MalformedURLException {
+		
+		List<Operation> opers = wct.getOperationsMetadata().getOperation();
+		
+		String exeurl = null;
+		
+		for(int i=0; i<opers.size(); i++){
+			
+			Operation oper = opers.get(i);
+			
+			if("GetFeature".equals(oper.getName())){
+				
+				exeurl = oper.getDCP().get(0).getHTTP().getGetOrPost().get(0).getValue().getHref();
+				
+			}
+			
+		}
+		
+		return new URL(exeurl);
+	}	
+	
+	/**
+	 * Create a GetFeature request Object
+	 * @param queries
+	 */
+//	public static GetFeatureType createAGetFeatureRequest(List<String> queries, String count) {
+//		
+//		ObjectFactory of = new ObjectFactory();
+//		
+//		GetFeatureType gft = of.createGetFeatureType();
+//		
+//		gft.setAbstractQueryExpression(turnQueryXMLToObj(queries));
+//		
+//		return gft;
+//		
+//	}
 
 	/**
 	 * @param wfsurl
@@ -594,6 +669,7 @@ public class WFSUtils {
 		//WFSUtils.parseCapabilities_SOAP_Security("https://tb12.secure-dimensions.com/soap/services");
 		
 //		WFSUtils.cacheFeatureSOAPSecurity("cw:Elev_Contour", "https://tb12.secure-dimensions.com/soap/services");
-	}	
-	
+	}
+
+
 }
