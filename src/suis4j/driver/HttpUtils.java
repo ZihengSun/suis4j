@@ -15,6 +15,8 @@ public class HttpUtils
 	
 	public static String TEMPORARY_PATH = System.getProperty("java.io.tmpdir") + File.separator;
 	
+	public static double TIMEOUT = 10000;
+	
 	/**
 	 * Parse file from URL
 	 * @param url
@@ -228,7 +230,7 @@ public class HttpUtils
                 con.setRequestProperty("Cache-Control", "no-cache");
                 con.setDoOutput(true);
                 con.setDoInput(true);
-                con.setConnectTimeout(600000);
+                con.setConnectTimeout(6000000); //waiting time = 100 minutes = 1 hour 40 minutes
                 PrintWriter xmlOut = new PrintWriter(con.getOutputStream());
                 xmlOut.write(param);   
                 xmlOut.flush();
@@ -243,7 +245,7 @@ public class HttpUtils
                 String line;
                 while((line = response.readLine())!=null){
                     result += "\n" + line;
-                }  
+                }
         } catch (Exception e) {
                 System.err.println(new StringBuffer().append("Cann't invoke the service '").append(input_url)
                                 .append("' successfully as the following reasons. ").append(e.getLocalizedMessage()));

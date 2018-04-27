@@ -27,7 +27,6 @@ public class SUISClient {
 	
 	AbstractDriver driver;
 	
-	
 	public AbstractDriver getDriver() {
 		return driver;
 	}
