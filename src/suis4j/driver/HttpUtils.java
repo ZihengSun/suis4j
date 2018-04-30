@@ -15,7 +15,7 @@ public class HttpUtils
 	
 	public static String TEMPORARY_PATH = System.getProperty("java.io.tmpdir") + File.separator;
 	
-	public static double TIMEOUT = 10000;
+	public static int TIMEOUT = 60000000; //waiting time = 1000 minutes = 16 hours
 	
 	/**
 	 * Parse file from URL
@@ -230,7 +230,7 @@ public class HttpUtils
                 con.setRequestProperty("Cache-Control", "no-cache");
                 con.setDoOutput(true);
                 con.setDoInput(true);
-                con.setConnectTimeout(6000000); //waiting time = 100 minutes = 1 hour 40 minutes
+                con.setConnectTimeout(TIMEOUT); 
                 PrintWriter xmlOut = new PrintWriter(con.getOutputStream());
                 xmlOut.write(param);   
                 xmlOut.flush();
