@@ -13,9 +13,6 @@ import suis4j.profile.Operation;
 */
 public class Main {
 	
-	
-	
-	
 	public void polygonClip(){
 		
 		try{
@@ -235,7 +232,6 @@ public class Main {
 			
 			//for OGC CSW test
 			//missing
-			
 			
 			Message outm = sc.call(o);
 			
