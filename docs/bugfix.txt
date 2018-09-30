@@ -1,0 +1,4 @@
+
+1. Failed to maven build.
+
+Check if the Java is 1.7 and the dependency is under the correct folder.
