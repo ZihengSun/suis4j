@@ -253,7 +253,7 @@ public class Main {
 		
 		Main m = new Main();
 		
-//		m.testSUIS4J();
+		m.testSUIS4J();
 		
 //		for(int i=0;i<50;i++){
 		

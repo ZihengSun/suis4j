@@ -1,0 +1,230 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>suis4j</groupId>
+  <artifactId>suis4j</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>suis4j</name>
+  
+  <properties>
+        <jackson-2-version>2.9.4</jackson-2-version>
+        <soapui-version>5.3.0</soapui-version>
+  </properties>
+  
+  
+  <repositories>
+	    <repository>
+	        <id>smartbear</id>
+	        <name>smartbear repository</name>
+	        <url>http://smartbearsoftware.com/repository/maven2</url>
+	    </repository>
+  </repositories>
+  	
+  <build>
+	    <sourceDirectory>src</sourceDirectory>
+	    <!-- <plugins>
+	      <plugin>
+	        <artifactId>maven-compiler-plugin</artifactId>
+	        <version>3.3</version>
+	        <configuration>
+	          <source>1.7</source>
+	          <target>1.7</target>
+	        </configuration>
+	      </plugin>
+	    </plugins> -->
+	</build>
+  	
+    <dependencies>
+    	<dependency>
+			<groupId>gml</groupId>
+			<artifactId>gml</artifactId>
+			<version>3.2.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/gml-v_3_2_1-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>gmlcov</groupId>
+			<artifactId>gmlcov</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/gmlcov-v_1_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>jaxb2</groupId>
+			<artifactId>jaxb2</artifactId>
+			<version>0.11.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/jaxb2-basics-runtime-0.11.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>csw</artifactId>
+			<version>2.0.2</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.csw-v_2_0_2-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>filter</artifactId>
+			<version>1.1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.filter-v_1_1_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>filter</artifactId>
+			<version>2.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.filter-v_2_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>gml</artifactId>
+			<version>3.1.1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.gml-v_3_1_1-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>ows</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.ows-v_1_0_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>ows</artifactId>
+			<version>1.1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.ows-v_1_1_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>ows</artifactId>
+			<version>2.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.ows-v_2_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>sweCommon</artifactId>
+			<version>2.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.sweCommon-v_2_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>wcs</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.wcs-v_1_0_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>wcs</artifactId>
+			<version>2.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.wcs-v_2_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>wfs</artifactId>
+			<version>2.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.wfs-v_2_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>wms</artifactId>
+			<version>1.3.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.wms-v_1_3_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>wps</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.wps-v_1_0_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.opengis</groupId>
+			<artifactId>wps</artifactId>
+			<version>2.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/net.opengis.wps-v_2_0-2.6.2-SNAPSHOT.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>xlink</groupId>
+			<artifactId>xlink</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/lib/xlink-v_1_0-1.4.0.jar</systemPath>
+		</dependency>
+	  <dependency>
+		   <groupId>wsdl4j</groupId>
+		   <artifactId>wsdl4j</artifactId>
+		   <version>1.6.3</version>
+	  </dependency>
+	  <dependency>
+		   <groupId>log4j</groupId>
+		   <artifactId>log4j</artifactId>
+		   <version>1.2.17</version>
+	  </dependency>
+	  
+	  <dependency>
+		   <groupId>org.slf4j</groupId>
+		   <artifactId>slf4j-simple</artifactId>
+		   <version>1.6.1</version>
+	  </dependency>
+	  
+	  <dependency>
+	    <groupId>com.smartbear.soapui</groupId>
+	    <artifactId>soapui</artifactId>
+	    <version>${soapui-version}</version>
+	  </dependency>
+	  
+	  <!-- the core, which includes Streaming API, shared low-level abstractions (but NOT data-binding) -->
+	 <dependency>
+	   <groupId>com.fasterxml.jackson.core</groupId>
+	   <artifactId>jackson-core</artifactId>
+	   <version>${jackson-2-version}</version>
+	 </dependency>
+	
+	 <!-- Just the annotations; use this dependency if you want to attach annotations
+	      to classes without connecting them to the code. -->
+	 <dependency>
+	   <groupId>com.fasterxml.jackson.core</groupId>
+	   <artifactId>jackson-annotations</artifactId>
+	   <version>${jackson-2-version}</version>
+	</dependency>
+	
+	<!-- databinding; ObjectMapper, JsonNode and related classes are here -->
+	<dependency>
+	  <groupId>com.fasterxml.jackson.core</groupId>
+	  <artifactId>jackson-databind</artifactId>
+	  <version>${jackson-2-version}</version>
+	</dependency>
+	
+	<!-- smile (binary JSON). Other artifacts in this group do other formats. -->
+	<dependency>
+	  <groupId>com.fasterxml.jackson.dataformat</groupId>
+	  <artifactId>jackson-dataformat-smile</artifactId>
+	  <version>${jackson-2-version}</version>
+	</dependency>
+	<!-- JAX-RS provider -->
+	<dependency>
+	   <groupId>com.fasterxml.jackson.jaxrs</groupId>
+	   <artifactId>jackson-jaxrs-json-provider</artifactId>
+	   <version>${jackson-2-version}</version>
+	</dependency>
+	<!-- Support for JAX-B annotations as additional configuration -->
+	<dependency>
+	  <groupId>com.fasterxml.jackson.module</groupId>
+	  <artifactId>jackson-module-jaxb-annotations</artifactId>
+	  <version>${jackson-2-version}</version>
+	</dependency>
+	  
+  </dependencies>
+  
+</project>
