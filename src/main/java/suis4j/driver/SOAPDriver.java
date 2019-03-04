@@ -57,8 +57,6 @@ public class SOAPDriver extends AbstractDriver {
 		return null;
 	}
 	
-	
-
 	@Override
 	public PayLoad encodeReq(Message msg) {
 		
