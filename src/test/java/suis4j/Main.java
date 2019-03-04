@@ -1,6 +1,10 @@
-package suis4j.client;
+package suis4j;
 
 import java.util.UUID;
+
+import org.junit.Test;
+
+import suis4j.client.SUISClient;
 import suis4j.driver.HttpUtils;
 import suis4j.driver.ServiceType;
 import suis4j.profile.Message;
@@ -13,6 +17,7 @@ import suis4j.profile.Operation;
 */
 public class Main {
 	
+	@Test
 	public void polygonClip(){
 		
 		try{
@@ -44,6 +49,7 @@ public class Main {
 		
 	}
 	
+	@Test
 	public void testDroughtWorkflow(){
 		
 		try{
@@ -152,6 +158,7 @@ public class Main {
 		
 	}
 	
+	@Test
 	public void testSUIS4J(){
 		
 		try{
@@ -249,22 +256,22 @@ public class Main {
 		
 	}
 	
-	public static void main(String[] args) {
-		
-		Main m = new Main();
-		
-		m.testSUIS4J();
-		
-//		for(int i=0;i<50;i++){
-		
-//			m.testDroughtWorkflow();
-			
-//		}
-		
-//		m.polygonClip();
-		
-		System.exit(0);
-		
-	}
+//	public static void main(String[] args) {
+//		
+//		Main m = new Main();
+//		
+//		m.testSUIS4J();
+//		
+////		for(int i=0;i<50;i++){
+//		
+////			m.testDroughtWorkflow();
+//			
+////		}
+//		
+////		m.polygonClip();
+//		
+//		System.exit(0);
+//		
+//	}
 	
 }

@@ -1,5 +1,8 @@
-package suis4j.client;
+package suis4j;
 
+import org.junit.Test;
+
+import suis4j.client.SUISClient;
 import suis4j.driver.ServiceType;
 import suis4j.profile.Operation;
 
@@ -10,7 +13,8 @@ import suis4j.profile.Operation;
 */
 public class FVCOMTest {
 	
-	public static void testFVCOM(){
+	@Test
+	public void testFVCOM(){
 		
 		try{
 			
@@ -43,7 +47,7 @@ public class FVCOMTest {
 			
 			sc.call(rewrite);
 			
-			System.out.println(rewrite.getOutput().value("returnURL"));
+			System.out.println("output url: " + rewrite.getOutput().value("returnURL"));
 			
 		}catch(Exception e){
 			
@@ -53,10 +57,5 @@ public class FVCOMTest {
 		
 	}
 
-	public static void main(String[] args){
-		
-		FVCOMTest.testFVCOM();
-		
-	}
 
 }

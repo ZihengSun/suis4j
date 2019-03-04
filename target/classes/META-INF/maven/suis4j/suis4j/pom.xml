@@ -45,7 +45,13 @@
 	</build>
   	
     <dependencies>
-	<dependency>
+    	
+    	<dependency>
+		  <groupId>com.fasterxml.jackson.module</groupId>
+		  <artifactId>jackson-module-jaxb-annotations</artifactId>
+		  <version>${jackson-2-version}</version>
+		</dependency>
+		<dependency>
 			<groupId>gml</groupId>
 			<artifactId>gml</artifactId>
 			<version>3.2.1</version>

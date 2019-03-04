@@ -331,6 +331,7 @@ public class RESTDriver extends AbstractDriver {
 	@Override
 	public void initParams(Operation o) {
 		//nothing
+		
 	}
 	
 	public static class Builder extends AbstractDriver.Builder {
