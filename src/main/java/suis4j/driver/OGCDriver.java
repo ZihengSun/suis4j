@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.log4j.Logger;
+
 import suis4j.profile.Message;
 import suis4j.profile.Operation;
 
@@ -27,6 +29,8 @@ public class OGCDriver extends AbstractDriver {
 	String dataurl = null; //this variable is used to store the GetMap, GetCoverage, GetFeature URL link for service chaining
 	
 	Map<String, Object> processdescriptions; //operation name to process description
+	
+	Logger log = Logger.getLogger(this.getClass());
 	
 	public String getCategory() {
 		return category;
@@ -60,7 +64,7 @@ public class OGCDriver extends AbstractDriver {
 			
 			String resp = null;
 			
-			System.out.println(">> "+(String)req.getContent());
+			log.info(">> "+(String)req.getContent());
 			
 			if("GetFeature".equals(this.getCurrent_operation())
 					||"DescribeFeatureType".equals(this.getCurrent_operation())
@@ -162,7 +166,7 @@ public class OGCDriver extends AbstractDriver {
 				
 			}
 			
-			System.out.println(">> " + resp);
+			log.info(">> " + resp);
 			
 			response = new PayLoad.Builder().content(resp).build();
 			
@@ -183,7 +187,7 @@ public class OGCDriver extends AbstractDriver {
 			
 			String resp = null;
 			
-			System.out.println(">> "+(String)req.getContent());
+			log.info(">> "+(String)req.getContent());
 			
 			if("GetFeature".equals(this.getCurrent_operation())
 					||"DescribeFeatureType".equals(this.getCurrent_operation())
@@ -308,7 +312,7 @@ public class OGCDriver extends AbstractDriver {
 				
 			}
 			
-			System.out.println(">> " + resp);
+			log.info(">> " + resp);
 			
 			response = new PayLoad.Builder().content(resp).build();
 			

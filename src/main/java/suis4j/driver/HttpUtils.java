@@ -263,7 +263,7 @@ public class HttpUtils
 	 */
 	public static void doGETFile(String url, String filepath)throws Exception{
 
-		long start = System.currentTimeMillis();
+//		long start = System.currentTimeMillis();
 		
 		URL u = new URL(url);
 		
@@ -322,11 +322,11 @@ public class HttpUtils
 		
 		os.close();
 		
-		long end = System.currentTimeMillis();
+//		long end = System.currentTimeMillis();
 		
-		double downloadcost = end - start;
+//		double downloadcost = end - start;
 		
-		System.out.println("data transfer time cost: " + downloadcost + " ms");
+//		System.out.println("data transfer time cost: " + downloadcost + " ms");
 		
 	}
 	
@@ -387,7 +387,7 @@ public class HttpUtils
 		
 		String resp = HttpUtils.doPost("https://geoservice.dlr.de/eoc/atmosphere/wcs", req);
 		
-		System.out.println(resp);
+//		System.out.println(resp);
 		
 		
 	}

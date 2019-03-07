@@ -13,7 +13,7 @@ import suis4j.profile.Operation;
 */
 public class FVCOMTest {
 	
-	@Test
+//	@Test
 	public void testFVCOM(){
 		
 		try{

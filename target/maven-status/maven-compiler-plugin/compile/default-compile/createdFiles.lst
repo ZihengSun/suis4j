@@ -53,7 +53,6 @@ com\eviware\soapui\impl\wsdl\actions\request\ApplyOutgoingWSSToRequestAction.cla
 com\eviware\soapui\impl\wsdl\teststeps\assertions\json\JsonPathAssertionBase.class
 com\eviware\soapui\impl\wsdl\actions\project\RenameProjectAction.class
 com\eviware\soapui\SoapUI$WindowInitializationTask.class
-suis4j\examples\MainApplication.class
 com\eviware\soapui\impl\wsdl\teststeps\WsdlTestStepResult.class
 com\eviware\soapui\impl\wsdl\panels\teststeps\RestTestRequestDesktopPanel$2.class
 com\eviware\soapui\plugins\ProductBodyguard.class
@@ -1374,6 +1373,7 @@ com\eviware\soapui\impl\wsdl\teststeps\registry\WsdlMockResponseStepFactory.clas
 com\eviware\x\dialogs\XDialogs.class
 com\eviware\soapui\support\components\JHyperlinkLabel$HyperlinkLabelMouseAdapter.class
 com\eviware\soapui\impl\wsdl\panels\teststeps\PropertyTransfersDesktopPanel$12.class
+suis4j\MainApplication.class
 com\eviware\soapui\support\editor\inspectors\attachments\AttachmentsInspectorFactory$WsdlMessageExchangeResponseAttachmentsContainer.class
 com\eviware\soapui\impl\wsdl\loadtest\data\SamplesModel$TestSample.class
 com\eviware\soapui\ui\desktop\standalone\StandaloneDesktop$BoundsAwareDesktopManager.class
@@ -1808,6 +1808,7 @@ com\eviware\soapui\impl\WorkspaceFactoryImpl.class
 com\eviware\soapui\impl\wsdl\panels\teststeps\JdbcRequestTestStepDesktopPanel$11$1.class
 com\eviware\soapui\model\testsuite\TestSuiteRunner.class
 com\eviware\soapui\support\editor\inspectors\jms\property\JMSPropertyInspector$AddAction$1$1.class
+suis4j\TestEncoder.class
 com\eviware\soapui\impl\wsdl\loadtest\LoadTestListener.class
 com\eviware\soapui\model\iface\MessageBuilder.class
 com\eviware\soapui\plugins\PluginAdapter.class
@@ -3374,6 +3375,7 @@ com\eviware\soapui\plugins\auto\AutoFactory.class
 com\eviware\soapui\model\propertyexpansion\resolvers\GlobalPropertyResolver$SystemPropertyHolder.class
 com\eviware\soapui\ui\JDesktopPanelsList.class
 com\eviware\soapui\support\components\ModelItemListDesktopPanel$2.class
+suis4j\TestBuilders.class
 com\eviware\soapui\impl\wsdl\panels\loadtest\StatisticsHistoryDesktopPanel.class
 com\eviware\soapui\ui\support\AbstractMockOperationDesktopPanel.class
 com\eviware\soapui\impl\wsdl\actions\project\AddInterfaceActionFromFile.class
@@ -3506,7 +3508,6 @@ com\eviware\soapui\ui\desktop\DesktopRegistry.class
 com\eviware\soapui\impl\wsdl\loadtest\WsdlLoadTestRunner$InternalTestRunListener.class
 com\eviware\soapui\impl\wsdl\mock\dispatch\QueryMatchMockOperationDispatcher$MockResponsesComboBoxModel.class
 com\eviware\soapui\impl\wsdl\panels\teststeps\PropertyTransfersDesktopPanel$DeleteAction.class
-suis4j\examples\TestBuilders.class
 com\eviware\soapui\support\xml\XmlObjectTreeModel$XmlTreeTableModelEvent.class
 com\eviware\soapui\support\components\JDebugPropertiesTable$PTable.class
 com\eviware\soapui\support\resolver\ChangeRestMethodResolver$PropertyChangeDialog.class
@@ -3591,7 +3592,6 @@ com\eviware\soapui\impl\wsdl\submit\transports\http\support\attachments\WsdlRequ
 com\eviware\soapui\support\dnd\handlers\MockServiceToProjectDropHandler.class
 com\eviware\soapui\impl\wsdl\submit\transports\http\support\metrics\SoapUIMetrics.class
 com\eviware\soapui\impl\rest\panels\service\RestServiceDesktopPanel$NodeSelector.class
-suis4j\examples\TestEncoder.class
 com\eviware\soapui\impl\wsdl\endpoint\DefaultEndpointStrategyConfigurationPanel$IncomingWssCellEditor.class
 com\eviware\soapui\support\DescriptionPanel.class
 com\eviware\soapui\impl\wsdl\actions\loadtest\LoadTestOptionsAction$1.class

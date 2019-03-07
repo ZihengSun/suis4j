@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.junit.Test;
 
 import suis4j.client.SUISClient;
+import suis4j.client.SUISClient.Builder;
 import suis4j.driver.HttpUtils;
 import suis4j.driver.ServiceType;
 import suis4j.profile.Message;
@@ -17,7 +18,7 @@ import suis4j.profile.Operation;
 */
 public class Main {
 	
-	@Test
+//	@Test
 	public void polygonClip(){
 		
 		try{
@@ -50,22 +51,37 @@ public class Main {
 	}
 	
 	@Test
+	public void suisQOS() {
+		
+		for(int i=0;i<100;i++) {
+			
+			testDroughtWorkflow();
+			
+		}
+		
+	}
+	
+	
 	public void testDroughtWorkflow(){
 		
 		try{
 			
-			System.out.println("Start the workflow of agricultural drought.");
+//			System.out.println("Start the workflow of agricultural drought.");
 			
 			long startTime = System.currentTimeMillis();
 			
 			//step 1: get the drought raster from GADMFS
 			
-			SUISClient sc = new SUISClient.Builder()
-					.initialize("http://129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&MAP=/media/gisiv01/mapfiles/drought/16days/2017/drought.2017.113.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCapabilities", ServiceType.OGC).build();
+			Builder clientBuilder = new SUISClient.Builder();
+			
+			long step0cost = System.currentTimeMillis();
+			
+			SUISClient sc = clientBuilder
+					.initialize("http://129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&MAP=/media/gisiv01/mapfiles/drought/16days/2018/drought.2018.113.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCapabilities", ServiceType.OGC).build();
 			
 			long step1cost = System.currentTimeMillis();
 			
-			System.out.println("step 1 takes " + (step1cost - startTime) + " ms");
+//			System.out.println("step 1 takes " + (step1cost) + " ms");
 			
 			sc.listOperations();
 			
@@ -73,16 +89,16 @@ public class Main {
 			
 			long step2cost = System.currentTimeMillis();
 			
-			System.out.println("step 2 takes " + (step2cost - step1cost) + " ms");
+//			System.out.println("step 2 takes " + (step2cost) + " ms");
 			
 			sc.listInputParams(o);
 			
 			long step3cost = System.currentTimeMillis();
 			
-			System.out.println("step 3 takes " + (step3cost-step2cost) + " ms");
+//			System.out.println("step 3 takes " + (step3cost) + " ms");
 			
 			o.getInput().value("format", "image/tiff")
-				.value("coverage","drought.2017.113")
+				.value("coverage","drought.2018.113")
 				//download california
 				.value("bbox", "-2433781.86,1105894.86,-1461164.14,2482793.43")
 				.value("width", 1000)
@@ -91,27 +107,32 @@ public class Main {
 			
 			long step4cost = System.currentTimeMillis();
 			
-			System.out.println("step 4 takes " + (step4cost - step3cost) + " ms");
+//			System.out.println("step 4 takes " + (step4cost) + " ms");
 			
 			Message droughtraster = sc.call(o);
 			
 			long step5cost = System.currentTimeMillis();
 			
-			System.out.println("step 5 takes " + (step5cost - step4cost) + " ms");
+//			System.out.println("step 5 takes " + (step5cost) + " ms");
 			
 			String vcifilepath = o.getOutput().getValueAsString("coverage");
 			
 			String vciurl = o.getOutput().getValueAsString("dataurl");
 			
+			long step6cost = System.currentTimeMillis();
+			
 			long endTime = System.currentTimeMillis();
 			
 			double seconds = (endTime - startTime) ;
 			
-			System.out.println("step 6 takes " + (endTime-step5cost) +" ms");
+			System.out.println( (step0cost-startTime) + ", " + (step1cost-step0cost) + ", " + (step2cost-step1cost) + ", " + (step3cost-step2cost) + ", " + (step4cost-step3cost) + ", " + (step5cost-step4cost) + ", " + (step6cost-step5cost));
 			
-			System.out.println("VCI file path : " + vcifilepath);
 			
-			System.out.println("this service call costs " + seconds + " seconds");
+//			System.out.println("step 6 takes " + (endTime) +" ms");
+//			
+//			System.out.println("VCI file path : " + vcifilepath);
+//			
+//			System.out.println("this service call costs " + seconds + " seconds");
 			
 //			129.174.131.10/cgi-bin/mapserv?SRS=EPSG:102004&LAYERS=drought.2017.289&MAP=/media/gisiv01/mapfiles/drought/16days/2017/drought.2017.289.map&SERVICE=WCS&VERSION=1.0.0&REQUEST=GetCoverage&identifier=drought.2017.289&BBOX=-124.79,42.11,-113.83,82.11&WIDTH=500&HEIGHT=500&FORMAT=image/tiff
 			
@@ -148,7 +169,7 @@ public class Main {
 			
 			
 			
-			System.out.println("End of the workflow.");
+//			System.out.println("End of the workflow.");
 			
 		}catch(Exception e){
 			
@@ -158,7 +179,7 @@ public class Main {
 		
 	}
 	
-	@Test
+//	@Test
 	public void testSUIS4J(){
 		
 		try{

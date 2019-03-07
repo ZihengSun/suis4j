@@ -138,11 +138,11 @@ public class SUISClient {
 	
 	public void listOperations(){
 		
-		System.out.println("There are totally " + driver.getOperlist().size() + " operations");
+		log.info("There are totally " + driver.getOperlist().size() + " operations");
 		
 		for(Operation oper : driver.getOperlist()){
 			
-			System.out.println("operation " + oper.getName());
+			log.info("operation " + oper.getName());
 			
 		}
 		
@@ -155,11 +155,11 @@ public class SUISClient {
 		
 		ad.initParams(oper);
 		
-		System.out.println("Inputs include: ");
+		log.info("Inputs include: ");
 		
 		for(Parameter p : oper.getInput().getParameter_list()){
 			
-			System.out.println("parameter - " + p.getName());
+			log.info("parameter - " + p.getName());
 			
 		}
 		
@@ -171,11 +171,11 @@ public class SUISClient {
 		
 		ad.initParams(oper);
 		
-		System.out.println("Outputs include: ");
+		log.info("Outputs include: ");
 		
 		for(Parameter p : oper.getOutput().getParameter_list()){
 			
-			System.out.println("parameter - " + p.getName());
+			log.info("parameter - " + p.getName());
 			
 		}
 		
@@ -229,9 +229,9 @@ public class SUISClient {
 			
 		}else{
 			
-			System.out.println("Get Correct Response");
+			log.info("Get Correct Response");
 			
-			System.out.println("save the result to file");
+			log.info("save the result to file");
 			
 //			m.get("return").getValue();
 			

@@ -92,7 +92,6 @@ D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\dnd\handlers\Abst
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\components\PropertyComponent.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\panels\testcase\TestRunLog.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\monitor\jettyproxy\TunnelServlet.java
-D:\work\GitHub\suis4j\src\main\java\suis4j\examples\MainApplication.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\submit\transports\http\support\attachments\WsdlMimeMessageResponse.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\model\tree\nodes\InterfaceTreeNode.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\swing\JXButtonPanel.java
@@ -189,8 +188,8 @@ D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wadl\inference\suppo
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\propertyexpansion\GroovyEditorPropertyExpansionTarget.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\security\ui\MaliciousAttachmentMutationsPanel.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\security\tools\AttachmentElement.java
-D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\resolver\RemoveTestStepResolver.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\security\SecurityTestRunnerImpl.java
+D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\resolver\RemoveTestStepResolver.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\actions\ExportProjectAction.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\ui\JDesktopPanelsList.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\model\support\AbstractResponse.java
@@ -356,6 +355,7 @@ D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\model\testsuite\ProjectRu
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\teststeps\registry\WsdlTestStepFactory.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\teststeps\WsdlMessageAssertion.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\support\http\HttpRequestInterface.java
+D:\work\GitHub\suis4j\src\test\java\suis4j\TestEncoder.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\submit\transports\http\support\attachments\XOPPartDataSource.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\security\boundary\BoundaryUtils.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\support\AbstractHttpRequestInterface.java
@@ -433,7 +433,6 @@ D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\actions\iface\t
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\model\support\TestSuiteRunListenerAdapter.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\settings\VersionUpdateSettings.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\rest\actions\resource\NewRestChildResourceAction.java
-D:\work\GitHub\suis4j\src\main\java\suis4j\examples\TestEncoder.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\submit\transports\http\support\attachments\WsdlRequestMimeMessageRequestEntity.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\submit\transports\http\support\attachments\HttpRequestMimeMessageRequestEntity.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\support\http\SoapUIMultiThreadedHttpConnectionManager.java
@@ -445,6 +444,7 @@ D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\actions\MarkerAct
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\rest\actions\oauth\JavaScriptValidationError.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\x\impl\swing\JTextAreaFormField.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\components\JEditorStatusBarWithProgress.java
+D:\work\GitHub\suis4j\src\test\java\suis4j\TestBuilders.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\actions\ProxyPrefs.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\support\AbstractExternalDependency.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\actions\project\ResolveProjectAction.java
@@ -1316,6 +1316,7 @@ D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\support\Constan
 D:\work\GitHub\suis4j\src\main\java\com\eviware\x\form\XFormDialogBuilder.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\Util\SoapUITools.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\actions\mockoperation\NewMockResponseAction.java
+D:\work\GitHub\suis4j\src\test\java\suis4j\MainApplication.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\editor\inspectors\auth\OAuth1AdvancedOptionsDialog.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\rest\mock\RestMockAction.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\ui\desktop\DesktopFactory.java
@@ -1701,7 +1702,6 @@ D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\panels\project\
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\model\support\AbstractSubmitContext.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\xml\actions\SaveXmlTextAreaAction.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\components\VTextIcon.java
-D:\work\GitHub\suis4j\src\main\java\suis4j\examples\TestBuilders.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\support\dnd\handlers\TestCaseToTestSuiteDropHandler.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\impl\wsdl\loadtest\strategy\ThreadCountChangeLoadStrategy.java
 D:\work\GitHub\suis4j\src\main\java\com\eviware\soapui\security\panels\SecurityTreeCellRender.java
